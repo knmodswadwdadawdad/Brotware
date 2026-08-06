@@ -1,15 +1,64 @@
 /* Sketchware-like Event browser */
-#screen-event{position:relative;min-height:0}
+/* Keep the Event tab filling the entire .main area. Do not override the
+   absolute positioning inherited from .tab-screen. */
+#screen-event{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+}
 #screen-event.sk-event-home>.event-sidebar,
 #screen-event.sk-event-home>.logic-workspace,
 #screen-event.sk-event-home>.blocks-library{display:none!important}
-.sk-event-home-ui{display:none;position:absolute;inset:0;background:#08131d;overflow:hidden;z-index:20}
-#screen-event.sk-event-home>.sk-event-home-ui{display:grid;grid-template-columns:88px minmax(0,1fr)}
-.sk-event-rail{background:#091621;border-right:1px solid #213544;padding:18px 8px;display:flex;flex-direction:column;align-items:center;gap:24px;overflow-y:auto}
-.sk-event-cat{width:72px;min-height:64px;border:0;background:transparent;color:#cbd7e3;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:10px}
+.sk-event-home-ui{
+  display:none;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-width:0;
+  min-height:0;
+  background:#08131d;
+  overflow:hidden;
+  z-index:20
+}
+#screen-event.sk-event-home>.sk-event-home-ui{
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);
+  align-items:stretch;
+  height:100%;
+  min-height:0
+}
+.sk-event-rail{
+  height:100%;
+  min-height:0;
+  align-self:stretch;
+  background:#091621;
+  border-right:1px solid #213544;
+  padding:18px 8px 88px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+  overflow-x:hidden;
+  overflow-y:auto
+}
+.sk-event-cat{width:72px;min-height:64px;flex:0 0 auto;border:0;background:transparent;color:#cbd7e3;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:10px}
 .sk-event-cat .ico{font-size:22px;line-height:1}
 .sk-event-cat.active{background:#375478;color:white}.sk-event-cat:hover{background:#233b50}
-.sk-event-main{position:relative;min-width:0;overflow:auto;padding:18px 20px 90px}
+.sk-event-main{
+  position:relative;
+  min-width:0;
+  min-height:0;
+  height:100%;
+  align-self:stretch;
+  overflow:auto;
+  padding:18px 20px 90px
+}
 .sk-event-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .sk-event-header h3{font-size:14px;margin:0}.sk-event-header small{display:block;color:#8495a6;margin-top:3px;font-size:10px}.sk-event-spacer{flex:1}
 .sk-event-current{display:flex;flex-direction:column;gap:9px;max-width:760px}
@@ -27,9 +76,25 @@
 .sk-event-note{font-size:9px;color:#728695;margin:10px 0 0;max-width:760px}
 
 @media(max-width:760px){
- #screen-event.sk-event-home>.sk-event-home-ui{grid-template-columns:78px minmax(0,1fr)}
- .sk-event-rail{padding:14px 5px;gap:18px}.sk-event-cat{width:66px;min-height:60px;font-size:9px}.sk-event-cat .ico{font-size:20px}
- .sk-event-main{padding:14px 10px 82px}.sk-event-card{min-height:64px;border-radius:13px}.sk-event-add{right:14px;bottom:14px;width:52px;height:52px}
+ #screen-event{
+   position:absolute!important;
+   inset:0!important;
+   width:100%!important;
+   height:100%!important;
+   min-height:0!important;
+ }
+ #screen-event.sk-event-home>.sk-event-home-ui{
+   grid-template-columns:78px minmax(0,1fr);
+   grid-template-rows:minmax(0,1fr);
+   height:100%!important;
+   min-height:0!important
+ }
+ .sk-event-home-ui{height:100%!important;min-height:0!important}
+ .sk-event-rail{height:100%!important;min-height:0!important;padding:14px 5px 76px;gap:18px}
+ .sk-event-cat{width:66px;min-height:60px;font-size:9px}.sk-event-cat .ico{font-size:20px}
+ .sk-event-main{height:100%!important;min-height:0!important;padding:14px 10px 82px}
+ .sk-event-card{min-height:64px;border-radius:13px}
+ .sk-event-add{position:fixed;right:14px;bottom:52px;width:52px;height:52px;z-index:70}
  .sk-add-events-modal{align-items:flex-end;padding:0}.sk-add-events-dialog{width:100%;height:90dvh;border-radius:20px 20px 0 0}
  .sk-add-events-top{padding-left:8px;padding-right:8px}.sk-add-events-tab{min-width:68px}.sk-add-events-body{padding:8px 12px}
 }
