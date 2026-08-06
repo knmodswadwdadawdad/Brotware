@@ -4,36 +4,67 @@
 var screen=document.getElementById('screen-event');
 var library=document.querySelector('#screen-event>.blocks-library');
 var logicCanvas=document.getElementById('logicCanvas');
-var logicRoot=document.getElementById('logicRoot');
-if(!screen||!library||!logicCanvas||!logicRoot)return;
+var logicWorkspace=document.querySelector('#screen-event>.logic-workspace');
+if(!screen||!library||!logicCanvas||!logicWorkspace)return;
 
 var selectedSlot='root';
 var currentLabel='Evento';
 var currentDesc='Monte a lógica com blocos';
+var originalCanvasParent=logicCanvas.parentNode;
+var originalCanvasNext=logicCanvas.nextSibling;
+var originalLibraryParent=library.parentNode;
+var originalLibraryNext=library.nextSibling;
+var overlay=null;
+var overlayCanvasHost=null;
+var overlayLibraryHost=null;
 
-function ensureUi(){
-  if(!document.getElementById('stableBlocksBtn')){
-    var fab=document.createElement('button');
-    fab.id='stableBlocksBtn';fab.className='stable-blocks-btn';fab.type='button';fab.textContent='🧩 Blocos';
-    screen.appendChild(fab);
-    fab.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openLibrary();});
-  }
-  if(!library.querySelector('.stable-library-head')){
-    var head=document.createElement('div');head.className='stable-library-head';
-    head.innerHTML='<strong>Blocos</strong><small id="stableSlotLabel">Adicionar no fluxo</small><button type="button" class="stable-library-close">×</button>';
-    library.insertBefore(head,library.firstChild);
-    head.querySelector('.stable-library-close').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();closeLibrary();});
+function buildOverlay(){
+  if(overlay)return;
+  overlay=document.createElement('div');
+  overlay.id='stableBlockOverlay';
+  overlay.className='stable-block-overlay';
+  overlay.innerHTML=''+
+    '<div class="stable-block-top">'+
+      '<button type="button" id="stableBlockBack" class="stable-block-back">←</button>'+
+      '<div class="stable-block-title-wrap"><strong id="stableBlockTitle">Evento</strong><small id="stableBlockDesc">Monte a lógica com blocos</small></div>'+
+      '<button type="button" id="stableBlockTest" class="stable-top-action">▶</button>'+
+      '<button type="button" id="stableBlockCode" class="stable-top-action">&lt;/&gt;</button>'+
+    '</div>'+
+    '<div class="stable-block-body"><div id="stableCanvasHost" class="stable-canvas-host"></div></div>'+
+    '<button type="button" id="stableBlocksBtn" class="stable-blocks-btn">🧩 Blocos</button>'+
+    '<div id="stableLibraryHost" class="stable-library-host"></div>';
+  document.body.appendChild(overlay);
+  overlayCanvasHost=document.getElementById('stableCanvasHost');
+  overlayLibraryHost=document.getElementById('stableLibraryHost');
 
-    var filters=document.createElement('div');filters.className='stable-library-filter';
-    var cats=[['all','Todos'],['flow','Controle'],['ui','View'],['data','Variável'],['storage','Storage'],['network','API'],['function','Moreblock'],['debug','Debug']];
-    cats.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='stable-filter-btn'+(c[0]==='all'?' active':'');b.dataset.stableFilter=c[0];b.textContent=c[1];filters.appendChild(b);});
-    library.insertBefore(filters,head.nextSibling);
-    filters.addEventListener('click',function(e){var b=e.target.closest('[data-stable-filter]');if(!b)return;e.preventDefault();e.stopPropagation();filters.querySelectorAll('.stable-filter-btn').forEach(function(x){x.classList.toggle('active',x===b);});filterLibrary(b.dataset.stableFilter);});
-  }
-  if(!document.getElementById('stableEventBadge')){
-    var badge=document.createElement('div');badge.id='stableEventBadge';badge.className='stable-event-badge';badge.textContent=currentDesc;
-    logicCanvas.insertBefore(badge,logicCanvas.firstChild);
-  }
+  document.getElementById('stableBlockBack').addEventListener('click',function(e){e.preventDefault();closeEditor();if(typeof showEventHome==='function')showEventHome();});
+  document.getElementById('stableBlockTest').addEventListener('click',function(e){e.preventDefault();if(typeof testCurrentLogic==='function')testCurrentLogic();});
+  document.getElementById('stableBlockCode').addEventListener('click',function(e){e.preventDefault();if(typeof showLogicCode==='function')showLogicCode();});
+  document.getElementById('stableBlocksBtn').addEventListener('click',function(e){e.preventDefault();openLibrary();});
+  buildLibraryChrome();
+}
+
+function buildLibraryChrome(){
+  if(library.querySelector('.stable-library-head'))return;
+  var head=document.createElement('div');
+  head.className='stable-library-head';
+  head.innerHTML='<strong>Blocos</strong><small id="stableSlotLabel">Adicionar no fluxo principal</small><button type="button" class="stable-library-close">×</button>';
+  library.insertBefore(head,library.firstChild);
+  head.querySelector('.stable-library-close').addEventListener('click',function(e){e.preventDefault();closeLibrary();});
+
+  var filters=document.createElement('div');
+  filters.className='stable-library-filter';
+  var cats=[['all','Todos'],['flow','Controle'],['ui','View'],['data','Variável'],['storage','Storage'],['network','API'],['function','Moreblock'],['debug','Debug']];
+  cats.forEach(function(c){
+    var b=document.createElement('button');
+    b.type='button';b.className='stable-filter-btn'+(c[0]==='all'?' active':'');b.dataset.stableFilter=c[0];b.textContent=c[1];filters.appendChild(b);
+  });
+  library.insertBefore(filters,head.nextSibling);
+  filters.addEventListener('click',function(e){
+    var b=e.target.closest('[data-stable-filter]');if(!b)return;
+    filters.querySelectorAll('.stable-filter-btn').forEach(function(x){x.classList.toggle('active',x===b);});
+    filterLibrary(b.dataset.stableFilter);
+  });
 }
 
 function filterLibrary(cat){
@@ -54,58 +85,63 @@ function clearSlotSelection(){
   document.querySelectorAll('.stable-slot-selected').forEach(function(x){x.classList.remove('stable-slot-selected');});
 }
 function chooseSlot(slot){
-  clearSlotSelection();selectedSlot=(slot&&slot.dataset.blockSlot)||'root';
+  clearSlotSelection();
+  selectedSlot=(slot&&slot.dataset.blockSlot)||'root';
   if(slot)slot.classList.add('stable-slot-selected');
   updateSlotLabel();openLibrary();
 }
 
 function openLibrary(){
-  ensureUi();screen.classList.add('stable-library-open');updateSlotLabel();
+  if(!overlay)return;
+  overlay.classList.add('stable-library-open');
+  updateSlotLabel();
 }
-function closeLibrary(){screen.classList.remove('stable-library-open');}
+function closeLibrary(){if(overlay)overlay.classList.remove('stable-library-open');}
+
+function moveEditorDomIntoOverlay(){
+  if(logicCanvas.parentNode!==overlayCanvasHost)overlayCanvasHost.appendChild(logicCanvas);
+  if(library.parentNode!==overlayLibraryHost)overlayLibraryHost.appendChild(library);
+}
+function restoreEditorDom(){
+  if(logicCanvas.parentNode!==originalCanvasParent){
+    if(originalCanvasNext&&originalCanvasNext.parentNode===originalCanvasParent)originalCanvasParent.insertBefore(logicCanvas,originalCanvasNext);
+    else originalCanvasParent.appendChild(logicCanvas);
+  }
+  if(library.parentNode!==originalLibraryParent){
+    if(originalLibraryNext&&originalLibraryNext.parentNode===originalLibraryParent)originalLibraryParent.insertBefore(library,originalLibraryNext);
+    else originalLibraryParent.appendChild(library);
+  }
+}
 
 function openEditor(label,desc){
-  ensureUi();
-  currentLabel=label||'Evento';currentDesc=desc||'Monte a lógica com blocos';selectedSlot='root';clearSlotSelection();closeLibrary();
-  screen.classList.add('sk-block-screen');
+  buildOverlay();
+  currentLabel=label||'Evento';currentDesc=desc||'Monte a lógica com blocos';
+  selectedSlot='root';clearSlotSelection();closeLibrary();
+  moveEditorDomIntoOverlay();
+  document.getElementById('stableBlockTitle').textContent=currentLabel;
+  document.getElementById('stableBlockDesc').textContent=currentDesc;
+  overlay.classList.add('show');
   document.body.classList.add('stable-block-editor');
-  var title=document.getElementById('logicTitle'),sub=document.getElementById('logicSubtitle'),badge=document.getElementById('stableEventBadge');
-  if(title)title.textContent=currentLabel;if(sub)sub.textContent=currentDesc;if(badge)badge.textContent=currentDesc;
+  logicCanvas.classList.add('stable-overlay-canvas');
 }
 function closeEditor(){
+  if(!overlay)return;
   closeLibrary();clearSlotSelection();selectedSlot='root';
-  screen.classList.remove('sk-block-screen');
+  overlay.classList.remove('show');
   document.body.classList.remove('stable-block-editor');
+  logicCanvas.classList.remove('stable-overlay-canvas');
+  restoreEditorDom();
 }
 
-/* Explicit click hooks only. No observer/timer loop. */
-document.addEventListener('click',function(e){
-  var card=e.target.closest('.sk-event-card');
-  if(card&&screen.classList.contains('active')){
-    var name=(card.querySelector('b')||{}).textContent||'Evento';
-    var desc=(card.querySelector('small')||{}).textContent||'Monte a lógica com blocos';
-    setTimeout(function(){openEditor(name,desc);},0);
-    return;
-  }
-  if(e.target.closest('#skOpenLegacy')){
-    setTimeout(function(){openEditor('Editor de blocos','Monte a lógica visual do evento');},0);return;
-  }
-  if(e.target.closest('#skBackEvents')){closeEditor();return;}
-  var tab=e.target.closest('.tab[data-tab]');
-  if(tab&&tab.dataset.tab!=='event'){closeEditor();return;}
-},false);
-
-/* Tap an empty/root/nested slot to choose where the next block goes. */
 logicCanvas.addEventListener('click',function(e){
-  if(!screen.classList.contains('sk-block-screen'))return;
+  if(!overlay||!overlay.classList.contains('show'))return;
   if(e.target.closest('button,[data-edit-block],[data-delete-block],[data-block-up],[data-block-down]'))return;
   var slot=e.target.closest('[data-block-slot]');
   if(slot){e.preventDefault();e.stopPropagation();chooseSlot(slot);}
 });
 
-/* On mobile, intercept block template tap and insert into the chosen slot. */
 library.addEventListener('click',function(e){
-  if(!screen.classList.contains('sk-block-screen')||window.innerWidth>760)return;
+  if(!overlay||!overlay.classList.contains('show'))return;
   var tpl=e.target.closest('.block-template[data-block-type]');if(!tpl)return;
   e.preventDefault();e.stopImmediatePropagation();
   if(typeof newBlock!=='function'||typeof insertBlock!=='function')return;
@@ -115,14 +151,6 @@ library.addEventListener('click',function(e){
   selectedSlot='root';clearSlotSelection();closeLibrary();
 },true);
 
-/* Keep the friendly event title after renderLogic rewrites it. */
-var eventSelect=document.getElementById('eventTypeSelect');
-if(eventSelect)eventSelect.addEventListener('change',function(){
-  if(!screen.classList.contains('sk-block-screen'))return;
-  var opt=eventSelect.options[eventSelect.selectedIndex];if(opt)currentLabel=opt.textContent;
-  setTimeout(function(){var t=document.getElementById('logicTitle');if(t)t.textContent=currentLabel;},0);
-});
-
 window.BrotwareStableBlocks={open:openEditor,close:closeEditor,openLibrary:openLibrary};
-ensureUi();
+buildOverlay();
 })();
