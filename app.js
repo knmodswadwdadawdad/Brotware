@@ -1,12 +1,14 @@
 (function(){
 'use strict';
 
-var mobileCss=document.createElement('link');
-mobileCss.rel='stylesheet';
-mobileCss.href='mobile.css';
-document.head.appendChild(mobileCss);
+['mobile.css','mobile-fix.css'].forEach(function(href){
+  var link=document.createElement('link');
+  link.rel='stylesheet';
+  link.href=href;
+  document.head.appendChild(link);
+});
 
-var files=['core-1.js','core-2.js','core-3.js','logic-1.js','logic-2.js','logic-3.js','bootstrap.js','mobile.js'];
+var files=['core-1.js','core-2.js','core-3.js','logic-1.js','logic-2.js','logic-3.js','bootstrap.js','mobile.js','mobile-fix.js'];
 function loadNext(i){
   if(i>=files.length)return;
   var s=document.createElement('script');
