@@ -1,6 +1,28 @@
 /* Dedicated Sketchware-style block workspace */
 body.sk-logic-open{overflow:hidden}
 
+/* CRITICAL: closed auxiliary layers must never intercept pointer/touch events. */
+.blocks-sheet-backdrop,
+#screen-event:not(.blocks-open)>.blocks-sheet-backdrop{
+  display:none!important;
+  pointer-events:none!important;
+  visibility:hidden!important;
+}
+#screen-event.blocks-open>.blocks-sheet-backdrop{
+  display:block!important;
+  pointer-events:auto!important;
+  visibility:visible!important;
+}
+#screen-event:not(.blocks-open)>.blocks-library{
+  pointer-events:none;
+}
+#screen-event.blocks-open>.blocks-library,
+#screen-event:not(.sk-event-home)>.blocks-library:not([style*="position: absolute"]){
+  pointer-events:auto;
+}
+.sk-blocks-fab{pointer-events:auto!important}
+.logic-workspace,.logic-top,.logic-canvas,.logic-flow{pointer-events:auto}
+
 #screen-event:not(.sk-event-home){
   grid-template-columns:220px minmax(0,1fr) 255px;
   grid-template-rows:minmax(0,1fr);
@@ -89,7 +111,6 @@ body.sk-logic-open{overflow:hidden}
   color:#6f8494;
 }
 
-/* More block-like appearance */
 #screen-event:not(.sk-event-home) .logic-block{
   position:relative;
   border-radius:10px;
@@ -98,26 +119,10 @@ body.sk-logic-open{overflow:hidden}
   margin-bottom:8px;
 }
 #screen-event:not(.sk-event-home) .logic-block:before{
-  content:'';
-  position:absolute;
-  top:-5px;
-  left:22px;
-  width:22px;
-  height:8px;
-  border-radius:0 0 6px 6px;
-  background:inherit;
-  z-index:2;
+  content:'';position:absolute;top:-5px;left:22px;width:22px;height:8px;border-radius:0 0 6px 6px;background:inherit;z-index:2
 }
 #screen-event:not(.sk-event-home) .logic-block:after{
-  content:'';
-  position:absolute;
-  bottom:-5px;
-  left:22px;
-  width:22px;
-  height:8px;
-  border-radius:6px 6px 0 0;
-  background:#07131e;
-  z-index:2;
+  content:'';position:absolute;bottom:-5px;left:22px;width:22px;height:8px;border-radius:6px 6px 0 0;background:#07131e;z-index:2
 }
 #screen-event:not(.sk-event-home) .logic-block-head{min-height:48px;padding:7px 9px}
 #screen-event:not(.sk-event-home) .logic-block-name{font-size:11px;font-weight:800}
@@ -126,28 +131,10 @@ body.sk-logic-open{overflow:hidden}
 #screen-event:not(.sk-event-home) .block-slot{min-height:42px}
 
 .sk-blocks-fab{
-  display:none;
-  position:absolute;
-  right:18px;
-  bottom:18px;
-  z-index:120;
-  width:56px;
-  height:56px;
-  border:0;
-  border-radius:17px;
-  background:#066a9e;
-  color:#e9f8ff;
-  font-size:25px;
-  box-shadow:0 14px 34px rgba(0,0,0,.38);
-  cursor:pointer
+  display:none;position:absolute;right:18px;bottom:18px;z-index:120;width:56px;height:56px;border:0;border-radius:17px;background:#066a9e;color:#e9f8ff;font-size:25px;box-shadow:0 14px 34px rgba(0,0,0,.38);cursor:pointer
 }
 .sk-blocks-fab:hover{background:#087caf}
-
-.blocks-sheet-head{display:none}
-.blocks-sheet-search{display:none}
-.blocks-sheet-cats{display:none}
-.blocks-sheet-variable-tools{display:none}
-.blocks-sheet-backdrop{display:none}
+.blocks-sheet-head{display:none}.blocks-sheet-search{display:none}.blocks-sheet-cats{display:none}.blocks-sheet-variable-tools{display:none}
 
 @media(max-width:760px){
   body.sk-logic-open .top,
@@ -156,25 +143,12 @@ body.sk-logic-open{overflow:hidden}
   body.sk-logic-open .main{position:fixed!important;inset:0!important;height:100dvh!important;min-height:0!important}
   body.sk-logic-open #screen-event{position:absolute!important;inset:0!important;height:100%!important;width:100%!important}
 
-  #screen-event:not(.sk-event-home){
-    display:block!important;
-    background:#07131e!important;
-  }
+  #screen-event:not(.sk-event-home){display:block!important;background:#07131e!important}
   #screen-event:not(.sk-event-home)>.event-sidebar{display:none!important}
   #screen-event:not(.sk-event-home)>.logic-workspace{
-    display:grid!important;
-    position:absolute!important;
-    inset:0!important;
-    height:100%!important;
-    width:100%!important;
-    grid-template-rows:58px minmax(0,1fr)!important;
+    display:grid!important;position:absolute!important;inset:0!important;height:100%!important;width:100%!important;grid-template-rows:58px minmax(0,1fr)!important
   }
-  #screen-event:not(.sk-event-home) .logic-top{
-    height:58px;
-    min-height:58px;
-    padding:0 10px;
-    background:#07131e;
-  }
+  #screen-event:not(.sk-event-home) .logic-top{height:58px;min-height:58px;padding:0 10px;background:#07131e}
   #screen-event:not(.sk-event-home) #skBackEvents{width:34px;height:34px;flex-basis:34px}
   #screen-event:not(.sk-event-home) #logicTitle{font-size:14px}
   #screen-event:not(.sk-event-home) #logicSubtitle{font-size:10px}
@@ -182,12 +156,7 @@ body.sk-logic-open{overflow:hidden}
   #screen-event:not(.sk-event-home) #testEventBtn:before{content:'▶';font-size:16px}
   #screen-event:not(.sk-event-home) #showGeneratedLogicBtn:before{content:'</>';font-size:15px}
 
-  #screen-event:not(.sk-event-home) .logic-canvas{
-    position:relative;
-    padding:16px 12px 105px;
-    overflow:auto;
-    overscroll-behavior:contain;
-  }
+  #screen-event:not(.sk-event-home) .logic-canvas{position:relative;padding:16px 12px 105px;overflow:auto;overscroll-behavior:contain}
   .logic-event-badge{margin-left:-12px;margin-bottom:16px;font-size:9px;padding:5px 8px}
   #screen-event:not(.sk-event-home) .logic-flow{width:100%;min-height:calc(100% - 40px);padding-bottom:90px}
   #screen-event:not(.sk-event-home) .logic-block{max-width:100%;touch-action:none}
@@ -197,47 +166,14 @@ body.sk-logic-open{overflow:hidden}
   .sk-blocks-fab{display:grid;place-items:center;right:18px;bottom:18px}
 
   #screen-event:not(.sk-event-home)>.blocks-library{
-    display:block!important;
-    position:absolute!important;
-    z-index:160!important;
-    left:6px!important;
-    right:6px!important;
-    bottom:6px!important;
-    top:auto!important;
-    width:auto!important;
-    height:min(48dvh,430px)!important;
-    max-height:calc(100dvh - 72px)!important;
-    padding:0 10px 14px!important;
-    border:1px solid #2b414f!important;
-    border-radius:18px 18px 12px 12px!important;
-    background:#14212b!important;
-    box-shadow:0 -20px 60px rgba(0,0,0,.45)!important;
-    overflow:auto!important;
-    transform:translateY(calc(100% + 18px))!important;
-    transition:transform .24s ease!important;
+    display:block!important;position:absolute!important;z-index:160!important;left:6px!important;right:6px!important;bottom:6px!important;top:auto!important;width:auto!important;height:min(48dvh,430px)!important;max-height:calc(100dvh - 72px)!important;padding:0 10px 14px!important;border:1px solid #2b414f!important;border-radius:18px 18px 12px 12px!important;background:#14212b!important;box-shadow:0 -20px 60px rgba(0,0,0,.45)!important;overflow:auto!important;transform:translateY(calc(100% + 18px))!important;transition:transform .24s ease!important;pointer-events:none!important
   }
-  #screen-event.blocks-open>.blocks-library{transform:translateY(0)!important}
-  #screen-event.blocks-open .sk-blocks-fab{opacity:0;pointer-events:none}
+  #screen-event.blocks-open>.blocks-library{transform:translateY(0)!important;pointer-events:auto!important}
+  #screen-event.blocks-open .sk-blocks-fab{opacity:0;pointer-events:none!important}
 
-  .blocks-sheet-backdrop{
-    position:absolute;
-    inset:0;
-    z-index:150;
-    background:rgba(0,0,0,.35);
-  }
-  #screen-event.blocks-open>.blocks-sheet-backdrop{display:block}
+  .blocks-sheet-backdrop{position:absolute;inset:0;z-index:150;background:rgba(0,0,0,.35)}
 
-  .blocks-sheet-head{
-    position:sticky;
-    top:0;
-    z-index:5;
-    min-height:48px;
-    display:flex;
-    align-items:center;
-    gap:9px;
-    background:#14212b;
-    border-bottom:1px solid #2a3d49;
-  }
+  .blocks-sheet-head{position:sticky;top:0;z-index:5;min-height:48px;display:flex;align-items:center;gap:9px;background:#14212b;border-bottom:1px solid #2a3d49}
   .blocks-sheet-grab{width:38px;height:4px;border-radius:99px;background:#536675;margin:0 auto}
   .blocks-sheet-title{font-size:12px;font-weight:800}
   .blocks-sheet-close{margin-left:auto;width:34px;height:34px;border:0;border-radius:9px;background:#22333f;color:#dce7ee}
