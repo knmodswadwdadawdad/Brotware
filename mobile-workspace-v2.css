@@ -6,6 +6,7 @@
   body.bw-mobile-v2 .app{display:block!important;width:100%!important;height:100dvh!important;min-height:0!important;overflow:hidden!important}
   body.bw-mobile-v2 .top,body.bw-mobile-v2>.app>.statusbar{display:none!important}
   body.bw-mobile-v2 .main{position:fixed!important;left:0!important;right:0!important;top:calc(52px + env(safe-area-inset-top))!important;bottom:calc(66px + env(safe-area-inset-bottom))!important;width:auto!important;height:auto!important;min-height:0!important;overflow:hidden!important}
+  body.bw-mobile-v2 .modal-backdrop{z-index:16500!important}
 
   .bw-mobile-topbar{display:grid;grid-template-columns:42px minmax(0,1fr) 42px 42px;align-items:end;gap:4px;position:fixed;z-index:12000;left:0;right:0;top:0;height:calc(52px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 6px 5px;background:#08151f;border-bottom:1px solid #223845;color:#eaf2f7;box-shadow:0 4px 16px rgba(0,0,0,.2)}
   .bw-mobile-topbar button{height:42px;border:0;border-radius:11px;background:transparent;color:#dceaf3;font:inherit;touch-action:manipulation}
@@ -29,7 +30,7 @@
   body.bw-mobile-v2 .mobile-palette-backdrop,body.bw-mobile-v2 #mobilePaletteBtn{display:none!important}
   body.bw-mobile-v2 #screen-view.active>.designer{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
   body.bw-mobile-v2 .designer-toolbar{display:none!important}
-  body.bw-mobile-v2 .designer-canvas{position:absolute!important;inset:0!important;padding:0 0 76px!important;display:flex!important;justify-content:center!important;align-items:flex-start!important;overflow:auto!important;overscroll-behavior:contain!important;scrollbar-width:none}
+  body.bw-mobile-v2 .designer-canvas{position:absolute!important;inset:0!important;padding:0!important;display:flex!important;justify-content:center!important;align-items:flex-start!important;overflow:auto!important;overscroll-behavior:contain!important;scrollbar-width:none}
   body.bw-mobile-v2 .designer-canvas::-webkit-scrollbar{display:none}
   body.bw-mobile-v2 .phone-shell{margin-top:0!important;transform-origin:top center!important}
   body.bw-mobile-v2 .phone-label,body.bw-mobile-v2 .phone-status,body.bw-mobile-v2 .phone-toolbar{display:none!important}
