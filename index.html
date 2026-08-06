@@ -14,7 +14,7 @@
       <button class="icon-btn" id="backBtn" title="Voltar">←</button>
       <div class="project-meta">
         <strong id="projectName">Brotware Project</strong>
-        <small id="projectInfo">HTML visual builder</small>
+        <small id="projectInfo">Visual HTML Studio</small>
       </div>
       <div class="top-spacer"></div>
       <button class="icon-btn" id="undoBtn" title="Desfazer">↶</button>
@@ -33,6 +33,7 @@
   </header>
 
   <main class="main">
+    <!-- VIEW -->
     <section class="tab-screen active" id="screen-view">
       <aside class="palette">
         <div class="palette-head">
@@ -41,12 +42,14 @@
         </div>
         <div class="palette-scroll" id="paletteBasic">
           <button class="create-widget" data-create="text"><span class="plus">＋</span><span>Create a widget</span></button>
+
           <div class="category">Layouts</div>
           <button class="palette-item" data-create="linear-h"><span>▤</span>Linear(H)</button>
           <button class="palette-item" data-create="linear-v"><span>▥</span>Linear(V)</button>
           <button class="palette-item" data-create="relative"><span>◫</span>RelativeLayout</button>
           <button class="palette-item" data-create="card"><span>▱</span>CardView</button>
           <button class="palette-item" data-create="scroll"><span>↕</span>ScrollView</button>
+
           <div class="category">Widgets</div>
           <button class="palette-item" data-create="text"><span>T</span>TextView</button>
           <button class="palette-item" data-create="button"><span>▣</span>Button</button>
@@ -59,7 +62,9 @@
           <button class="palette-item" data-create="progress"><span>▬</span>Progress</button>
           <button class="palette-item" data-create="divider"><span>—</span>Divider</button>
         </div>
-        <div class="palette-scroll hidden" id="paletteFavorites"><div class="empty-state">Componentes marcados como favoritos aparecem aqui.</div></div>
+        <div class="palette-scroll hidden" id="paletteFavorites">
+          <div class="empty-state">Componentes favoritos aparecem aqui.</div>
+        </div>
       </aside>
 
       <section class="designer">
@@ -74,19 +79,28 @@
           <span class="zoom-label" id="zoomLabel">100%</span>
           <button class="tool-pill" id="zoomInBtn">＋</button>
         </div>
+
         <div class="designer-canvas" id="designerCanvas">
           <div class="phone-shell" id="phoneShell">
             <div class="phone-label" id="phoneLabel">index.html</div>
             <div class="phone" id="phone">
               <div class="phone-status"><span id="statusFile">index.html</span><span>▮▮▮▮ 🔋 1:37</span></div>
               <div class="phone-toolbar" id="phoneToolbar">Toolbar</div>
-              <div class="view-pane" id="viewPane"><div class="root-layout" id="rootLayout"><div class="grid-layer" id="gridLayer"></div></div></div>
+              <div class="view-pane" id="viewPane">
+                <div class="root-layout" id="rootLayout">
+                  <div class="grid-layer" id="gridLayer"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
         <div class="delete-zone" id="deleteZone"><span>🗑</span><strong>Drag here to delete</strong></div>
+
         <div class="properties-dock" id="propertiesDock">
-          <button class="selected-target" id="selectedTargetBtn"><span>▣</span><span id="selectedTargetName">widget</span><span class="dock-spacer"></span><span>▾</span></button>
+          <button class="selected-target" id="selectedTargetBtn">
+            <span>▣</span><span id="selectedTargetName">widget</span><span class="dock-spacer"></span><span>▾</span>
+          </button>
           <div class="quick-properties">
             <button class="quick-card" data-quick="text"><b>&lt;/&gt;</b><span>Text</span></button>
             <button class="quick-card" data-quick="width"><b>↔</b><span>Width</span></button>
@@ -105,75 +119,311 @@
       </section>
     </section>
 
+    <!-- EVENT / BLOCK LOGIC -->
     <section class="tab-screen" id="screen-event">
       <aside class="event-sidebar">
-        <div class="section-head"><strong>Events</strong><small>Lógica sem código</small></div>
-        <label class="field"><span>Elemento</span><select id="eventNodeSelect"></select></label>
-        <label class="field"><span>Evento</span><select id="eventTypeSelect"><option value="click">onClick</option><option value="dblclick">onDoubleClick</option><option value="mouseenter">onMouseEnter</option><option value="mouseleave">onMouseLeave</option><option value="input">onInput</option><option value="change">onChange</option><option value="focus">onFocus</option><option value="blur">onBlur</option></select></label>
-        <div class="category">Variáveis</div>
-        <div id="variablesList" class="mini-list"></div>
-        <button class="side-action" id="addVariableBtn">＋ variável</button>
+        <div class="section-head">
+          <strong>Events & Logic</strong>
+          <small>Blocos visuais estilo Sketchware</small>
+        </div>
+
+        <label class="field">
+          <span>Elemento</span>
+          <select id="eventNodeSelect"></select>
+        </label>
+        <label class="field">
+          <span>Evento</span>
+          <select id="eventTypeSelect"></select>
+        </label>
+
+        <div class="logic-mode-row">
+          <button class="logic-mode active" id="eventModeBtn">Evento</button>
+          <button class="logic-mode" id="functionModeBtn">Função</button>
+        </div>
+
+        <div id="eventSidePanel">
+          <div class="category">Variáveis globais</div>
+          <div id="variablesList" class="mini-list"></div>
+          <button class="side-action" id="addVariableBtn">＋ variável</button>
+        </div>
+
+        <div id="functionSidePanel" class="hidden">
+          <div class="category">Funções</div>
+          <div id="functionsList" class="mini-list"></div>
+          <button class="side-action primary" id="addFunctionBtn">＋ função</button>
+        </div>
+
+        <div class="category">Atalhos</div>
+        <button class="side-action" id="clearLogicBtn">Limpar lógica atual</button>
       </aside>
+
       <section class="logic-workspace">
-        <div class="logic-top"><div><strong id="logicTitle">button1 → onClick</strong><small>Monte uma sequência de ações</small></div><div class="logic-top-actions"><button class="btn" id="testEventBtn">Testar evento</button><button class="btn primary" id="addActionBtn">＋ Ação</button></div></div>
-        <div class="logic-canvas" id="actionsList"><div class="empty-state large">Selecione um elemento e adicione ações ao evento.</div></div>
+        <div class="logic-top">
+          <div>
+            <strong id="logicTitle">page → onLoad</strong>
+            <small id="logicSubtitle">Arraste blocos para montar a lógica</small>
+          </div>
+          <div class="logic-top-actions">
+            <button class="btn" id="testEventBtn">▶ Testar</button>
+            <button class="btn" id="showGeneratedLogicBtn">Código</button>
+          </div>
+        </div>
+
+        <div class="logic-canvas" id="logicCanvas">
+          <div class="logic-flow" id="logicRoot" data-block-slot="root"></div>
+        </div>
       </section>
-      <aside class="actions-library">
-        <div class="section-head"><strong>Ações</strong><small>Arraste ou clique</small></div>
-        <button class="action-template" data-action="navigate"><span>↗</span><b>Open Page</b><small>Abrir outra página/URL</small></button>
-        <button class="action-template" data-action="alert"><span>!</span><b>Alert</b><small>Mostrar mensagem</small></button>
-        <button class="action-template" data-action="setText"><span>T</span><b>Set Text</b><small>Alterar texto</small></button>
-        <button class="action-template" data-action="setStyle"><span>🎨</span><b>Set Style</b><small>Alterar CSS</small></button>
-        <button class="action-template" data-action="show"><span>👁</span><b>Show</b><small>Mostrar elemento</small></button>
-        <button class="action-template" data-action="hide"><span>◌</span><b>Hide</b><small>Ocultar elemento</small></button>
-        <button class="action-template" data-action="toggle"><span>◐</span><b>Toggle</b><small>Alternar visibilidade</small></button>
-        <button class="action-template" data-action="setVariable"><span>x</span><b>Set Variable</b><small>Salvar um valor</small></button>
-        <button class="action-template" data-action="increment"><span>＋</span><b>Increment</b><small>Somar em variável</small></button>
-        <button class="action-template" data-action="console"><span>&gt;_</span><b>Console</b><small>Log de depuração</small></button>
+
+      <aside class="blocks-library">
+        <div class="section-head">
+          <strong>Blocos</strong>
+          <small>Arraste ou clique para adicionar</small>
+        </div>
+
+        <div class="block-category flow">Controle</div>
+        <button class="block-template flow" draggable="true" data-block-type="if">
+          <span>◆</span><b>if / else</b><small>Executar por condição</small>
+        </button>
+        <button class="block-template flow" draggable="true" data-block-type="repeat">
+          <span>↻</span><b>repeat</b><small>Repetir N vezes</small>
+        </button>
+        <button class="block-template time" draggable="true" data-block-type="wait">
+          <span>◷</span><b>wait</b><small>Aguardar milissegundos</small>
+        </button>
+
+        <div class="block-category ui">Interface</div>
+        <button class="block-template ui" draggable="true" data-block-type="navigate">
+          <span>↗</span><b>open page</b><small>Abrir HTML ou URL</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="alert">
+          <span>!</span><b>alert</b><small>Mostrar mensagem</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="setText">
+          <span>T</span><b>set text</b><small>Alterar texto</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="setValue">
+          <span>⌨</span><b>set value</b><small>Alterar input</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="setStyle">
+          <span>🎨</span><b>set style</b><small>Alterar propriedade CSS</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="show">
+          <span>👁</span><b>show</b><small>Mostrar elemento</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="hide">
+          <span>◌</span><b>hide</b><small>Ocultar elemento</small>
+        </button>
+        <button class="block-template ui" draggable="true" data-block-type="toggle">
+          <span>◐</span><b>toggle</b><small>Alternar visibilidade</small>
+        </button>
+
+        <div class="block-category data">Dados</div>
+        <button class="block-template data" draggable="true" data-block-type="setVar">
+          <span>x</span><b>set variable</b><small>Definir variável</small>
+        </button>
+        <button class="block-template data" draggable="true" data-block-type="math">
+          <span>＋</span><b>math</b><small>Conta matemática</small>
+        </button>
+        <button class="block-template data" draggable="true" data-block-type="readInput">
+          <span>⇢</span><b>read input</b><small>Input → variável</small>
+        </button>
+
+        <div class="block-category storage">Storage</div>
+        <button class="block-template storage" draggable="true" data-block-type="storageSet">
+          <span>▣</span><b>save local</b><small>localStorage.setItem</small>
+        </button>
+        <button class="block-template storage" draggable="true" data-block-type="storageGet">
+          <span>▤</span><b>read local</b><small>localStorage.getItem</small>
+        </button>
+        <button class="block-template storage" draggable="true" data-block-type="storageRemove">
+          <span>×</span><b>remove local</b><small>Remover chave</small>
+        </button>
+
+        <div class="block-category network">Network</div>
+        <button class="block-template network" draggable="true" data-block-type="fetch">
+          <span>⇄</span><b>HTTP request</b><small>GET/POST API</small>
+        </button>
+
+        <div class="block-category function">Funções</div>
+        <button class="block-template function" draggable="true" data-block-type="callFunction">
+          <span>ƒ</span><b>call function</b><small>Executar função criada</small>
+        </button>
+
+        <div class="block-category debug">Debug</div>
+        <button class="block-template debug" draggable="true" data-block-type="console">
+          <span>&gt;_</span><b>console log</b><small>Depuração</small>
+        </button>
       </aside>
     </section>
 
+    <!-- COMPONENT -->
     <section class="tab-screen" id="screen-component">
-      <aside class="component-sidebar"><div class="section-head"><strong>Components</strong><small>Elementos reutilizáveis</small></div><button class="side-action primary" id="createComponentBtn">＋ componente</button><div class="category">Meus componentes</div><div id="customComponentsList" class="component-list"></div></aside>
-      <section class="components-main"><div class="components-header"><div><strong>Biblioteca de componentes</strong><small>Clique para inserir na página atual</small></div></div><div class="component-grid" id="builtinComponents">
-        <button class="component-card" data-component="hero"><span>▰</span><b>Hero</b><small>Título, texto e CTA</small></button>
-        <button class="component-card" data-component="navbar"><span>☰</span><b>Navbar</b><small>Barra de navegação</small></button>
-        <button class="component-card" data-component="card"><span>▱</span><b>Card</b><small>Card de conteúdo</small></button>
-        <button class="component-card" data-component="login"><span>🔐</span><b>Login Form</b><small>Email e senha</small></button>
-        <button class="component-card" data-component="modal"><span>▣</span><b>Modal</b><small>Caixa de diálogo</small></button>
-        <button class="component-card" data-component="footer"><span>≡</span><b>Footer</b><small>Rodapé simples</small></button>
-        <button class="component-card" data-component="pricing"><span>◆</span><b>Pricing</b><small>Plano/preço</small></button>
-        <button class="component-card" data-component="profile"><span>●</span><b>Profile</b><small>Avatar e informações</small></button>
-      </div></section>
+      <aside class="component-sidebar">
+        <div class="section-head"><strong>Components</strong><small>Elementos reutilizáveis</small></div>
+        <button class="side-action primary" id="createComponentBtn">＋ componente</button>
+        <div class="category">Meus componentes</div>
+        <div id="customComponentsList" class="component-list"></div>
+      </aside>
+      <section class="components-main">
+        <div class="components-header">
+          <div><strong>Biblioteca de componentes</strong><small>Clique para inserir na página atual</small></div>
+        </div>
+        <div class="component-grid" id="builtinComponents">
+          <button class="component-card" data-component="hero"><span>▰</span><b>Hero</b><small>Título, texto e CTA</small></button>
+          <button class="component-card" data-component="navbar"><span>☰</span><b>Navbar</b><small>Barra de navegação</small></button>
+          <button class="component-card" data-component="card"><span>▱</span><b>Card</b><small>Card de conteúdo</small></button>
+          <button class="component-card" data-component="login"><span>🔐</span><b>Login Form</b><small>Email e senha</small></button>
+          <button class="component-card" data-component="modal"><span>▣</span><b>Modal</b><small>Caixa de diálogo</small></button>
+          <button class="component-card" data-component="footer"><span>≡</span><b>Footer</b><small>Rodapé simples</small></button>
+          <button class="component-card" data-component="pricing"><span>◆</span><b>Pricing</b><small>Plano/preço</small></button>
+          <button class="component-card" data-component="profile"><span>●</span><b>Profile</b><small>Avatar e informações</small></button>
+        </div>
+      </section>
     </section>
 
+    <!-- STRINGS -->
     <section class="tab-screen" id="screen-strings">
-      <aside class="strings-sidebar"><div class="section-head"><strong>Strings</strong><small>Textos reutilizáveis</small></div><button class="side-action primary" id="addStringBtn">＋ string</button></aside>
-      <section class="strings-main"><div class="strings-table-head"><strong>Recursos de texto</strong><small>Use @string/chave nas propriedades de texto.</small></div><div id="stringsList" class="strings-list"></div></section>
+      <aside class="strings-sidebar">
+        <div class="section-head"><strong>Strings</strong><small>Textos reutilizáveis</small></div>
+        <button class="side-action primary" id="addStringBtn">＋ string</button>
+      </aside>
+      <section class="strings-main">
+        <div class="strings-table-head">
+          <strong>Recursos de texto</strong>
+          <small>Use @string/chave nas propriedades.</small>
+        </div>
+        <div id="stringsList" class="strings-list"></div>
+      </section>
     </section>
   </main>
 
-  <footer class="statusbar"><span class="status-ok" id="statusText">Ready</span><span id="statusPage">index.html</span><span id="statusNode">Nenhum widget selecionado</span><span class="status-spacer"></span><button class="status-btn" id="pagesBtn">Páginas</button><button class="status-btn" id="importHtmlBtn">Importar HTML</button><button class="status-btn" id="exportPageBtn">Exportar página</button><button class="status-btn" id="exportAllBtn">Exportar todas</button><button class="status-btn" id="projectBtn">Projeto</button></footer>
+  <footer class="statusbar">
+    <span class="status-ok" id="statusText">Ready</span>
+    <span id="statusPage">index.html</span>
+    <span id="statusNode">Nenhum widget selecionado</span>
+    <span class="status-spacer"></span>
+    <button class="status-btn" id="pagesBtn">Páginas</button>
+    <button class="status-btn" id="importHtmlBtn">Importar HTML</button>
+    <button class="status-btn" id="exportPageBtn">Exportar página</button>
+    <button class="status-btn" id="exportAllBtn">Exportar todas</button>
+    <button class="status-btn" id="projectBtn">Projeto</button>
+  </footer>
 </div>
 
 <input id="htmlInput" type="file" accept=".html,.htm,text/html" hidden>
 <input id="projectInput" type="file" accept=".json,application/json" hidden>
 <div class="drag-ghost" id="dragGhost">Widget</div>
 
-<div class="modal-backdrop" id="propertiesModal"><div class="modal wide"><div class="modal-head"><div><strong>Widget Properties</strong><small id="propertiesSubtitle"></small></div><button class="icon-btn" data-close="propertiesModal">×</button></div><div class="modal-body"><div class="form-grid">
-<label class="field"><span>ID</span><input id="propId"></label><label class="field"><span>Type</span><input id="propType" disabled></label><label class="field"><span>X</span><input id="propX" type="number"></label><label class="field"><span>Y</span><input id="propY" type="number"></label><label class="field"><span>Width</span><input id="propWidth"></label><label class="field"><span>Height</span><input id="propHeight"></label>
-<label class="field span-2"><span>Text</span><textarea id="propText"></textarea></label><label class="field"><span>String resource</span><select id="propStringKey"></select></label><label class="field"><span>Placeholder</span><input id="propPlaceholder"></label>
-<label class="field"><span>Background</span><input id="propBackground" placeholder="#ffffff"></label><label class="field"><span>Text color</span><input id="propColor" placeholder="#111111"></label><label class="field"><span>Font size</span><input id="propFontSize" placeholder="16px"></label><label class="field"><span>Font weight</span><input id="propFontWeight" placeholder="400"></label><label class="field"><span>Border</span><input id="propBorder" placeholder="1px solid #ddd"></label><label class="field"><span>Border radius</span><input id="propRadius" placeholder="8px"></label><label class="field"><span>Padding</span><input id="propPadding" placeholder="8px"></label><label class="field"><span>Opacity</span><input id="propOpacity" placeholder="1"></label>
-<label class="field"><span>CSS class</span><input id="propClass"></label><label class="field"><span>href / page</span><input id="propHref" placeholder="login.html"></label><label class="field span-2"><span>Custom CSS</span><textarea id="propCustomCss" placeholder="box-shadow: 0 10px 30px rgba(0,0,0,.2);"></textarea></label>
-</div></div><div class="modal-foot"><button class="btn danger" id="deleteNodeBtn">Delete</button><span class="modal-spacer"></span><button class="btn" data-close="propertiesModal">Cancel</button><button class="btn primary" id="applyPropertiesBtn">Apply</button></div></div></div>
+<!-- PROPERTIES -->
+<div class="modal-backdrop" id="propertiesModal">
+  <div class="modal wide">
+    <div class="modal-head">
+      <div><strong>Widget Properties</strong><small id="propertiesSubtitle"></small></div>
+      <button class="icon-btn" data-close="propertiesModal">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <label class="field"><span>ID</span><input id="propId"></label>
+        <label class="field"><span>Type</span><input id="propType" disabled></label>
+        <label class="field"><span>X</span><input id="propX" type="number"></label>
+        <label class="field"><span>Y</span><input id="propY" type="number"></label>
+        <label class="field"><span>Width</span><input id="propWidth"></label>
+        <label class="field"><span>Height</span><input id="propHeight"></label>
+        <label class="field span-2"><span>Text</span><textarea id="propText"></textarea></label>
+        <label class="field"><span>String resource</span><select id="propStringKey"></select></label>
+        <label class="field"><span>Placeholder</span><input id="propPlaceholder"></label>
+        <label class="field"><span>Background</span><input id="propBackground" placeholder="#ffffff"></label>
+        <label class="field"><span>Text color</span><input id="propColor" placeholder="#111111"></label>
+        <label class="field"><span>Font size</span><input id="propFontSize" placeholder="16px"></label>
+        <label class="field"><span>Font weight</span><input id="propFontWeight" placeholder="400"></label>
+        <label class="field"><span>Border</span><input id="propBorder" placeholder="1px solid #ddd"></label>
+        <label class="field"><span>Border radius</span><input id="propRadius" placeholder="8px"></label>
+        <label class="field"><span>Padding</span><input id="propPadding" placeholder="8px"></label>
+        <label class="field"><span>Opacity</span><input id="propOpacity" placeholder="1"></label>
+        <label class="field"><span>CSS class</span><input id="propClass"></label>
+        <label class="field"><span>href / page</span><input id="propHref" placeholder="login.html"></label>
+        <label class="field span-2"><span>Custom CSS</span><textarea id="propCustomCss" placeholder="box-shadow:0 10px 30px rgba(0,0,0,.2);"></textarea></label>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn danger" id="deleteNodeBtn">Delete</button>
+      <span class="modal-spacer"></span>
+      <button class="btn" data-close="propertiesModal">Cancel</button>
+      <button class="btn primary" id="applyPropertiesBtn">Apply</button>
+    </div>
+  </div>
+</div>
 
-<div class="modal-backdrop" id="pagesModal"><div class="modal"><div class="modal-head"><div><strong>Páginas HTML</strong><small>Activities do Brotware</small></div><button class="icon-btn" data-close="pagesModal">×</button></div><div class="modal-body"><div class="create-row"><label class="field"><span>Arquivo</span><input id="newPageName" value="nova-pagina.html"></label><label class="field"><span>Título</span><input id="newPageTitle" value="Nova página"></label><button class="btn primary" id="createPageBtn">Criar HTML</button></div><div id="pagesList" class="pages-list"></div></div></div></div>
+<!-- PAGES -->
+<div class="modal-backdrop" id="pagesModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div><strong>Páginas HTML</strong><small>Activities do Brotware</small></div>
+      <button class="icon-btn" data-close="pagesModal">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="create-row">
+        <label class="field"><span>Arquivo</span><input id="newPageName" value="nova-pagina.html"></label>
+        <label class="field"><span>Título</span><input id="newPageTitle" value="Nova página"></label>
+        <button class="btn primary" id="createPageBtn">Criar HTML</button>
+      </div>
+      <div id="pagesList" class="pages-list"></div>
+    </div>
+  </div>
+</div>
 
-<div class="modal-backdrop" id="projectModal"><div class="modal"><div class="modal-head"><div><strong>Projeto</strong><small>Salvar, importar e exportar</small></div><button class="icon-btn" data-close="projectModal">×</button></div><div class="modal-body"><label class="field"><span>Nome do projeto</span><input id="projectNameInput"></label><div class="project-actions"><button class="btn primary" id="saveBrowserBtn">Salvar no navegador</button><button class="btn" id="downloadProjectBtn">Baixar .json</button><button class="btn" id="uploadProjectBtn">Importar .json</button><button class="btn danger" id="resetProjectBtn">Novo projeto</button></div><p class="hint">O salvamento automático usa localStorage. O arquivo JSON guarda páginas, eventos, variáveis, strings e componentes.</p></div></div></div>
+<!-- PROJECT -->
+<div class="modal-backdrop" id="projectModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div><strong>Projeto</strong><small>Salvar, importar e exportar</small></div>
+      <button class="icon-btn" data-close="projectModal">×</button>
+    </div>
+    <div class="modal-body">
+      <label class="field"><span>Nome do projeto</span><input id="projectNameInput"></label>
+      <div class="project-actions">
+        <button class="btn primary" id="saveBrowserBtn">Salvar no navegador</button>
+        <button class="btn" id="downloadProjectBtn">Baixar .json</button>
+        <button class="btn" id="uploadProjectBtn">Importar .json</button>
+        <button class="btn danger" id="resetProjectBtn">Novo projeto</button>
+      </div>
+      <p class="hint">O JSON guarda páginas, eventos, blocos, variáveis, funções, strings e componentes.</p>
+    </div>
+  </div>
+</div>
 
-<div class="modal-backdrop" id="actionModal"><div class="modal"><div class="modal-head"><div><strong id="actionModalTitle">Nova ação</strong><small>Configure a lógica</small></div><button class="icon-btn" data-close="actionModal">×</button></div><div class="modal-body"><label class="field"><span>Tipo</span><select id="actionType"><option value="navigate">Open Page / URL</option><option value="alert">Alert</option><option value="setText">Set Text</option><option value="setStyle">Set Style</option><option value="show">Show</option><option value="hide">Hide</option><option value="toggle">Toggle</option><option value="setVariable">Set Variable</option><option value="increment">Increment Variable</option><option value="console">Console Log</option></select></label><div id="actionFields" class="action-fields"></div><div class="condition-box"><label class="check-row"><input id="conditionEnabled" type="checkbox"> Executar somente se...</label><div class="condition-grid" id="conditionFields"><select id="conditionVariable"></select><select id="conditionOperator"><option value="==">igual a</option><option value="!=">diferente de</option><option value=">">maior que</option><option value="<">menor que</option><option value=">=">maior ou igual</option><option value="<=">menor ou igual</option><option value="truthy">for verdadeiro</option><option value="falsy">for falso</option></select><input id="conditionValue" placeholder="valor"></div></div></div><div class="modal-foot"><span class="modal-spacer"></span><button class="btn" data-close="actionModal">Cancel</button><button class="btn primary" id="saveActionBtn">Salvar ação</button></div></div></div>
+<!-- BLOCK EDITOR -->
+<div class="modal-backdrop" id="blockModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div><strong id="blockModalTitle">Configurar bloco</strong><small id="blockModalSubtitle"></small></div>
+      <button class="icon-btn" data-close="blockModal">×</button>
+    </div>
+    <div class="modal-body" id="blockEditorFields"></div>
+    <div class="modal-foot">
+      <button class="btn danger" id="deleteBlockBtn">Excluir bloco</button>
+      <span class="modal-spacer"></span>
+      <button class="btn" data-close="blockModal">Cancel</button>
+      <button class="btn primary" id="saveBlockBtn">Salvar</button>
+    </div>
+  </div>
+</div>
 
-<div class="modal-backdrop" id="codeModal"><div class="modal code-modal"><div class="modal-head"><div><strong>Código gerado</strong><small id="codeFileName">index.html</small></div><button class="icon-btn" data-close="codeModal">×</button></div><div class="modal-body code-body"><textarea id="generatedCode" spellcheck="false"></textarea></div><div class="modal-foot"><button class="btn" id="copyCodeBtn">Copiar</button><span class="modal-spacer"></span><button class="btn primary" id="downloadCodeBtn">Baixar HTML</button></div></div></div>
+<!-- CODE -->
+<div class="modal-backdrop" id="codeModal">
+  <div class="modal code-modal">
+    <div class="modal-head">
+      <div><strong>Código gerado</strong><small id="codeFileName">index.html</small></div>
+      <button class="icon-btn" data-close="codeModal">×</button>
+    </div>
+    <div class="modal-body code-body"><textarea id="generatedCode" spellcheck="false"></textarea></div>
+    <div class="modal-foot">
+      <button class="btn" id="copyCodeBtn">Copiar</button>
+      <span class="modal-spacer"></span>
+      <button class="btn primary" id="downloadCodeBtn">Baixar HTML</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 <script src="app.js"></script>
