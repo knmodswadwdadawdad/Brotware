@@ -37,6 +37,18 @@ function clearGesture(){
 function capture(el,pid){try{el.setPointerCapture(pid);}catch(e){}}
 function release(el,pid){try{el.releasePointerCapture(pid);}catch(e){}}
 
+/* Preserve the exact point where the finger grabbed the widget when changing parent layouts. */
+function placeKeepingGrabPoint(el,parent,cx,cy,grabScreenX,grabScreenY){
+  if(!el||!parent)return;
+  var p=localPoint(parent,cx,cy);
+  var ps=scaleFor(parent);
+  var gx=grabScreenX/(ps.x||1);
+  var gy=grabScreenY/(ps.y||1);
+  parent.appendChild(el);
+  el.style.left=Math.max(0,snap(p.x-gx))+'px';
+  el.style.top=Math.max(0,snap(p.y-gy))+'px';
+}
+
 /*
  * Mobile existing-widget gesture:
  * - quick swipe = pan designer canvas
@@ -48,6 +60,9 @@ window.beginMove=function(e,el){
 
   var pid=e.pointerId;
   var sx=e.clientX,sy=e.clientY;
+  var startRect=el.getBoundingClientRect();
+  var grabScreenX=sx-startRect.left;
+  var grabScreenY=sy-startRect.top;
   var left=parseFloat(el.style.left)||0,top=parseFloat(el.style.top)||0;
   var parent=el.parentElement||root;
   var ps=scaleFor(parent);
@@ -115,6 +130,9 @@ window.beginMove=function(e,el){
     var dz=document.getElementById('deleteZone');
     var overDelete=!cancelled&&dragging&&dz&&hit(dz,cx,cy);
     var target=!cancelled&&dragging&&!overDelete?findContainer(cx,cy,el):null;
+    var currentParent=el.parentElement||root;
+    var insidePage=!cancelled&&dragging&&typeof viewPane!=='undefined'&&viewPane&&hit(viewPane,cx,cy);
+    var dropParent=target||(insidePage?root:currentParent);
 
     release(el,pid);
     cleanupDragUi();
@@ -122,11 +140,10 @@ window.beginMove=function(e,el){
 
     if(cancelled||!dragging)return;
     if(overDelete){deleteSelected(false);return;}
-    if(target){
-      var p=localPoint(target,cx,cy);
-      target.appendChild(el);
-      el.style.left=Math.max(0,snap(p.x-el.offsetWidth/2))+'px';
-      el.style.top=Math.max(24,snap(p.y-el.offsetHeight/2))+'px';
+
+    /* If the widget stays in the same layout, keep the exact coordinates already reached during move(). */
+    if(dropParent&&dropParent!==currentParent){
+      placeKeepingGrabPoint(el,dropParent,cx,cy,grabScreenX,grabScreenY);
     }
     commit();
   }
