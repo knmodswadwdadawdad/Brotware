@@ -23,14 +23,15 @@
 
   .drag-ghost{z-index:10000!important;min-width:100px!important;min-height:40px!important;font-size:11px!important;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 
-  /* Delete target must not exist visually until a real widget drag starts. */
-  .delete-zone{
+  /* A stale .show class is not enough: only a real active drag can show this. */
+  .delete-zone,
+  .delete-zone.show{
     display:none!important;
     opacity:0!important;
     visibility:hidden!important;
     pointer-events:none!important;
   }
-  .delete-zone.show{
+  body.vf-widget-dragging .delete-zone.show{
     display:flex!important;
     opacity:1!important;
     visibility:visible!important;
