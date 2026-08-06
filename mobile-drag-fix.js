@@ -19,18 +19,26 @@ function localPoint(el,cx,cy){
   return{x:(cx-r.left)/(s.x||1),y:(cy-r.top)/(s.y||1)};
 }
 function clearDropUi(){
-  if(typeof deleteZone!=='undefined'&&deleteZone)deleteZone.classList.remove('show','hot');
+  document.body.classList.remove('vf-widget-dragging');
+  var dz=(typeof deleteZone!=='undefined'&&deleteZone)?deleteZone:document.getElementById('deleteZone');
+  if(dz)dz.classList.remove('show','hot');
   document.querySelectorAll('.drop-target').forEach(function(x){x.classList.remove('drop-target');});
-  if(typeof dragGhost!=='undefined'&&dragGhost)dragGhost.style.display='none';
+  var ghost=(typeof dragGhost!=='undefined'&&dragGhost)?dragGhost:document.getElementById('dragGhost');
+  if(ghost)ghost.style.display='none';
+}
+function hardCleanupSoon(){
+  clearDropUi();
+  setTimeout(clearDropUi,40);
+  setTimeout(clearDropUi,180);
 }
 function cancelActive(){
   if(activeCleanup){var fn=activeCleanup;activeCleanup=null;try{fn(true);}catch(e){}}
-  clearDropUi();
+  hardCleanupSoon();
 }
 window.addEventListener('blur',cancelActive);
 document.addEventListener('visibilitychange',function(){if(document.hidden)cancelActive();});
 
-/* Existing widget drag: pointer capture prevents the delete bar from getting stuck. */
+/* Existing widget drag: one owner for start/end state. */
 window.beginMove=function(e,el){
   cancelActive();
   var pointerId=e.pointerId;
@@ -46,6 +54,7 @@ window.beginMove=function(e,el){
     var dx=(ev.clientX-startX)/(ps.x||1),dy=(ev.clientY-startY)/(ps.y||1);
     if(!moved&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>5){
       moved=true;
+      document.body.classList.add('vf-widget-dragging');
       deleteZone.classList.add('show');
     }
     if(!moved)return;
@@ -62,21 +71,30 @@ window.beginMove=function(e,el){
     window.removeEventListener('pointermove',move,true);
     window.removeEventListener('pointerup',up,true);
     window.removeEventListener('pointercancel',pc,true);
+    el.removeEventListener('lostpointercapture',lost,true);
+
+    /* Check before hiding the target, otherwise display:none makes hit() false. */
+    var overDelete=!cancelled&&moved&&hit(deleteZone,ev.clientX,ev.clientY);
+    var target=!cancelled&&moved&&!overDelete?findContainer(ev.clientX,ev.clientY,el):null;
+
     try{el.releasePointerCapture(pointerId);}catch(err){}
-    clearDropUi();
     activeCleanup=null;
+    hardCleanupSoon();
+
     if(cancelled||!moved)return;
-    if(hit(deleteZone,ev.clientX,ev.clientY)){deleteSelected(false);return;}
-    var target=findContainer(ev.clientX,ev.clientY,el);
+    if(overDelete){deleteSelected(false);return;}
     if(target)moveIntoScaled(el,target,ev.clientX,ev.clientY);
     commit();
   }
   function up(ev){if(ev.pointerId===pointerId)finish(ev,false);}
   function pc(ev){if(ev.pointerId===pointerId)finish(ev,true);}
+  function lost(ev){if(!finished)finish({pointerId:pointerId,clientX:startX,clientY:startY},true);}
+
   activeCleanup=function(){finish({pointerId:pointerId,clientX:startX,clientY:startY},true);};
   window.addEventListener('pointermove',move,true);
   window.addEventListener('pointerup',up,true);
   window.addEventListener('pointercancel',pc,true);
+  el.addEventListener('lostpointercapture',lost,true);
 };
 
 window.moveIntoScaled=function(el,target,cx,cy){
@@ -106,7 +124,7 @@ window.beginResize=function(e,el,dir){
     if(finished)return;finished=true;
     window.removeEventListener('pointermove',move,true);window.removeEventListener('pointerup',up,true);window.removeEventListener('pointercancel',pc,true);
     try{el.releasePointerCapture(pointerId);}catch(err){}
-    activeCleanup=null;if(!cancelled)commit();
+    activeCleanup=null;hardCleanupSoon();if(!cancelled)commit();
   }
   function up(ev){if(ev.pointerId===pointerId)finish(false);}function pc(ev){if(ev.pointerId===pointerId)finish(true);}
   activeCleanup=function(){finish(true);};
@@ -134,7 +152,7 @@ window.startPaletteDrag=function(e,type){
     if(finished)return;finished=true;
     window.removeEventListener('pointermove',move,true);window.removeEventListener('pointerup',up,true);window.removeEventListener('pointercancel',pc,true);
     try{source.releasePointerCapture(pointerId);}catch(err){}
-    clearDropUi();activeCleanup=null;
+    activeCleanup=null;hardCleanupSoon();
     if(cancelled)return;
     if(moved&&hit(viewPane,ev.clientX,ev.clientY)){
       state.ignorePaletteClick=true;setTimeout(function(){state.ignorePaletteClick=false;},80);
@@ -178,9 +196,19 @@ function ensureDrawer(){
   bindTouchPalette();
 }
 
-/* Prevent leftover drag UI after any completed touch. */
-document.addEventListener('pointerup',function(){setTimeout(function(){if(!activeCleanup)clearDropUi();},30);},true);
-document.addEventListener('pointercancel',function(){setTimeout(clearDropUi,0);},true);
+/* Belt-and-suspenders cleanup for browsers that lose pointer capture on touch. */
+function endAnyDragSoon(){setTimeout(hardCleanupSoon,0);}
+document.addEventListener('pointerup',endAnyDragSoon,true);
+document.addEventListener('pointercancel',endAnyDragSoon,true);
+document.addEventListener('touchend',endAnyDragSoon,true);
+document.addEventListener('touchcancel',endAnyDragSoon,true);
+document.addEventListener('mouseup',endAnyDragSoon,true);
+document.addEventListener('dragend',endAnyDragSoon,true);
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.vf-node')&&!e.target.closest('.resize-handle'))hardCleanupSoon();
+},true);
+document.querySelectorAll('.tab[data-tab]').forEach(function(t){t.addEventListener('click',hardCleanupSoon,true);});
 
 setTimeout(ensureDrawer,0);setTimeout(ensureDrawer,250);setTimeout(ensureDrawer,900);
+hardCleanupSoon();
 })();
