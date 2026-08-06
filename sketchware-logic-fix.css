@@ -1,1 +1,8 @@
 .sw-palette-item{touch-action:pan-y!important}
+.sw-list-special{
+  width:100%;min-height:44px;margin-bottom:6px;border:0;border-radius:8px 8px 8px 3px;
+  background:#cc5b22;color:#fff;display:flex;align-items:center;gap:8px;padding:7px 10px;text-align:left;
+  touch-action:manipulation;cursor:pointer
+}
+.sw-list-special .ico{width:25px;height:25px;border-radius:6px;background:rgba(0,0,0,.13);display:grid;place-items:center;font-weight:900}
+.sw-list-special b{display:block;font-size:10px}.sw-list-special small{display:block;font-size:8px;opacity:.86;margin-top:2px}
