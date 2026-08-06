@@ -1,0 +1,35 @@
+/* Figma-like smart alignment guides for the visual editor. */
+.vf-align-guide-layer{
+  position:fixed;
+  inset:0;
+  z-index:12000;
+  pointer-events:none;
+  overflow:hidden;
+}
+.vf-align-guide{
+  position:fixed;
+  display:none;
+  pointer-events:none;
+  background:#ff4f78;
+  box-shadow:0 0 0 1px rgba(255,79,120,.16),0 0 7px rgba(255,79,120,.45);
+}
+.vf-align-guide.show{display:block}
+.vf-align-guide.vertical{width:1px;min-height:16px}
+.vf-align-guide.horizontal{height:1px;min-width:16px}
+.vf-align-guide-dot{
+  position:fixed;
+  display:none;
+  width:5px;
+  height:5px;
+  margin:-2px 0 0 -2px;
+  border-radius:50%;
+  background:#ff4f78;
+  box-shadow:0 0 0 2px rgba(255,79,120,.16);
+}
+.vf-align-guide-dot.show{display:block}
+
+@media (max-width:760px){
+  .vf-align-guide.vertical{width:2px}
+  .vf-align-guide.horizontal{height:2px}
+  .vf-align-guide-dot{width:6px;height:6px;margin:-2px 0 0 -2px}
+}
