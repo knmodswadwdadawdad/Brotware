@@ -1,0 +1,51 @@
+/* Brotware Dialog Editor — robust centering fix */
+body.bw-dialog-editor-active .view-pane.bw-dialog-design-pane{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+}
+
+body.bw-dialog-editor-active .root-layout.bw-dialog-design-root{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  transform:translate(-50%,-50%)!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  max-width:calc(100% - 28px)!important;
+  max-height:calc(100% - 28px)!important;
+  min-width:180px!important;
+  min-height:180px!important;
+  overflow:auto!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+body.bw-dialog-editor-active .root-layout.bw-dialog-design-root>.grid-layer{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  pointer-events:none!important;
+}
+
+@media(max-width:760px){
+  body.bw-dialog-editor-active .designer-canvas{
+    padding-top:94px!important;
+    padding-left:4px!important;
+    padding-right:4px!important;
+  }
+  body.bw-dialog-editor-active .root-layout.bw-dialog-design-root{
+    left:50%!important;
+    top:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    transform:translate(-50%,-50%)!important;
+    max-width:calc(100% - 20px)!important;
+    max-height:calc(100% - 24px)!important;
+  }
+}
