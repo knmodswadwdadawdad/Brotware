@@ -1,0 +1,41 @@
+/* Sketchware-style Width selector */
+.bw-size-backdrop{
+  position:fixed;inset:0;z-index:17500;display:none;align-items:center;justify-content:center;
+  padding:16px;background:rgba(0,0,0,.58);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.bw-size-backdrop.show{display:flex}
+.bw-size-dialog{
+  width:min(365px,calc(100vw - 28px));overflow:hidden;border:1px solid #34414c;border-radius:14px;
+  background:#232c33;color:#eef4f8;box-shadow:0 20px 55px rgba(0,0,0,.48);
+}
+.bw-size-head{padding:28px 26px 9px;text-align:center}
+.bw-size-head .icon{display:block;margin-bottom:12px;color:#bbd7eb;font-size:27px;line-height:1}
+.bw-size-head strong{font-size:23px;font-weight:500;letter-spacing:.1px}
+.bw-size-options{display:grid;gap:5px;padding:6px 24px 15px}
+.bw-size-option{
+  position:relative;display:grid;grid-template-columns:26px minmax(0,1fr);align-items:center;min-height:42px;
+  color:#f1f4f7;font-size:14px;cursor:pointer;user-select:none;
+}
+.bw-size-option input{position:absolute;opacity:0;pointer-events:none}
+.bw-size-radio{width:19px;height:19px;border:2px solid #c6d1d8;border-radius:50%;display:grid;place-items:center;transition:.14s ease}
+.bw-size-radio:after{content:"";width:9px;height:9px;border-radius:50%;background:#7dd1ff;transform:scale(0);transition:.14s ease}
+.bw-size-option input:checked+.bw-size-radio{border-color:#7dd1ff}
+.bw-size-option input:checked+.bw-size-radio:after{transform:scale(1)}
+.bw-size-custom{display:none;margin:0 24px 8px;padding-left:26px}
+.bw-size-custom.show{display:block}
+.bw-size-custom-row{display:grid;grid-template-columns:minmax(0,1fr) 54px;gap:7px}
+.bw-size-custom input{
+  width:100%;height:40px;border:1px solid #50606c;border-radius:8px;background:#182027;color:#f4f7f9;
+  outline:0;padding:0 11px;font-size:13px;
+}
+.bw-size-custom input:focus{border-color:#74caff;box-shadow:0 0 0 2px rgba(116,202,255,.12)}
+.bw-size-unit{height:40px;border:1px solid #45545f;border-radius:8px;background:#1b242b;color:#b9c7d0;display:grid;place-items:center;font-size:12px}
+.bw-size-hint{display:block;margin-top:5px;color:#8fa0aa;font-size:9px}
+.bw-size-actions{display:flex;justify-content:flex-end;gap:26px;padding:12px 30px 24px}
+.bw-size-actions button{border:0;background:transparent;color:#83cfff;font-size:13px;font-weight:600;cursor:pointer;padding:7px 0}
+.bw-size-actions button:active{opacity:.7}
+@media(max-width:520px){
+  .bw-size-backdrop{align-items:center;padding:12px}
+  .bw-size-dialog{width:min(365px,calc(100vw - 24px));border-radius:14px}
+  .bw-size-head{padding-top:24px}
+}
