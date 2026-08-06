@@ -1,0 +1,69 @@
+/* Brotware Mobile Workspace v2 — mobile-first chrome, canvas and sheets */
+.bw-mobile-topbar,.bw-mobile-bottomnav,.bw-mobile-sheet-backdrop,.bw-mobile-selection{display:none}
+
+@media(max-width:760px){
+  body.bw-mobile-v2{overflow:hidden!important;background:#07131e}
+  body.bw-mobile-v2 .app{display:block!important;width:100%!important;height:100dvh!important;min-height:0!important;overflow:hidden!important}
+  body.bw-mobile-v2 .top,body.bw-mobile-v2>.app>.statusbar{display:none!important}
+  body.bw-mobile-v2 .main{position:fixed!important;left:0!important;right:0!important;top:calc(52px + env(safe-area-inset-top))!important;bottom:calc(66px + env(safe-area-inset-bottom))!important;width:auto!important;height:auto!important;min-height:0!important;overflow:hidden!important}
+
+  .bw-mobile-topbar{display:grid;grid-template-columns:42px minmax(0,1fr) 42px 42px;align-items:end;gap:4px;position:fixed;z-index:12000;left:0;right:0;top:0;height:calc(52px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 6px 5px;background:#08151f;border-bottom:1px solid #223845;color:#eaf2f7;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+  .bw-mobile-topbar button{height:42px;border:0;border-radius:11px;background:transparent;color:#dceaf3;font:inherit;touch-action:manipulation}
+  .bw-mobile-topbar button:active{background:#162936}
+  .bw-mobile-back{font-size:23px}
+  .bw-mobile-title{min-width:0;display:flex!important;align-items:center!important;text-align:left;padding:0 9px!important}
+  .bw-mobile-title span{min-width:0;display:flex;flex-direction:column;gap:1px}
+  .bw-mobile-title b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:750}
+  .bw-mobile-title small{font-size:8px;color:#8397a4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bw-mobile-run{font-size:18px!important;color:#9fdcff!important}
+  .bw-mobile-more{font-size:21px!important}
+
+  .bw-mobile-bottomnav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;z-index:12000;left:0;right:0;bottom:0;height:calc(66px + env(safe-area-inset-bottom));padding:5px 5px env(safe-area-inset-bottom);background:#0b1721;border-top:1px solid #29404e;box-shadow:0 -6px 22px rgba(0,0,0,.26)}
+  .bw-mobile-nav{border:0;border-radius:12px;background:transparent;color:#8fa4b2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;touch-action:manipulation}
+  .bw-mobile-nav .ico{font-size:19px;line-height:20px}.bw-mobile-nav .label{font-size:9px;font-weight:700}
+  .bw-mobile-nav:active,.bw-mobile-nav.active{background:#142b3a;color:#8ed5ff}.bw-mobile-nav.primary{color:#9cdbff}.bw-mobile-nav.primary .ico{font-size:25px}
+
+  /* Canvas-first View: old tabs/toolbars/palette are replaced by the mobile chrome. */
+  body.bw-mobile-v2 #screen-view.active{display:block!important;position:absolute!important;inset:0!important;overflow:hidden!important}
+  body.bw-mobile-v2 #screen-view.active>.palette{display:none!important}
+  body.bw-mobile-v2 .mobile-palette-backdrop,body.bw-mobile-v2 #mobilePaletteBtn{display:none!important}
+  body.bw-mobile-v2 #screen-view.active>.designer{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
+  body.bw-mobile-v2 .designer-toolbar{display:none!important}
+  body.bw-mobile-v2 .designer-canvas{position:absolute!important;inset:0!important;padding:0 0 76px!important;display:flex!important;justify-content:center!important;align-items:flex-start!important;overflow:auto!important;overscroll-behavior:contain!important;scrollbar-width:none}
+  body.bw-mobile-v2 .designer-canvas::-webkit-scrollbar{display:none}
+  body.bw-mobile-v2 .phone-shell{margin-top:0!important;transform-origin:top center!important}
+  body.bw-mobile-v2 .phone-label,body.bw-mobile-v2 .phone-status,body.bw-mobile-v2 .phone-toolbar{display:none!important}
+  body.bw-mobile-v2 .phone{width:390px!important;height:max(680px,calc(100dvh - 118px))!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff}
+  body.bw-mobile-v2 .view-pane{height:100%!important;min-height:100%!important}
+  body.bw-mobile-v2 .properties-dock{display:none!important}
+  body.bw-mobile-v2 .delete-zone{bottom:74px!important}
+
+  /* Keep non-View screens usable without the old tab bar. */
+  body.bw-mobile-v2 #screen-event.active,body.bw-mobile-v2 #screen-component.active,body.bw-mobile-v2 #screen-strings.active{position:absolute!important;inset:0!important;height:100%!important;min-height:0!important}
+
+  /* Selected View chip: small and contextual instead of the large dock. */
+  .bw-mobile-selection{position:fixed;z-index:11900;left:8px;right:8px;bottom:calc(70px + env(safe-area-inset-bottom));height:48px;align-items:center;gap:5px;padding:5px;border:1px solid #304957;border-radius:14px;background:rgba(12,27,38,.96);box-shadow:0 10px 28px rgba(0,0,0,.36);backdrop-filter:blur(9px)}
+  body.bw-mobile-v2.bw-mobile-has-selection .bw-mobile-selection{display:flex}
+  body.bw-mobile-v2:not(.bw-mobile-view-active) .bw-mobile-selection{display:none!important}
+  .bw-mobile-selection-target{height:38px;min-width:0;flex:1;border:0;border-radius:10px;background:#152936;color:#e7f0f5;padding:0 10px;display:flex;align-items:center;gap:7px;text-align:left}
+  .bw-mobile-selection-target b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}.bw-mobile-selection-target span{color:#86cfff}
+  .bw-mobile-selection-props,.bw-mobile-selection-close{height:38px;border:0;border-radius:10px;background:#22465b;color:#dff4ff;font-size:9px;font-weight:800;padding:0 11px}.bw-mobile-selection-close{width:38px;padding:0;background:#182b36;color:#9aadb8;font-size:15px}
+
+  /* Generic mobile bottom sheet used for Add and More. */
+  .bw-mobile-sheet-backdrop{position:fixed;z-index:18000;inset:0;background:rgba(0,0,0,.52);align-items:flex-end;justify-content:center;padding:0}
+  .bw-mobile-sheet-backdrop.show{display:flex}
+  .bw-mobile-sheet{width:100%;max-height:min(78dvh,720px);display:grid;grid-template-rows:auto minmax(0,1fr);border:1px solid #314855;border-bottom:0;border-radius:22px 22px 0 0;background:#0e1b25;color:#ecf3f7;box-shadow:0 -18px 60px rgba(0,0,0,.5);overflow:hidden;animation:bwMobileSheetUp .18s ease-out}
+  .bw-mobile-sheet-head{position:relative;min-height:62px;display:flex;align-items:center;gap:10px;padding:16px 12px 8px;border-bottom:1px solid #263a46}.bw-mobile-sheet-head:before{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:42px;height:4px;border-radius:5px;background:#415965}
+  .bw-mobile-sheet-head>div{min-width:0;display:flex;flex-direction:column;gap:2px}.bw-mobile-sheet-head strong{font-size:15px}.bw-mobile-sheet-head small{font-size:9px;color:#8297a4}.bw-mobile-sheet-head .spacer{flex:1}.bw-mobile-sheet-head button{width:40px;height:40px;border:0;border-radius:10px;background:#1d313d;color:#e8f0f5;font-size:17px}
+  .bw-mobile-sheet-body{overflow:auto;overscroll-behavior:contain;padding:10px 10px calc(18px + env(safe-area-inset-bottom));scrollbar-width:none}.bw-mobile-sheet-body::-webkit-scrollbar{display:none}
+  .bw-mobile-section-title{margin:7px 3px 8px;color:#82cef9;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+  .bw-mobile-add-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+  .bw-mobile-add-item{min-height:72px;border:1px solid #2b414f;border-radius:13px;background:#14242f;color:#e7eff4;padding:8px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;touch-action:manipulation}.bw-mobile-add-item:active{background:#1b3444;border-color:#69bce9}.bw-mobile-add-item .ico{font-size:20px;color:#91d8ff}.bw-mobile-add-item b{font-size:9px;line-height:1.15}
+  .bw-mobile-menu-list{display:flex;flex-direction:column;gap:7px}.bw-mobile-menu-item{min-height:54px;border:1px solid #2b414f;border-radius:12px;background:#14242f;color:#e8f0f5;padding:7px 11px;display:grid;grid-template-columns:34px minmax(0,1fr) 24px;align-items:center;gap:8px;text-align:left}.bw-mobile-menu-item .ico{font-size:17px;color:#8fd7ff;text-align:center}.bw-mobile-menu-item span:nth-child(2){display:flex;flex-direction:column;gap:2px}.bw-mobile-menu-item b{font-size:11px}.bw-mobile-menu-item small{font-size:8px;color:#8297a4}.bw-mobile-menu-item .chev{color:#738a97;text-align:right}
+
+  /* Existing overlay systems must own the whole screen when opened. */
+  body.sw-logic-open .bw-mobile-topbar,body.sw-logic-open .bw-mobile-bottomnav,body.sw-logic-open .bw-mobile-selection,
+  body.bw-project-home-open .bw-mobile-topbar,body.bw-project-home-open .bw-mobile-bottomnav,body.bw-project-home-open .bw-mobile-selection{display:none!important}
+}
+
+@keyframes bwMobileSheetUp{from{transform:translateY(28px);opacity:.45}to{transform:none;opacity:1}}
