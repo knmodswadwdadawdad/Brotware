@@ -37,9 +37,15 @@ function buildOverlay(){
   overlayCanvasHost=document.getElementById('stableCanvasHost');
   overlayLibraryHost=document.getElementById('stableLibraryHost');
 
-  document.getElementById('stableBlockBack').addEventListener('click',function(e){e.preventDefault();closeEditor();if(typeof showEventHome==='function')showEventHome();});
-  document.getElementById('stableBlockTest').addEventListener('click',function(e){e.preventDefault();if(typeof testCurrentLogic==='function')testCurrentLogic();});
-  document.getElementById('stableBlockCode').addEventListener('click',function(e){e.preventDefault();if(typeof showLogicCode==='function')showLogicCode();});
+  document.getElementById('stableBlockBack').addEventListener('click',function(e){
+    e.preventDefault();closeEditor();if(typeof showEventHome==='function')showEventHome();
+  });
+  document.getElementById('stableBlockTest').addEventListener('click',function(e){
+    e.preventDefault();if(typeof testCurrentLogic==='function')testCurrentLogic();
+  });
+  document.getElementById('stableBlockCode').addEventListener('click',function(e){
+    e.preventDefault();if(typeof showLogicCode==='function')showLogicCode();
+  });
   document.getElementById('stableBlocksBtn').addEventListener('click',function(e){e.preventDefault();openLibrary();});
   buildLibraryChrome();
 }
@@ -81,21 +87,12 @@ function updateSlotLabel(){
   else if(selectedSlot.indexOf('else:')===0)el.textContent='Adicionar em SENÃO';
   else el.textContent='Adicionar neste encaixe';
 }
-function clearSlotSelection(){
-  document.querySelectorAll('.stable-slot-selected').forEach(function(x){x.classList.remove('stable-slot-selected');});
-}
+function clearSlotSelection(){document.querySelectorAll('.stable-slot-selected').forEach(function(x){x.classList.remove('stable-slot-selected');});}
 function chooseSlot(slot){
-  clearSlotSelection();
-  selectedSlot=(slot&&slot.dataset.blockSlot)||'root';
-  if(slot)slot.classList.add('stable-slot-selected');
-  updateSlotLabel();openLibrary();
+  clearSlotSelection();selectedSlot=(slot&&slot.dataset.blockSlot)||'root';
+  if(slot)slot.classList.add('stable-slot-selected');updateSlotLabel();openLibrary();
 }
-
-function openLibrary(){
-  if(!overlay)return;
-  overlay.classList.add('stable-library-open');
-  updateSlotLabel();
-}
+function openLibrary(){if(!overlay)return;overlay.classList.add('stable-library-open');updateSlotLabel();}
 function closeLibrary(){if(overlay)overlay.classList.remove('stable-library-open');}
 
 function moveEditorDomIntoOverlay(){
@@ -127,17 +124,14 @@ function openEditor(label,desc){
 function closeEditor(){
   if(!overlay)return;
   closeLibrary();clearSlotSelection();selectedSlot='root';
-  overlay.classList.remove('show');
-  document.body.classList.remove('stable-block-editor');
-  logicCanvas.classList.remove('stable-overlay-canvas');
+  overlay.classList.remove('show');document.body.classList.remove('stable-block-editor');logicCanvas.classList.remove('stable-overlay-canvas');
   restoreEditorDom();
 }
 
 logicCanvas.addEventListener('click',function(e){
   if(!overlay||!overlay.classList.contains('show'))return;
   if(e.target.closest('button,[data-edit-block],[data-delete-block],[data-block-up],[data-block-down]'))return;
-  var slot=e.target.closest('[data-block-slot]');
-  if(slot){e.preventDefault();e.stopPropagation();chooseSlot(slot);}
+  var slot=e.target.closest('[data-block-slot]');if(slot){e.preventDefault();e.stopPropagation();chooseSlot(slot);}
 });
 
 library.addEventListener('click',function(e){
@@ -150,6 +144,24 @@ library.addEventListener('click',function(e){
   if(typeof renderLogic==='function')renderLogic();
   selectedSlot='root';clearSlotSelection();closeLibrary();
 },true);
+
+/* Direct Event-card hook. The original card onclick selects the event first; this bubble listener opens the visual editor afterwards. */
+var eventCards=document.getElementById('skEventCards');
+if(eventCards){
+  eventCards.addEventListener('click',function(e){
+    var card=e.target.closest('.sk-event-card');if(!card)return;
+    var name=(card.querySelector('b')||{}).textContent||'Evento';
+    var small=(card.querySelector('small')||{}).textContent||'Monte a lógica com blocos';
+    var desc=small.replace(/\s*·\s*\d+\s*bloco\(s\).*$/i,'');
+    openEditor(name,desc);
+  });
+}
+var legacyBtn=document.getElementById('skOpenLegacy');
+if(legacyBtn){legacyBtn.addEventListener('click',function(){openEditor('Editor de blocos','Monte a lógica visual do evento');});}
+
+document.querySelectorAll('.tab[data-tab]').forEach(function(tab){
+  tab.addEventListener('click',function(){if(this.dataset.tab!=='event')closeEditor();});
+});
 
 window.BrotwareStableBlocks={open:openEditor,close:closeEditor,openLibrary:openLibrary};
 buildOverlay();
