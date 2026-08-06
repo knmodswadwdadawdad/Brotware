@@ -4,6 +4,7 @@
 var layer=null,vLine=null,hLine=null,dot=null;
 var gesture=null;
 var THRESHOLD=6;
+var LAYOUT_TYPES=['linear-h','linear-v','relative','card','scroll'];
 
 function build(){
   if(layer)return;
@@ -39,21 +40,61 @@ function rectPoints(r){
 }
 
 function validRect(r){return r&&r.width>0&&r.height>0&&isFinite(r.left)&&isFinite(r.top);}
+function isLayoutNode(n){
+  return !!(n&&n.classList&&n.classList.contains('vf-node')&&LAYOUT_TYPES.indexOf(n.dataset.type)>=0);
+}
 
-function candidates(active){
-  var out=[];
-  var view=document.getElementById('viewPane');
-  if(view){var vr=view.getBoundingClientRect();if(validRect(vr))out.push({el:view,rect:vr,type:'canvas'});}
-
+/*
+ * Pick the smallest layout currently under the pointer. This matters while a
+ * widget is being dragged over a new CardView/LinearLayout: the DOM parent is
+ * only changed on drop, but the guides should already belong to that layout.
+ */
+function layoutAtPoint(x,y,active){
+  var best=null,area=Infinity;
   document.querySelectorAll('.vf-node').forEach(function(n){
-    if(n===active)return;
-    if(active.contains(n))return;
-    if(!n.isConnected)return;
+    if(!isLayoutNode(n)||n===active||(active&&active.contains(n))||!n.isConnected)return;
     var r=n.getBoundingClientRect();
     if(!validRect(r))return;
-    out.push({el:n,rect:r,type:'node'});
+    if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom){
+      var a=r.width*r.height;
+      if(a<area){best=n;area=a;}
+    }
+  });
+  return best;
+}
+
+function rootContainer(){
+  return document.getElementById('rootLayout')||document.getElementById('viewPane');
+}
+
+function activeContainer(active,x,y){
+  var hovered=(typeof x==='number'&&typeof y==='number')?layoutAtPoint(x,y,active):null;
+  if(hovered)return hovered;
+
+  /* If no layout is under the pointer, guides belong to the page/root. */
+  return rootContainer();
+}
+
+function directNodeChildren(container,active){
+  var out=[];
+  if(!container)return out;
+  Array.prototype.forEach.call(container.children||[],function(n){
+    if(!n.classList||!n.classList.contains('vf-node'))return;
+    if(n===active||(active&&active.contains(n))||!n.isConnected)return;
+    var r=n.getBoundingClientRect();
+    if(validRect(r))out.push({el:n,rect:r,type:'node'});
   });
   return out;
+}
+
+function candidates(active,container){
+  var out=[];
+  if(!container)return out;
+  var cr=container.getBoundingClientRect();
+  if(validRect(cr))out.push({el:container,rect:cr,type:'container'});
+
+  /* Only siblings/direct children of this layout participate in alignment. */
+  return out.concat(directNodeChildren(container,active));
 }
 
 function bestMatch(activePoints,list,axis){
@@ -64,7 +105,6 @@ function bestMatch(activePoints,list,axis){
       cp.forEach(function(b){
         var d=Math.abs(a.value-b.value);
         if(d>THRESHOLD)return;
-        /* Prefer exact same semantic edge/center, then nearest distance. */
         var semanticPenalty=a.kind===b.kind?0:1.25;
         var score=d+semanticPenalty;
         if(!best||score<best.score){best={score:score,value:b.value,a:a,b:b,candidate:c};}
@@ -74,40 +114,39 @@ function bestMatch(activePoints,list,axis){
   return best;
 }
 
-function showVertical(match,activeRect){
-  if(!match){vLine.classList.remove('show');return;}
-  var r=match.candidate.rect;
-  var top=Math.min(activeRect.top,r.top);
-  var bottom=Math.max(activeRect.bottom,r.bottom);
-  if(match.candidate.type==='canvas'){top=r.top;bottom=r.bottom;}
+/* Guides are always clipped conceptually to the current layout bounds. */
+function showVertical(match,containerRect){
+  if(!match||!validRect(containerRect)){vLine.classList.remove('show');return;}
   vLine.style.left=Math.round(match.value)+'px';
-  vLine.style.top=Math.round(top)+'px';
-  vLine.style.height=Math.max(16,Math.round(bottom-top))+'px';
+  vLine.style.top=Math.round(containerRect.top)+'px';
+  vLine.style.height=Math.max(16,Math.round(containerRect.height))+'px';
   vLine.classList.add('show');
 }
 
-function showHorizontal(match,activeRect){
-  if(!match){hLine.classList.remove('show');return;}
-  var r=match.candidate.rect;
-  var left=Math.min(activeRect.left,r.left);
-  var right=Math.max(activeRect.right,r.right);
-  if(match.candidate.type==='canvas'){left=r.left;right=r.right;}
-  hLine.style.left=Math.round(left)+'px';
+function showHorizontal(match,containerRect){
+  if(!match||!validRect(containerRect)){hLine.classList.remove('show');return;}
+  hLine.style.left=Math.round(containerRect.left)+'px';
   hLine.style.top=Math.round(match.value)+'px';
-  hLine.style.width=Math.max(16,Math.round(right-left))+'px';
+  hLine.style.width=Math.max(16,Math.round(containerRect.width))+'px';
   hLine.classList.add('show');
 }
 
-function update(active){
+function update(active,x,y){
   build();
   if(!active||!active.isConnected){hide();return;}
   var ar=active.getBoundingClientRect();
   if(!validRect(ar)){hide();return;}
-  var p=rectPoints(ar),list=candidates(active);
+
+  var container=activeContainer(active,x,y);
+  if(!container){hide();return;}
+  var cr=container.getBoundingClientRect();
+  if(!validRect(cr)){hide();return;}
+
+  var p=rectPoints(ar),list=candidates(active,container);
   var mx=bestMatch(p.x,list,'x');
   var my=bestMatch(p.y,list,'y');
-  showVertical(mx,ar);
-  showHorizontal(my,ar);
+  showVertical(mx,cr);
+  showHorizontal(my,cr);
 
   if(mx&&my){
     dot.style.left=Math.round(mx.value)+'px';
@@ -130,6 +169,8 @@ function onDown(e){
     node:node,
     x:e.clientX,
     y:e.clientY,
+    lastX:e.clientX,
+    lastY:e.clientY,
     moving:false,
     resize:!!(e.target.closest&&e.target.closest('[data-resize]')),
     pointerType:e.pointerType||'mouse'
@@ -138,19 +179,22 @@ function onDown(e){
 
 function onMove(e){
   if(!gesture||e.pointerId!==gesture.id)return;
+  gesture.lastX=e.clientX;
+  gesture.lastY=e.clientY;
   var dist=Math.hypot(e.clientX-gesture.x,e.clientY-gesture.y);
 
   if(gesture.pointerType==='mouse'){
     if((e.buttons&1)!==1){hide();return;}
     if(dist>2)gesture.moving=true;
   }else{
-    /* Mobile widget movement only starts after the stabilized long-press handler sets this class. */
     if(document.body.classList.contains('vf-widget-dragging'))gesture.moving=true;
     if(gesture.resize&&dist>2)gesture.moving=true;
   }
 
-  if(gesture.moving)requestAnimationFrame(function(){if(gesture)update(gesture.node);});
-  else hide();
+  if(gesture.moving){
+    var node=gesture.node,cx=e.clientX,cy=e.clientY;
+    requestAnimationFrame(function(){if(gesture&&gesture.node===node)update(node,cx,cy);});
+  }else hide();
 }
 
 function finish(e){
@@ -168,7 +212,10 @@ document.addEventListener('dragend',finish,true);
 window.addEventListener('blur',finish);
 document.addEventListener('visibilitychange',function(){if(document.hidden)finish();});
 document.querySelectorAll('.tab[data-tab]').forEach(function(t){t.addEventListener('click',finish,true);});
-window.addEventListener('scroll',function(){if(gesture&&gesture.moving)update(gesture.node);else hide();},true);
+window.addEventListener('scroll',function(){
+  if(gesture&&gesture.moving)update(gesture.node,gesture.lastX,gesture.lastY);
+  else hide();
+},true);
 
 build();
 })();
