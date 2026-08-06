@@ -33,10 +33,26 @@ function niceEvent(){
 function isLogicOpen(){
   return screen.classList.contains('active')&&!screen.classList.contains('sk-event-home');
 }
+function clearSlotHighlight(){
+  document.querySelectorAll('[data-block-slot].drag-over').forEach(function(x){x.classList.remove('drag-over');});
+}
+function cancelTouch(){
+  if(touchJob&&touchJob.cancel){var job=touchJob;touchJob=null;try{job.cancel();}catch(e){}}
+  clearSlotHighlight();
+  var g=document.getElementById('skTouchBlockGhost');if(g)g.style.display='none';
+}
+function hardResetInteractionState(){
+  cancelTouch();
+  screen.classList.remove('blocks-open');
+  var bd=document.getElementById('blocksSheetBackdrop');
+  if(bd){bd.style.pointerEvents='none';bd.style.display='none';bd.style.visibility='hidden';}
+  document.querySelectorAll('.logic-block').forEach(function(b){b.style.opacity='';});
+  document.querySelectorAll('.drop-target,.drag-over').forEach(function(x){x.classList.remove('drop-target','drag-over');});
+}
 function updateOpenState(){
   var open=isLogicOpen();
   document.body.classList.toggle('sk-logic-open',open&&window.matchMedia('(max-width:760px)').matches);
-  if(!open){screen.classList.remove('blocks-open');cancelTouch();}
+  if(!open){hardResetInteractionState();}
   if(open){decorate();updateHeader();}
 }
 function updateHeader(){
@@ -56,20 +72,37 @@ function decorate(){
   }
   if(!document.getElementById('skBlocksFab')){
     var fab=document.createElement('button');fab.id='skBlocksFab';fab.className='sk-blocks-fab';fab.innerHTML='🧩';fab.title='Adicionar blocos';fab.setAttribute('aria-label','Adicionar blocos');
-    fab.onclick=function(){screen.classList.add('blocks-open');filterBlocks();};
+    fab.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openSheet();});
     screen.appendChild(fab);
   }
   if(!document.getElementById('blocksSheetBackdrop')){
-    var bd=document.createElement('div');bd.id='blocksSheetBackdrop';bd.className='blocks-sheet-backdrop';bd.onclick=closeSheet;screen.insertBefore(bd,library);
+    var bd=document.createElement('div');bd.id='blocksSheetBackdrop';bd.className='blocks-sheet-backdrop';
+    bd.style.display='none';bd.style.pointerEvents='none';bd.style.visibility='hidden';
+    bd.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();closeSheet();});
+    screen.insertBefore(bd,library);
   }
   if(!built)buildSheet();
+}
+
+function openSheet(){
+  cancelTouch();
+  screen.classList.add('blocks-open');
+  var bd=document.getElementById('blocksSheetBackdrop');
+  if(bd){bd.style.display='block';bd.style.pointerEvents='auto';bd.style.visibility='visible';}
+  filterBlocks();
+}
+function closeSheet(){
+  cancelTouch();
+  screen.classList.remove('blocks-open');
+  var bd=document.getElementById('blocksSheetBackdrop');
+  if(bd){bd.style.pointerEvents='none';bd.style.display='none';bd.style.visibility='hidden';}
 }
 
 function buildSheet(){
   built=true;
   var head=document.createElement('div');head.className='blocks-sheet-head';head.innerHTML='<span class="blocks-sheet-title">Blocos</span><span class="blocks-sheet-grab"></span><button class="blocks-sheet-close" id="blocksSheetClose">×</button>';
   library.insertBefore(head,library.firstChild);
-  document.getElementById('blocksSheetClose').onclick=closeSheet;
+  document.getElementById('blocksSheetClose').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();closeSheet();});
 
   var search=document.createElement('div');search.className='blocks-sheet-search';search.innerHTML='<input id="blocksSearch" placeholder="Search blocks...">';
   library.insertBefore(search,head.nextSibling);
@@ -91,7 +124,6 @@ function buildSheet(){
   bindTouchTemplates();
 }
 
-function closeSheet(){screen.classList.remove('blocks-open');cancelTouch();}
 function catMatch(el){
   if(activeCategory==='all')return true;
   if(activeCategory==='data')return el.classList.contains('data');
@@ -119,14 +151,10 @@ function slotAt(x,y,draggedBlock){
   }
   return slot;
 }
-function clearSlotHighlight(){document.querySelectorAll('[data-block-slot].drag-over').forEach(function(x){x.classList.remove('drag-over');});}
 function ghost(text){
   var g=document.getElementById('skTouchBlockGhost');
   if(!g){g=document.createElement('div');g.id='skTouchBlockGhost';g.style.cssText='position:fixed;z-index:3000;pointer-events:none;max-width:190px;padding:9px 12px;border-radius:10px;background:#ff7048;color:#fff;font:700 11px system-ui;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:.92';document.body.appendChild(g);}
   g.textContent=text;g.style.display='block';return g;
-}
-function cancelTouch(){
-  if(touchJob&&touchJob.cancel)touchJob.cancel();touchJob=null;clearSlotHighlight();var g=document.getElementById('skTouchBlockGhost');if(g)g.style.display='none';
 }
 
 function bindTouchTemplates(){
@@ -154,7 +182,6 @@ function startTemplateTouch(e,source){
   window.addEventListener('pointermove',mv,true);window.addEventListener('pointerup',up,true);window.addEventListener('pointercancel',pc,true);
 }
 
-/* Existing blocks can also be moved between slots with touch. */
 logicCanvas.addEventListener('pointerdown',function(e){
   if(e.pointerType==='mouse'||!window.matchMedia('(max-width:760px)').matches)return;
   if(e.target.closest('button,[data-edit-block],[data-delete-block],[data-block-up],[data-block-down]'))return;
@@ -172,7 +199,6 @@ function startExistingTouch(e,block,captureEl){
   window.addEventListener('pointermove',mv,true);window.addEventListener('pointerup',up,true);window.addEventListener('pointercancel',pc,true);
 }
 
-/* Keep header and badge synchronized after the original renderer runs. */
 if(typeof window.renderLogic==='function'){
   var baseRender=window.renderLogic;
   window.renderLogic=function(){var r=baseRender.apply(this,arguments);setTimeout(function(){decorate();updateHeader();bindTouchTemplates();},0);return r;};
@@ -182,8 +208,19 @@ var observer=new MutationObserver(function(){updateOpenState();});
 observer.observe(screen,{attributes:true,attributeFilter:['class']});
 document.querySelectorAll('.tab').forEach(function(t){observer.observe(t,{attributes:true,attributeFilter:['class']});});
 window.addEventListener('resize',updateOpenState);
-window.addEventListener('blur',cancelTouch);
-document.addEventListener('visibilitychange',function(){if(document.hidden)cancelTouch();});
+window.addEventListener('blur',hardResetInteractionState);
+document.addEventListener('visibilitychange',function(){if(document.hidden)hardResetInteractionState();});
+document.addEventListener('pointercancel',function(){hardResetInteractionState();},true);
 
-decorate();updateOpenState();
+/* Safety: if a stale overlay survives a render/deploy, kill it unless explicitly open. */
+setInterval(function(){
+  if(!screen.classList.contains('blocks-open')){
+    var bd=document.getElementById('blocksSheetBackdrop');
+    if(bd&&(bd.style.pointerEvents!=='none'||bd.style.display!=='none')){
+      bd.style.pointerEvents='none';bd.style.display='none';bd.style.visibility='hidden';
+    }
+  }
+},1200);
+
+decorate();hardResetInteractionState();updateOpenState();
 })();
