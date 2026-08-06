@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 
-var layer=null,vLine=null,hLine=null,dot=null;
+var layer=null,vLine=null,hLine=null,dot=null,measureLayer=null;
 var gesture=null;
 var THRESHOLD=6;
 var LAYOUT_TYPES=['linear-h','linear-v','relative','card','scroll'];
@@ -11,17 +11,20 @@ function build(){
   layer=document.createElement('div');
   layer.className='vf-align-guide-layer';
   layer.id='vfAlignGuideLayer';
-  layer.innerHTML='<div class="vf-align-guide vertical" id="vfGuideV"></div><div class="vf-align-guide horizontal" id="vfGuideH"></div><div class="vf-align-guide-dot" id="vfGuideDot"></div>';
+  layer.innerHTML='<div class="vf-align-guide vertical" id="vfGuideV"></div><div class="vf-align-guide horizontal" id="vfGuideH"></div><div class="vf-align-guide-dot" id="vfGuideDot"></div><div class="vf-space-measure-layer" id="vfSpaceMeasureLayer"></div>';
   document.body.appendChild(layer);
   vLine=document.getElementById('vfGuideV');
   hLine=document.getElementById('vfGuideH');
   dot=document.getElementById('vfGuideDot');
+  measureLayer=document.getElementById('vfSpaceMeasureLayer');
 }
 
+function clearMeasures(){if(measureLayer)measureLayer.innerHTML='';}
 function hide(){
   if(vLine)vLine.classList.remove('show');
   if(hLine)hLine.classList.remove('show');
   if(dot)dot.classList.remove('show');
+  clearMeasures();
 }
 
 function rectPoints(r){
@@ -44,11 +47,6 @@ function isLayoutNode(n){
   return !!(n&&n.classList&&n.classList.contains('vf-node')&&LAYOUT_TYPES.indexOf(n.dataset.type)>=0);
 }
 
-/*
- * Pick the smallest layout currently under the pointer. This matters while a
- * widget is being dragged over a new CardView/LinearLayout: the DOM parent is
- * only changed on drop, but the guides should already belong to that layout.
- */
 function layoutAtPoint(x,y,active){
   var best=null,area=Infinity;
   document.querySelectorAll('.vf-node').forEach(function(n){
@@ -70,8 +68,6 @@ function rootContainer(){
 function activeContainer(active,x,y){
   var hovered=(typeof x==='number'&&typeof y==='number')?layoutAtPoint(x,y,active):null;
   if(hovered)return hovered;
-
-  /* If no layout is under the pointer, guides belong to the page/root. */
   return rootContainer();
 }
 
@@ -92,8 +88,6 @@ function candidates(active,container){
   if(!container)return out;
   var cr=container.getBoundingClientRect();
   if(validRect(cr))out.push({el:container,rect:cr,type:'container'});
-
-  /* Only siblings/direct children of this layout participate in alignment. */
   return out.concat(directNodeChildren(container,active));
 }
 
@@ -114,7 +108,6 @@ function bestMatch(activePoints,list,axis){
   return best;
 }
 
-/* Guides are always clipped conceptually to the current layout bounds. */
 function showVertical(match,containerRect){
   if(!match||!validRect(containerRect)){vLine.classList.remove('show');return;}
   vLine.style.left=Math.round(match.value)+'px';
@@ -131,6 +124,69 @@ function showHorizontal(match,containerRect){
   hLine.classList.add('show');
 }
 
+function overlap(a1,a2,b1,b2){return Math.max(0,Math.min(a2,b2)-Math.max(a1,b1));}
+function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+function px(v){return Math.max(0,Math.round(v));}
+
+/* Find the nearest sibling in each direction, but only when the two widgets
+ * share some visual span on the perpendicular axis. This matches how design
+ * tools present meaningful spacing instead of measuring diagonally. */
+function nearestSpaces(ar,siblings){
+  var out={left:null,right:null,top:null,bottom:null};
+  siblings.forEach(function(s){
+    var r=s.rect,gap;
+    if(overlap(ar.top,ar.bottom,r.top,r.bottom)>0){
+      if(r.right<=ar.left){gap=ar.left-r.right;if(!out.left||gap<out.left.gap)out.left={rect:r,gap:gap};}
+      if(r.left>=ar.right){gap=r.left-ar.right;if(!out.right||gap<out.right.gap)out.right={rect:r,gap:gap};}
+    }
+    if(overlap(ar.left,ar.right,r.left,r.right)>0){
+      if(r.bottom<=ar.top){gap=ar.top-r.bottom;if(!out.top||gap<out.top.gap)out.top={rect:r,gap:gap};}
+      if(r.top>=ar.bottom){gap=r.top-ar.bottom;if(!out.bottom||gap<out.bottom.gap)out.bottom={rect:r,gap:gap};}
+    }
+  });
+  return out;
+}
+
+function addMeasure(axis,a,b,pos,value,side){
+  if(!measureLayer||value<0||!isFinite(value))return;
+  var size=Math.abs(b-a);
+  /* Tiny 0-2px labels create more clutter than information. */
+  if(size<3)return;
+  var m=document.createElement('div');
+  m.className='vf-space-measure '+(axis==='x'?'horizontal':'vertical')+' side-'+side;
+  m.dataset.value=px(value);
+  if(axis==='x'){
+    m.style.left=Math.round(Math.min(a,b))+'px';
+    m.style.top=Math.round(pos)+'px';
+    m.style.width=Math.max(1,Math.round(size))+'px';
+  }else{
+    m.style.left=Math.round(pos)+'px';
+    m.style.top=Math.round(Math.min(a,b))+'px';
+    m.style.height=Math.max(1,Math.round(size))+'px';
+  }
+  m.innerHTML='<span class="vf-space-tick start"></span><span class="vf-space-line"></span><span class="vf-space-badge">'+px(value)+' px</span><span class="vf-space-tick end"></span>';
+  measureLayer.appendChild(m);
+}
+
+function showSpacing(ar,cr,siblings){
+  clearMeasures();
+  var near=nearestSpaces(ar,siblings);
+  var midY=clamp(ar.top+ar.height/2,cr.top+10,cr.bottom-10);
+  var midX=clamp(ar.left+ar.width/2,cr.left+10,cr.right-10);
+
+  if(near.left)addMeasure('x',near.left.rect.right,ar.left,midY,near.left.gap,'left');
+  else if(ar.left>=cr.left)addMeasure('x',cr.left,ar.left,midY,ar.left-cr.left,'left');
+
+  if(near.right)addMeasure('x',ar.right,near.right.rect.left,midY,near.right.gap,'right');
+  else if(ar.right<=cr.right)addMeasure('x',ar.right,cr.right,midY,cr.right-ar.right,'right');
+
+  if(near.top)addMeasure('y',near.top.rect.bottom,ar.top,midX,near.top.gap,'top');
+  else if(ar.top>=cr.top)addMeasure('y',cr.top,ar.top,midX,ar.top-cr.top,'top');
+
+  if(near.bottom)addMeasure('y',ar.bottom,near.bottom.rect.top,midX,near.bottom.gap,'bottom');
+  else if(ar.bottom<=cr.bottom)addMeasure('y',ar.bottom,cr.bottom,midX,cr.bottom-ar.bottom,'bottom');
+}
+
 function update(active,x,y){
   build();
   if(!active||!active.isConnected){hide();return;}
@@ -142,11 +198,13 @@ function update(active,x,y){
   var cr=container.getBoundingClientRect();
   if(!validRect(cr)){hide();return;}
 
+  var siblings=directNodeChildren(container,active);
   var p=rectPoints(ar),list=candidates(active,container);
   var mx=bestMatch(p.x,list,'x');
   var my=bestMatch(p.y,list,'y');
   showVertical(mx,cr);
   showHorizontal(my,cr);
+  showSpacing(ar,cr,siblings);
 
   if(mx&&my){
     dot.style.left=Math.round(mx.value)+'px';
