@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 
-['mobile.css','mobile-fix.css','mobile-touch-ui.css','event-sketchware.css','sketchware-logic.css','sketchware-logic-fix.css','alignment-guides.css','project-workspace.css','sketchware-size-dialog.css','sketchware-gravity-dialog.css','configuration-manager.css','sketchware-image-resource-dialog.css','dialogs-system.css'].forEach(function(href){
+['mobile.css','mobile-fix.css','mobile-touch-ui.css','event-sketchware.css','sketchware-logic.css','sketchware-logic-fix.css','alignment-guides.css','project-workspace.css','sketchware-size-dialog.css','sketchware-gravity-dialog.css','configuration-manager.css','sketchware-image-resource-dialog.css','dialogs-system.css','dialogs-editor-fix.css'].forEach(function(href){
   var link=document.createElement('link');
   link.rel='stylesheet';
   link.href=href;
