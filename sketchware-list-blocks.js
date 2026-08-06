@@ -20,6 +20,7 @@ window.newBlock=function(type){
   else if(type==='listGet')b.props={name:firstVariableName(),index:'0',saveVar:firstVariableName()};
   else if(type==='listSize')b.props={name:firstVariableName(),saveVar:firstVariableName()};
   else if(type==='listClear')b.props={name:firstVariableName()};
+  if(isList(type))b.__swCategory='list';
   return b;
 };
 
