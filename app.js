@@ -8,7 +8,7 @@
   document.head.appendChild(link);
 });
 
-var files=['core-1.js','core-2.js','core-3.js','logic-1.js','logic-2.js','logic-3.js','bootstrap.js','mobile.js','mobile-fix.js','mobile-drag-fix.js','mobile-drag-final.js','event-sketchware.js','event-runtime.js','sketchware-logic.js','sketchware-logic-fix.js'];
+var files=['core-1.js','core-2.js','core-3.js','logic-1.js','logic-2.js','logic-3.js','bootstrap.js','mobile.js','mobile-fix.js','mobile-drag-fix.js','mobile-drag-final.js','event-sketchware.js','event-runtime.js','sketchware-list-blocks.js','sketchware-logic.js','sketchware-list-ui.js','sketchware-logic-fix.js'];
 function loadNext(i){
   if(i>=files.length)return;
   var s=document.createElement('script');
