@@ -1,0 +1,35 @@
+/* Sketchware-like Event browser */
+#screen-event{position:relative;min-height:0}
+#screen-event.sk-event-home>.event-sidebar,
+#screen-event.sk-event-home>.logic-workspace,
+#screen-event.sk-event-home>.blocks-library{display:none!important}
+.sk-event-home-ui{display:none;position:absolute;inset:0;background:#08131d;overflow:hidden;z-index:20}
+#screen-event.sk-event-home>.sk-event-home-ui{display:grid;grid-template-columns:88px minmax(0,1fr)}
+.sk-event-rail{background:#091621;border-right:1px solid #213544;padding:18px 8px;display:flex;flex-direction:column;align-items:center;gap:24px;overflow-y:auto}
+.sk-event-cat{width:72px;min-height:64px;border:0;background:transparent;color:#cbd7e3;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:10px}
+.sk-event-cat .ico{font-size:22px;line-height:1}
+.sk-event-cat.active{background:#375478;color:white}.sk-event-cat:hover{background:#233b50}
+.sk-event-main{position:relative;min-width:0;overflow:auto;padding:18px 20px 90px}
+.sk-event-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sk-event-header h3{font-size:14px;margin:0}.sk-event-header small{display:block;color:#8495a6;margin-top:3px;font-size:10px}.sk-event-spacer{flex:1}
+.sk-event-current{display:flex;flex-direction:column;gap:9px;max-width:760px}
+.sk-event-card{border:1px solid #1f3443;background:#111f2b;border-radius:14px;min-height:62px;padding:10px 13px;color:#eef4fb;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;cursor:pointer;text-align:left}
+.sk-event-card:hover{background:#172a39;border-color:#32506a}.sk-event-card .ev-icon{font-size:22px;color:#c9d5e1}.sk-event-card b{font-size:12px}.sk-event-card small{display:block;color:#9caebe;font-size:9px;margin-top:3px}.sk-event-card .chev{font-size:18px;color:#b8c7d4}
+.sk-event-empty{border:1px dashed #2b4254;border-radius:14px;padding:26px;color:#8094a6;text-align:center;font-size:11px;max-width:760px}
+.sk-event-add{position:absolute;right:22px;bottom:22px;width:54px;height:54px;border:0;border-radius:17px;background:#07699b;color:#e6f6ff;font-size:28px;box-shadow:0 12px 28px rgba(0,0,0,.35);cursor:pointer}.sk-event-add:hover{background:#0b7db7}
+.sk-event-editor-back{height:32px;border:0;border-radius:9px;background:#233746;color:#dce9f3;padding:0 12px;cursor:pointer}
+
+.sk-add-events-modal{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:16px}.sk-add-events-modal.show{display:flex}
+.sk-add-events-dialog{width:min(640px,94vw);height:min(720px,88dvh);background:#0d1b26;border:1px solid #293f50;border-radius:22px;box-shadow:0 24px 80px rgba(0,0,0,.5);display:grid;grid-template-rows:58px 1fr 64px;overflow:hidden}
+.sk-add-events-top{display:flex;gap:4px;padding:8px 10px 0;background:#0b1822;border-bottom:1px solid #203440;overflow-x:auto}.sk-add-events-tab{min-width:76px;border:0;background:transparent;color:#a9bac8;border-radius:14px 14px 0 0;padding:7px;font-size:10px;cursor:pointer}.sk-add-events-tab .ico{display:block;font-size:19px;margin-bottom:4px}.sk-add-events-tab.active{background:#132634;color:#8dd0ff}
+.sk-add-events-body{overflow:auto;padding:12px 14px}.sk-add-event-row{min-height:62px;border-bottom:1px solid #20333e;display:grid;grid-template-columns:34px 1fr 30px;gap:10px;align-items:center;padding:7px 2px}.sk-add-event-row .ico{font-size:21px;color:#d2dde7}.sk-add-event-row b{font-size:11px}.sk-add-event-row small{display:block;color:#8ea1b0;font-size:9px;margin-top:3px}.sk-check{width:20px;height:20px;accent-color:#83c9f7}
+.sk-add-events-foot{border-top:1px solid #263947;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 16px}.sk-add-events-foot button{border:0;border-radius:999px;font-size:11px}.sk-cancel{background:#365077;color:#fff}.sk-confirm{background:#85c9f8;color:#082235;font-weight:800}
+.sk-event-note{font-size:9px;color:#728695;margin:10px 0 0;max-width:760px}
+
+@media(max-width:760px){
+ #screen-event.sk-event-home>.sk-event-home-ui{grid-template-columns:78px minmax(0,1fr)}
+ .sk-event-rail{padding:14px 5px;gap:18px}.sk-event-cat{width:66px;min-height:60px;font-size:9px}.sk-event-cat .ico{font-size:20px}
+ .sk-event-main{padding:14px 10px 82px}.sk-event-card{min-height:64px;border-radius:13px}.sk-event-add{right:14px;bottom:14px;width:52px;height:52px}
+ .sk-add-events-modal{align-items:flex-end;padding:0}.sk-add-events-dialog{width:100%;height:90dvh;border-radius:20px 20px 0 0}
+ .sk-add-events-top{padding-left:8px;padding-right:8px}.sk-add-events-tab{min-width:68px}.sk-add-events-body{padding:8px 12px}
+}
