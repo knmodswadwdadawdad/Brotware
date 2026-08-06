@@ -1,14 +1,14 @@
 (function(){
 'use strict';
 
-['mobile.css','mobile-fix.css','mobile-touch-ui.css','event-sketchware.css','sketchware-logic.css'].forEach(function(href){
+['mobile.css','mobile-fix.css','mobile-touch-ui.css','event-sketchware.css','sketchware-logic.css','sketchware-logic-fix.css'].forEach(function(href){
   var link=document.createElement('link');
   link.rel='stylesheet';
   link.href=href;
   document.head.appendChild(link);
 });
 
-var files=['core-1.js','core-2.js','core-3.js','logic-1.js','logic-2.js','logic-3.js','bootstrap.js','mobile.js','mobile-fix.js','mobile-drag-fix.js','mobile-drag-final.js','event-sketchware.js','event-runtime.js','sketchware-logic.js'];
+var files=['core-1.js','core-2.js','core-3.js','logic-1.js','logic-2.js','logic-3.js','bootstrap.js','mobile.js','mobile-fix.js','mobile-drag-fix.js','mobile-drag-final.js','event-sketchware.js','event-runtime.js','sketchware-logic.js','sketchware-logic-fix.js'];
 function loadNext(i){
   if(i>=files.length)return;
   var s=document.createElement('script');
