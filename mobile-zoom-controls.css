@@ -1,0 +1,15 @@
+/* Compact canvas zoom controls beside Play on mobile */
+.bw-mobile-zoom{display:none}
+@media(max-width:760px){
+  body.bw-mobile-v2 .bw-mobile-topbar{grid-template-columns:42px minmax(0,1fr) auto 42px 42px!important}
+  body.bw-mobile-v2 .bw-mobile-zoom{display:flex;align-items:center;height:36px;align-self:center;border:1px solid #29424f;border-radius:10px;background:#0e202b;overflow:hidden}
+  .bw-mobile-zoom button{width:29px!important;height:34px!important;min-width:29px!important;border-radius:0!important;background:transparent!important;color:#a9c7d8!important;font-size:17px!important;padding:0!important}
+  .bw-mobile-zoom button:active{background:#1c3544!important;color:#fff!important}
+  .bw-mobile-zoom-label{min-width:39px;height:34px;border:0;border-left:1px solid #233a47;border-right:1px solid #233a47;background:transparent;color:#8fcdf0;font-size:8px;font-weight:800;display:grid;place-items:center;padding:0 3px;white-space:nowrap}
+  body.bw-mobile-v2:not(.bw-mobile-view-active) .bw-mobile-zoom{display:none!important}
+  body.bw-mobile-v2:not(.bw-mobile-view-active) .bw-mobile-topbar{grid-template-columns:42px minmax(0,1fr) 42px 42px!important}
+}
+@media(max-width:350px){
+  body.bw-mobile-v2 .bw-mobile-topbar{grid-template-columns:38px minmax(0,1fr) auto 38px 38px!important;padding-left:3px;padding-right:3px;gap:2px}
+  .bw-mobile-zoom button{width:25px!important;min-width:25px!important}.bw-mobile-zoom-label{min-width:34px;font-size:7px}
+}
