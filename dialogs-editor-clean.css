@@ -1,0 +1,16 @@
+/* Dialog editor cleanup — use Brotware's main navigation instead of the legacy dialog toolbar. */
+.bw-dialog-editor-bar,
+.bw-dialog-editor-bar.show{
+  display:none!important;
+}
+
+/* The legacy toolbar no longer reserves vertical space. */
+body.bw-dialog-editor-active .designer-canvas{
+  padding-top:0!important;
+}
+
+/* Keep the dialog design surface using the full available editor area. */
+body.bw-dialog-editor-active .designer,
+body.bw-dialog-editor-active .view-pane{
+  min-height:0!important;
+}
