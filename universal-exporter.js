@@ -22,10 +22,13 @@ async function nativeFiles(record){
   if(cfg&&cfg.manifest)out[prefix(record,'manifest.webmanifest')]=bytes(JSON.stringify(cfg.manifest,null,2));out[prefix(record,'brotware.json')]=bytes(JSON.stringify(BrotwareProjectFormat.manifestForNative(record),null,2));return out;
 }
 function injectOverrideLink(html,filePath){if(/brotware-overrides\.css/i.test(html))return html;var href=BrotwareVFS.relative(filePath,'brotware-overrides.css');var tag='\n<link rel="stylesheet" href="'+href+'" data-brotware-overrides>\n';return /<\/head>/i.test(html)?html.replace(/<\/head>/i,tag+'</head>'):tag+html;}
+function externalOverrideCss(meta){
+  var out='';Object.keys(meta.overrides||{}).forEach(function(id){var item=meta.overrides[id]||{},styles=item.styles||{},selector=item.selector||(meta.bindings&&meta.bindings[id]);if(!selector||!Object.keys(styles).length)return;out+=selector+'{';Object.keys(styles).forEach(function(p){var v=styles[p];if(v!=null&&String(v).trim())out+=p+':'+String(v).replace(/[{}]/g,'')+' !important;';});out+='}\n';});return out;
+}
 async function externalFiles(record){
   var rec=await BrotwareVFS.getProject(record.id),src=rec.files||{},meta=BrotwareVFS.getMeta(record.id)||{},out={},hasOverrides=Object.keys(meta.overrides||{}).some(function(id){return Object.keys((meta.overrides[id]&&meta.overrides[id].styles)||{}).length;});
   Object.keys(src).forEach(function(path){var e=src[path],data=BrotwareVFS.bytes(e);if(hasOverrides&&/\.html?$/i.test(path)){var html=BrotwareVFS.text(e);data=bytes(injectOverrideLink(html,path));}out[prefix(record,path)]=data;});
-  if(hasOverrides){var css=window.BrotwareExternalPreview?BrotwareExternalPreview.overridesCss(meta):'';out[prefix(record,'brotware-overrides.css')]=bytes(css);}
+  if(hasOverrides)out[prefix(record,'brotware-overrides.css')]=bytes(externalOverrideCss(meta));
   out[prefix(record,'brotware.json')]=bytes(JSON.stringify(BrotwareProjectFormat.manifestForExternal(record,meta,src),null,2));return out;
 }
 async function exportProject(id){
@@ -40,6 +43,6 @@ function hook(){
 }
 function install(){hook();setTimeout(hook,700);}
 
-window.BrotwareUniversalExporter={exportProject:exportProject,nativeFiles:nativeFiles,externalFiles:externalFiles};
+window.BrotwareUniversalExporter={exportProject:exportProject,nativeFiles:nativeFiles,externalFiles:externalFiles,externalOverrideCss:externalOverrideCss};
 setTimeout(install,0);setTimeout(install,900);
 })();
