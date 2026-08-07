@@ -1,13 +1,12 @@
 (function(){
 'use strict';
 
-var oldEdit=null,oldProps=null,oldPreviewAction=null,installed=false,badge=null,observer=null,resize=null;
+var oldEdit=null,oldProps=null,oldPreviewAction=null,badge=null,observer=null,resize=null;
 
 function active(){return !!(window.state&&state.dialogEditorActive&&state.activeDialogId&&window.BrotwareDialogs);}
 function dialog(){return active()&&BrotwareDialogs.get?BrotwareDialogs.get(state.activeDialogId):null;}
 function pane(){return document.getElementById('viewPane');}
 function rootEl(){return document.getElementById('rootLayout');}
-function num(v){var n=parseFloat(v);return isFinite(n)?n:0;}
 function clean(v){return String(v==null?'':v).trim();}
 function cssSafe(v,fallback){v=clean(v);return v||fallback||'';}
 function normalizeKeyword(v,axis){
@@ -46,7 +45,7 @@ function ensureBadge(){
 }
 function updateBadge(){
   if(!active())return;var r=rootEl(),b=ensureBadge();if(!r||!b)return;
-  var rect=r.getBoundingClientRect();b.textContent=Math.round(rect.width)+' × '+Math.round(rect.height);
+  b.textContent=Math.round(r.offsetWidth)+' × '+Math.round(r.offsetHeight);
 }
 function removeHandlesFromClone(html){
   var h=document.createElement('div');h.innerHTML=html||'';h.querySelectorAll('.bw-dialog-free-handle').forEach(function(n){n.remove();});return h.innerHTML;
@@ -73,7 +72,7 @@ function applyFreeSize(){
 }
 function startResize(e){
   if(!active())return;e.preventDefault();e.stopPropagation();var r=rootEl(),d=dialog();if(!r||!d)return;
-  var dir=e.currentTarget.dataset.bwDialogResize,rect=r.getBoundingClientRect(),p=pane();
+  var dir=e.currentTarget.dataset.bwDialogResize,rect=r.getBoundingClientRect();
   resize={dir:dir,sx:e.clientX,sy:e.clientY,w:rect.width,h:rect.height,scaleX:rect.width/(r.offsetWidth||rect.width||1),scaleY:rect.height/(r.offsetHeight||rect.height||1),d:d};
   window.addEventListener('pointermove',moveResize,true);window.addEventListener('pointerup',endResize,true);window.addEventListener('pointercancel',endResize,true);
   document.body.classList.add('bw-dialog-resizing');
@@ -90,8 +89,8 @@ function moveResize(e){
 function endResize(){
   if(!resize)return;var r=rootEl(),d=resize.d,dir=resize.dir;window.removeEventListener('pointermove',moveResize,true);window.removeEventListener('pointerup',endResize,true);window.removeEventListener('pointercancel',endResize,true);document.body.classList.remove('bw-dialog-resizing');
   if(r&&d&&d.config){
-    if(dir.indexOf('e')>=0)d.config.width=Math.round(r.getBoundingClientRect().width/(parseFloat(getComputedStyle(r).zoom)||1))+'px';
-    if(dir.indexOf('s')>=0)d.config.height=Math.round(r.getBoundingClientRect().height/(parseFloat(getComputedStyle(r).zoom)||1))+'px';
+    if(dir.indexOf('e')>=0)d.config.width=Math.round(parseFloat(r.style.width)||r.offsetWidth)+'px';
+    if(dir.indexOf('s')>=0)d.config.height=Math.round(parseFloat(r.style.height)||r.offsetHeight)+'px';
     /* A visual resize means the user wants the designed size to win in Preview too. */
     d.config.maxWidth='none';d.config.maxHeight='none';d.updatedAt=Date.now();
     if(typeof autoSave==='function')autoSave();
@@ -127,9 +126,9 @@ function patchApi(){
   if(!oldPreviewAction){oldPreviewAction=BrotwareDialogs.previewAction;BrotwareDialogs.previewAction=function(type,id){
     var d=BrotwareDialogs.get&&BrotwareDialogs.get(id);if(!d||type==='closeDialog')return oldPreviewAction?oldPreviewAction.apply(this,arguments):Promise.resolve();
     var old=document.getElementById('bwDialogLivePreview');if(old)old.remove();if(type==='toggleDialog'&&old)return Promise.resolve();normalizeConfig(d);
-    var o=document.createElement('div');o.id='bwDialogLivePreview';o.className='bw-dialog-live-preview';var c=d.config;o.style.background=typeof hexToRgba==='function'?hexToRgba(c.overlayColor,c.overlayOpacity):'rgba(0,0,0,.55)';
+    var o=document.createElement('div');o.id='bwDialogLivePreview';o.className='bw-dialog-live-preview';var c=d.config;o.style.background='rgba(0,0,0,'+Math.max(0,Math.min(1,Number(c.overlayOpacity)||0))+')';
     var w=cssSafe(c.width,'320px'),h=cssSafe(c.height,'auto'),mw=cssSafe(c.maxWidth,'90vw'),mh=cssSafe(c.maxHeight,'80vh');
-    o.innerHTML='<div class="bw-dialog-live-card" style="position:relative;background:'+c.background+';border-radius:'+c.borderRadius+';padding:'+c.padding+';width:'+w+';height:'+h+';max-width:'+mw+';max-height:'+mh+';box-shadow:'+c.shadow+'"><div style="position:relative;width:100%;min-height:'+Math.max(0,d.designHeight||0)+'px">'+(typeof cleanDialogContent==='function'?cleanDialogContent(d):d.content||'')+'</div></div>';
+    o.innerHTML='<div class="bw-dialog-live-card" style="position:relative;background:'+c.background+';border-radius:'+c.borderRadius+';padding:'+c.padding+';width:'+w+';height:'+h+';max-width:'+mw+';max-height:'+mh+';box-shadow:'+c.shadow+'"><div style="position:relative;width:100%;min-height:'+Math.max(0,d.designHeight||0)+'px">'+(d.content||'')+'</div></div>';
     document.body.appendChild(o);o.onclick=function(e){if(e.target===o)o.remove();};return Promise.resolve();
   };}
   return true;
@@ -139,7 +138,7 @@ function install(){
   if(!patchApi()){setTimeout(install,100);return;}patchSerialize();installSaveHook();
   document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-dialog-action="properties"],#bwDialogEditorProps,[data-vm-edit-dialog]'))setTimeout(function(){addPresets();installSaveHook();},40);},true);
   window.addEventListener('resize',function(){if(active()){clearTimeout(window.__bwDialogFreeResize);window.__bwDialogFreeResize=setTimeout(applyFreeSize,80);}});
-  if(active())applyFreeSize();installed=true;
+  if(active())applyFreeSize();
 }
 
 window.BrotwareDialogFreeSize={apply:applyFreeSize,refresh:applyFreeSize};
