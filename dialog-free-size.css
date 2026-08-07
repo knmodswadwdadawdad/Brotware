@@ -1,0 +1,102 @@
+/* Dialog free-size editor — keep the configured size instead of clamping the design to a small card. */
+body.bw-dialog-editor-active .view-pane.bw-dialog-design-pane{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  overflow:auto!important;
+  padding:28px!important;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable both-edges;
+}
+body.bw-dialog-editor-active .root-layout.bw-dialog-design-root{
+  position:relative!important;
+  left:auto!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  flex:0 0 auto!important;
+  margin:auto!important;
+  max-width:none!important;
+  max-height:none!important;
+  min-width:80px!important;
+  min-height:80px!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+.bw-dialog-free-handle{
+  position:absolute;
+  z-index:10050;
+  display:block;
+  background:#0d99ff;
+  border:2px solid #fff;
+  box-shadow:0 2px 10px rgba(0,0,0,.38);
+  touch-action:none;
+  user-select:none;
+}
+.bw-dialog-free-handle[data-bw-dialog-resize="e"]{
+  width:12px;height:42px;right:-8px;top:50%;transform:translateY(-50%);border-radius:8px;cursor:ew-resize;
+}
+.bw-dialog-free-handle[data-bw-dialog-resize="s"]{
+  width:42px;height:12px;left:50%;bottom:-8px;transform:translateX(-50%);border-radius:8px;cursor:ns-resize;
+}
+.bw-dialog-free-handle[data-bw-dialog-resize="se"]{
+  width:18px;height:18px;right:-10px;bottom:-10px;border-radius:6px;cursor:nwse-resize;
+}
+.bw-dialog-size-badge{
+  position:sticky;
+  left:10px;
+  top:10px;
+  z-index:10060;
+  align-self:flex-start;
+  flex:0 0 auto;
+  margin-right:-106px;
+  width:96px;
+  min-height:28px;
+  padding:0 8px;
+  border:1px solid rgba(137,207,255,.42);
+  border-radius:9px;
+  background:rgba(8,25,37,.9);
+  color:#dff3ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:800;
+  pointer-events:none;
+  backdrop-filter:blur(8px);
+}
+.bw-dialog-size-presets{
+  grid-column:1/-1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:2px 0 9px;
+}
+.bw-dialog-size-presets button{
+  min-height:34px;
+  border:1px solid #354a58;
+  border-radius:9px;
+  background:#172833;
+  color:#dceaf3;
+  padding:0 11px;
+  font-size:10px;
+  cursor:pointer;
+}
+.bw-dialog-size-presets button:hover{background:#223c4c;border-color:#5aaee0}
+.bw-dialog-size-help{
+  grid-column:1/-1;
+  margin:-1px 0 5px;
+  color:#91a4b2;
+  font-size:9px;
+  line-height:1.45;
+}
+.bw-dialog-live-preview{overflow:auto!important;align-items:flex-start!important;justify-content:flex-start!important;padding:24px!important}
+.bw-dialog-live-preview .bw-dialog-live-card{flex:0 0 auto;margin:auto!important}
+@media(max-width:760px){
+  body.bw-dialog-editor-active .view-pane.bw-dialog-design-pane{padding:16px!important}
+  .bw-dialog-free-handle[data-bw-dialog-resize="e"]{width:16px;right:-10px;height:52px}
+  .bw-dialog-free-handle[data-bw-dialog-resize="s"]{height:16px;bottom:-10px;width:52px}
+  .bw-dialog-free-handle[data-bw-dialog-resize="se"]{width:22px;height:22px;right:-12px;bottom:-12px}
+  .bw-dialog-size-badge{font-size:9px;min-height:26px;width:88px;margin-right:-98px}
+}
