@@ -9,12 +9,16 @@ function selected(){return typeof selectedNode==='function'?selectedNode():null;
 function n(v){var x=parseFloat(v);return isNaN(x)?0:x;}
 function round(v){return Math.round(v*100)/100;}
 function cssValue(v,unit){var x=n(v);return round(x)+(unit||'px');}
+function parentInset(el,side){
+  var p=el&&el.parentElement;if(!p)return'0px';
+  var key='bwPadding'+side;
+  return String(p.dataset&&p.dataset[key]||'0px');
+}
 function isMatchParent(el,axis){
   if(!el)return false;
   var key=axis==='width'?'widthMode':'heightMode';
   var flag=axis==='width'?'bwMarginMatchWidth':'bwMarginMatchHeight';
   var saved=el.dataset[key];
-  /* Explicit user choice always wins over any legacy helper flag. */
   if(saved==='match_parent')return true;
   if(saved==='wrap_content'||saved==='custom')return false;
   if(el.dataset[flag]==='1')return true;
@@ -31,7 +35,6 @@ function refresh(el){
   },40);
 }
 
-/* Undo the old right/bottom position compensation once. */
 function undoLegacyCompensation(el){
   if(!el)return;
   var oldRight=n(el.dataset.bwMarginRightComp||0),oldBottom=n(el.dataset.bwMarginBottomComp||0);
@@ -41,20 +44,20 @@ function undoLegacyCompensation(el){
   delete el.dataset.bwMarginBottomComp;
 }
 
-/* Native absolute-positioned fill. Using left+right (or top+bottom) with auto
-   size makes CSS margins behave exactly like visual insets and stays responsive. */
+/* match_parent fills the parent's inner visual area. Parent padding becomes the
+   absolute left/right/top/bottom inset; the child's own margin remains additive. */
 function applyMatchParentWidth(el){
   el.dataset.widthMode='match_parent';
   el.dataset.bwMarginMatchWidth='1';
-  el.style.left='0px';
-  el.style.right='0px';
+  el.style.left=parentInset(el,'Left');
+  el.style.right=parentInset(el,'Right');
   el.style.width='auto';
 }
 function applyMatchParentHeight(el){
   el.dataset.heightMode='match_parent';
   el.dataset.bwMarginMatchHeight='1';
-  el.style.top='0px';
-  el.style.bottom='0px';
+  el.style.top=parentInset(el,'Top');
+  el.style.bottom=parentInset(el,'Bottom');
   el.style.height='auto';
 }
 function clearWidthAnchor(el){
@@ -139,7 +142,6 @@ function install(){
     e.preventDefault();e.stopImmediatePropagation();saveMargin();
   },true);
 
-  /* Reapply only if the mode selected after Size dialog is truly match_parent. */
   document.addEventListener('click',function(e){
     var b=e.target&&e.target.closest?e.target.closest('#bwSizeSelect'):null;if(!b)return;
     var el=selected();setTimeout(function(){if(el){reapplyMatchParent(el);refresh(el);}},35);
@@ -148,7 +150,6 @@ function install(){
   var back=document.getElementById('bwNumericDialog');
   if(back)new MutationObserver(function(){if(!back.classList.contains('show'))session=null;}).observe(back,{attributes:true,attributeFilter:['class']});
 
-  /* Existing saved projects are normalized after load/undo without format migration. */
   if(window.loadPage&&!window.loadPage.__bwMarginAnchor){
     var lp=window.loadPage;var wrapped=function(){var out=lp.apply(this,arguments);setTimeout(normalizeAll,0);return out;};wrapped.__bwMarginAnchor=true;window.loadPage=wrapped;
   }
@@ -159,5 +160,5 @@ function install(){
 }
 
 setTimeout(install,0);setTimeout(install,300);setTimeout(install,900);
-window.BrotwareAbsoluteMarginFix={apply:function(){beginMarginDialog();},reapply:reapplyMatchParent,applyVisualMargins:applyVisualMargins,normalize:normalizeAll};
+window.BrotwareAbsoluteMarginFix={apply:function(){beginMarginDialog();},reapply:reapplyMatchParent,applyVisualMargins:applyVisualMargins,normalize:normalizeAll,parentInset:parentInset};
 })();
