@@ -74,7 +74,10 @@ function createDialog(){
 function installEntryPoints(){
   var mobileTitle=document.getElementById('bwMobileTitleBtn');if(mobileTitle){mobileTitle.onclick=function(e){e.preventDefault();e.stopPropagation();open('view');};}
   var pageBtn=document.getElementById('pageSelectorBtn');if(pageBtn){pageBtn.onclick=function(e){e.preventDefault();e.stopPropagation();open('view');};}
-  document.addEventListener('click',function(e){var pagesAction=e.target.closest&&e.target.closest('[data-bw-mobile-action="pages"]');if(pagesAction){e.preventDefault();e.stopImmediatePropagation();open('view');}},true);
+  document.addEventListener('click',function(e){
+    var pagesAction=e.target.closest&&e.target.closest('[data-bw-mobile-action="pages"]');if(pagesAction){e.preventDefault();e.stopImmediatePropagation();open('view');return;}
+    var dialogsAction=e.target.closest&&e.target.closest('[data-bw-mobile-action="dialogs"]');if(dialogsAction){e.preventDefault();e.stopImmediatePropagation();open('custom');}
+  },true);
 }
 function install(){build();installEntryPoints();}
 
