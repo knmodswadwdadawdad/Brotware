@@ -3,14 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Brotware Import Fixture</title>
+  <title>Brot Shop Import Fixture</title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  <header><img src="./assets/logo.svg" alt="Logo"><strong>Loja teste</strong></header>
+  <header class="topbar">
+    <img src="./assets/logo.svg" alt="Brot Shop">
+    <strong>BROT SHOP</strong>
+    <button id="cartButton" class="ghost">Carrinho</button>
+  </header>
   <main>
-    <button id="static-buy">Comprar estático</button>
-    <div id="dynamic-root"></div>
+    <section class="hero" id="heroSection">
+      <h1>Construa mais. Comece daqui.</h1>
+      <p>Templates e sistemas prontos para seus projetos.</p>
+      <input id="searchInput" placeholder="Buscar produto">
+    </section>
+    <section>
+      <h2>Produtos em destaque</h2>
+      <div class="filters"><button data-filter="all">Todos</button><button data-filter="templates">Templates</button><button data-filter="components">Componentes</button></div>
+      <div id="products" class="product-grid"></div>
+    </section>
   </main>
   <script src="./js/app.js"></script>
 </body>
