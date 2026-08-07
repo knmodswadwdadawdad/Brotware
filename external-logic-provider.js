@@ -8,7 +8,6 @@ function currentRef(){var p=provider();return p?p.currentRef():null;}
 function allRefs(){var p=provider();return p?p.logicViews().map(function(x){return x.ref;}):[];}
 function label(ref){var p=provider();if(!p)return String(ref||'');var r=p.logicViews().find(function(x){return x.ref===ref;});return r?r.label+' · '+r.subtitle:String(ref||'');}
 function installGlobals(){
-  if(installed)return;installed=true;
   baseAll=window.allNodeIds;baseFirst=window.firstNodeId;baseFirstInput=window.firstInputId;baseRefreshNodes=window.refreshEventNodeSelect;baseRefreshTypes=window.refreshEventTypes;baseTargets=window.targetOptions;baseRenderLogic=window.renderLogic;baseAutoSave=window.autoSave;
   window.allNodeIds=function(){var p=provider();return p?allRefs():baseAll.apply(this,arguments);};
   window.firstNodeId=function(){var p=provider();return p?p.firstRef():baseFirst.apply(this,arguments);};
@@ -31,7 +30,7 @@ function refreshTypes(){
 function selectionChanged(e){var p=provider();if(!p)return;var x=e.detail||{},name=x.id||x.tag||'View',labelEl=document.getElementById('selectedTargetName');if(labelEl)labelEl.textContent=name;refreshNodes();}
 function snapshotChanged(){if(provider())refreshNodes();}
 function hookControls(){var sel=document.getElementById('eventNodeSelect');if(sel&&!sel.dataset.bwExternalLogic){sel.dataset.bwExternalLogic='1';sel.addEventListener('change',function(){if(provider())refreshTypes();});}}
-function install(){if(!window.allNodeIds||!window.refreshEventNodeSelect||!window.targetOptions||!window.renderLogic||!window.BrotwareExternalDomProvider){setTimeout(install,100);return;}installGlobals();hookControls();window.addEventListener('brotware:external-selection',selectionChanged);window.addEventListener('brotware:external-snapshot',snapshotChanged);window.addEventListener('brotware:external-open',function(){setTimeout(function(){refreshNodes();if(window.BrotwareExternalHybrid)BrotwareExternalHybrid.syncLogic();},80);});setTimeout(hookControls,600);}
+function install(){if(installed){hookControls();return;}if(!window.allNodeIds||!window.refreshEventNodeSelect||!window.targetOptions||!window.renderLogic||!window.BrotwareExternalDomProvider){setTimeout(install,100);return;}installed=true;installGlobals();hookControls();window.addEventListener('brotware:external-selection',selectionChanged);window.addEventListener('brotware:external-snapshot',snapshotChanged);window.addEventListener('brotware:external-open',function(){setTimeout(function(){refreshNodes();if(window.BrotwareExternalHybrid)BrotwareExternalHybrid.syncLogic();},80);});setTimeout(hookControls,600);}
 window.BrotwareExternalLogicProvider={refresh:refreshNodes,sync:function(){if(window.BrotwareExternalHybrid)BrotwareExternalHybrid.syncLogic();},labelFor:label};
 setTimeout(install,0);setTimeout(install,700);
 })();
