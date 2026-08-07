@@ -97,6 +97,17 @@ function normalizeCustom(raw,prop){
   return null;
 }
 
+function clearMatchParentAnchor(el,prop){
+  if(!el)return;
+  if(prop==='width'){
+    el.style.removeProperty('right');
+    delete el.dataset.bwMarginMatchWidth;
+  }else{
+    el.style.removeProperty('bottom');
+    delete el.dataset.bwMarginMatchHeight;
+  }
+}
+
 function apply(){
   var el=selected();if(!el){close();return;}
   var checked=backdrop.querySelector('input[name="'+modeName()+'"]:checked');
@@ -106,10 +117,19 @@ function apply(){
 
   if(mode==='match_parent'){
     el.dataset[dataKey]='match_parent';
-    if(activeProp==='width')el.style.left='0px';
-    else el.style.top='0px';
-    el.style[activeProp]='100%';
+    if(activeProp==='width'){
+      el.style.left='0px';
+      el.style.width='100%';
+    }else{
+      el.style.top='0px';
+      el.style.height='100%';
+    }
+    /* Margin module converts match_parent to left+right/top+bottom anchors. */
+    if(window.BrotwareAbsoluteMarginFix&&BrotwareAbsoluteMarginFix.reapply){
+      BrotwareAbsoluteMarginFix.reapply(el);
+    }
   }else if(mode==='wrap_content'){
+    clearMatchParentAnchor(el,activeProp);
     el.dataset[dataKey]='wrap_content';
     el.style[activeProp]='max-content';
     var t=typeof contentTarget==='function'?contentTarget(el):null;
@@ -125,6 +145,7 @@ function apply(){
       if(typeof toast==='function')toast('Digite um '+activeProp+' válido');
       return;
     }
+    clearMatchParentAnchor(el,activeProp);
     el.dataset[dataKey]='custom';
     el.style[activeProp]=value;
   }
