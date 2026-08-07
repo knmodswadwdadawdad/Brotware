@@ -1,0 +1,41 @@
+/* Brotware Mobile Properties v2 — Sketchware-inspired, mobile-first */
+.bw-mprops-screen,.bw-mprops-editor-backdrop{display:none}
+@media(max-width:760px){
+  body.bw-mobile-properties-open .bw-mobile-topbar,
+  body.bw-mobile-properties-open .bw-mobile-bottomnav,
+  body.bw-mobile-properties-open .bw-mobile-selection{display:none!important}
+
+  .bw-mprops-screen{position:fixed;inset:0;z-index:16800;background:#09141d;color:#edf3f7;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+  .bw-mprops-screen.show{display:grid;grid-template-rows:calc(57px + env(safe-area-inset-top)) minmax(0,1fr)}
+  .bw-mprops-head{padding:env(safe-area-inset-top) 8px 0;height:calc(57px + env(safe-area-inset-top));display:grid;grid-template-columns:40px minmax(0,1fr) 40px;align-items:end;border-bottom:1px solid #34404f;background:#111827}
+  .bw-mprops-head button{height:48px;border:0;background:transparent;color:#d7e0e8;font-size:22px;border-radius:10px;touch-action:manipulation}
+  .bw-mprops-title{height:48px;display:flex;min-width:0;flex-direction:column;justify-content:center;gap:1px}
+  .bw-mprops-title strong{font-size:18px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bw-mprops-title small{font-size:10px;color:#b0bdc7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bw-mprops-body{min-height:0;overflow:auto;overscroll-behavior:contain;padding:6px 0 calc(22px + env(safe-area-inset-bottom));scrollbar-width:none;background:#09141d}
+  .bw-mprops-body::-webkit-scrollbar{display:none}
+
+  .bw-mprops-section{border-bottom:1px solid #182630}
+  .bw-mprops-section-head{width:100%;min-height:34px;border:0;background:#252a2e;color:#f0f4f6;padding:0 10px;display:flex;align-items:center;gap:8px;text-align:left;font-size:10px;touch-action:manipulation}
+  .bw-mprops-section-head .chev{margin-left:auto;color:#9ea9b1;font-size:14px;transition:transform .14s}.bw-mprops-section.collapsed .bw-mprops-section-head .chev{transform:rotate(-90deg)}
+  .bw-mprops-section.collapsed .bw-mprops-section-content{display:none}
+  .bw-mprops-row{width:100%;min-height:58px;border:0;border-bottom:1px solid rgba(255,255,255,.025);background:#09141d;color:#edf3f7;display:grid;grid-template-columns:25px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 16px 8px 6px;text-align:left;touch-action:manipulation}
+  .bw-mprops-row:active{background:#10212c}.bw-mprops-row.disabled{opacity:.45;pointer-events:none}
+  .bw-mprops-icon{width:25px;text-align:center;color:#d6e3eb;font-size:18px}
+  .bw-mprops-meta{min-width:0;display:flex;flex-direction:column;gap:2px}.bw-mprops-meta b{font-size:14px;font-weight:450;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bw-mprops-meta small{font-size:11px;color:#b2c0c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bw-mprops-preview{width:48px;height:42px;border-radius:2px;display:grid;place-items:center;overflow:hidden;background:#fff;color:#26323a;border:1px solid #394854}.bw-mprops-preview img{width:100%;height:100%;object-fit:cover}.bw-mprops-swatch{width:38px;height:38px;border:1px solid #53606a;background:#fff}
+  .bw-mprops-advanced-note{padding:10px 14px 12px;color:#758894;font-size:9px;line-height:1.45}
+
+  .bw-mprops-editor-backdrop{position:fixed;inset:0;z-index:17650;background:rgba(0,0,0,.58);align-items:flex-end;justify-content:center}
+  .bw-mprops-editor-backdrop.show{display:flex}
+  .bw-mprops-editor{width:100%;max-height:min(70dvh,620px);border:1px solid #364856;border-bottom:0;border-radius:20px 20px 0 0;background:#17232d;color:#edf4f8;box-shadow:0 -18px 55px rgba(0,0,0,.48);padding:17px 14px calc(14px + env(safe-area-inset-bottom));animation:bwMPropsUp .17s ease-out}
+  .bw-mprops-editor:before{content:"";display:block;width:42px;height:4px;border-radius:4px;background:#465d69;margin:-9px auto 12px}
+  .bw-mprops-editor h3{margin:0 0 3px;font-size:17px;font-weight:550}.bw-mprops-editor p{margin:0 0 13px;color:#91a3af;font-size:10px}
+  .bw-mprops-field{display:grid;gap:5px;margin-bottom:12px}.bw-mprops-field span{font-size:10px;color:#a5b4be}.bw-mprops-field input,.bw-mprops-field textarea,.bw-mprops-field select{width:100%;border:1px solid #435563;border-radius:9px;background:#0e1922;color:#eff5f8;outline:0;padding:0 10px;font-size:14px}.bw-mprops-field input,.bw-mprops-field select{height:44px}.bw-mprops-field textarea{min-height:110px;padding:10px;resize:vertical;font-family:Consolas,monospace;font-size:12px}
+  .bw-mprops-editor-actions{display:flex;justify-content:flex-end;gap:24px;padding:5px 4px 0}.bw-mprops-editor-actions button{border:0;background:transparent;color:#85d0ff;font-size:13px;font-weight:700;padding:9px 0}
+  .bw-mprops-choice-list{display:grid;gap:4px;max-height:46dvh;overflow:auto;margin:8px 0}.bw-mprops-choice{min-height:48px;border:0;border-radius:9px;background:#111d26;color:#eaf2f6;padding:0 12px;display:flex;align-items:center;gap:10px;text-align:left}.bw-mprops-choice.active{background:#1d3f54;color:#9edaff}.bw-mprops-choice .radio{width:18px;height:18px;border:2px solid currentColor;border-radius:50%;display:grid;place-items:center}.bw-mprops-choice.active .radio:after{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+
+  /* Existing specialized selectors must appear over Edit Properties. */
+  .bw-size-backdrop,.bw-gravity-backdrop,.bw-image-backdrop{z-index:17700!important}
+}
+@keyframes bwMPropsUp{from{transform:translateY(24px);opacity:.55}to{transform:none;opacity:1}}
