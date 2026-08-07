@@ -1,6 +1,7 @@
 (function(){
 'use strict';
 
+var exportListenerBound=false;
 function h(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];});}
 function bytes(v){return BrotwareVFS.toUint8(v);}
 function download(name,blob){var a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},1500);}
@@ -39,7 +40,7 @@ function hook(){
   if(window.BrotwareProjects){BrotwareProjects.exportZip=function(){return exportProject(BrotwareProjectFormat.activeId());};}
   window.exportAll=function(){return exportProject(BrotwareProjectFormat.activeId());};window.downloadProject=window.exportAll;
   var dl=document.getElementById('downloadProjectBtn');if(dl)dl.onclick=function(){exportProject(BrotwareProjectFormat.activeId());};var all=document.getElementById('exportAllBtn');if(all)all.onclick=function(){exportProject(BrotwareProjectFormat.activeId());};
-  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-project-action="export"]');if(!a)return;var card=a.closest('.bw-project-card');if(!card)return;e.preventDefault();e.stopImmediatePropagation();exportProject(card.dataset.projectId);},true);
+  if(!exportListenerBound){exportListenerBound=true;document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-project-action="export"]');if(!a)return;var card=a.closest('.bw-project-card');if(!card)return;e.preventDefault();e.stopImmediatePropagation();exportProject(card.dataset.projectId);},true);}
 }
 function install(){hook();setTimeout(hook,700);}
 
