@@ -1,0 +1,13 @@
+/* Brotware Hybrid Layers — drag/reorder/reparent */
+.bw-ext-layer-row{position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none;transition:background .12s ease,border-color .12s ease,transform .12s ease}
+.bw-ext-layer-row:before{content:'⠿';flex:0 0 17px;margin-right:3px;color:#698294;font-size:15px;line-height:1;opacity:.62;cursor:grab}
+.bw-ext-layer-row.bw-layer-drag-source{opacity:.38}
+.bw-ext-layer-row.bw-layer-drop-before:after,.bw-ext-layer-row.bw-layer-drop-after:after{content:'';position:absolute;left:calc(12px + var(--ext-depth,0)*15px);right:9px;height:2px;border-radius:99px;background:#58c7ff;box-shadow:0 0 0 1px rgba(88,199,255,.16),0 0 10px rgba(88,199,255,.36);pointer-events:none}
+.bw-ext-layer-row.bw-layer-drop-before:after{top:-2px}.bw-ext-layer-row.bw-layer-drop-after:after{bottom:-2px}
+.bw-ext-layer-row.bw-layer-drop-inside{background:#17374a!important;border-color:#58c7ff!important;box-shadow:inset 0 0 0 1px rgba(88,199,255,.2)}
+.bw-ext-layer-row.bw-layer-drop-invalid{background:rgba(239,68,68,.13)!important;border-color:rgba(239,68,68,.55)!important}
+.bw-layer-drag-ghost{position:fixed;z-index:72000;pointer-events:none;max-width:min(330px,72vw);height:38px;display:flex;align-items:center;gap:8px;padding:0 13px;border:1px solid #4cbdf9;border-radius:10px;background:#142936;color:#edf8ff;box-shadow:0 14px 40px rgba(0,0,0,.4);font:600 11px/1 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:translate(12px,12px);opacity:.96}
+.bw-layer-drag-ghost span{color:#83d2ff;font-size:9px;text-transform:uppercase}
+.bw-layer-drop-hint{position:fixed;z-index:72001;pointer-events:none;padding:6px 9px;border-radius:8px;background:#0c1c26;border:1px solid #365767;color:#bfeaff;font:600 9px/1 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.32);transform:translate(12px,56px)}
+.bw-ext-layers header small.bw-layer-help{display:block;color:#7f9aaa;margin-top:2px}
+@media(max-width:760px){.bw-ext-layer-row{min-height:50px}.bw-ext-layer-row:before{font-size:18px;flex-basis:21px}.bw-layer-drag-ghost{height:42px;font-size:12px}.bw-layer-drop-hint{font-size:10px}}
