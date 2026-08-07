@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 
-var input=null,busy=null;
+var input=null,busy=null,installed=false;
 function notice(msg,bad){if(typeof toast==='function')toast(msg);console[bad?'error':'log']('[Import]',msg);}
 function baseName(name){return String(name||'Imported Project').replace(/\.(?:zip|json|html?|brotware)$/i,'').replace(/[-_]+/g,' ').trim()||'Imported Project';}
 function decodeJson(bytes){return JSON.parse(new TextDecoder('utf-8').decode(bytes));}
@@ -23,7 +23,7 @@ async function importZip(file){
   }
   var root=commonRootForZip(names),files=fileEntriesFromZip(raw,root),preferred=manifest&&manifest.entry?BrotwareVFS.normalizePath(String(manifest.entry).replace(new RegExp('^'+root.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'/?'),'') ):null;
   var info=frameworkInfo(files),entry=chooseEntry(files,preferred||info.entry);
-  if(!entry&& !info.framework)throw new Error('ZIP sem brotware.json e sem arquivo HTML de entrada.');
+  if(!entry&&!info.framework)throw new Error('ZIP sem brotware.json e sem arquivo HTML de entrada.');
   var mode=manifest&&(manifest.mode==='hybrid'||manifest.mode==='static')?manifest.mode:(info.framework&&!entry?'framework':'static');
   var opts={projectName:manifest&&manifest.projectName||baseName(root||file.name),files:files,entry:entry||'index.html',mode:mode,framework:manifest&&manifest.framework||info.framework,requiresBuild:manifest?!!manifest.requiresBuild:info.requiresBuild,bindings:manifest&&manifest.bindings||{},overrides:manifest&&manifest.overrides||{},previewStorage:manifest&&manifest.previewStorage||{},config:manifest&&manifest.config||null,source:'zip'};
   var rec=await BrotwareProjectFormat.createExternal(opts);return{record:rec,kind:'external',message:manifest?'Projeto web Brotware v5 restaurado.':'Site HTML externo importado com '+Object.keys(files).length+' arquivos.'};
@@ -54,7 +54,7 @@ function enhanceHome(){
   decorateCards();
 }
 function decorateCards(){document.querySelectorAll('.bw-project-card').forEach(function(card){var id=card.dataset.projectId,meta=BrotwareVFS.getMeta(id);if(!meta)return;var badge=card.querySelector('.bw-project-badge');if(badge)badge.textContent=meta.mode==='hybrid'?'Hybrid':meta.mode==='framework'?'Framework':'HTML';var folder=card.querySelector('.bw-project-folder');if(folder&&meta.entry)folder.textContent=meta.entry;});}
-function install(){build();enhanceHome();var home=document.getElementById('bwProjectHome');if(home)new MutationObserver(function(){setTimeout(enhanceHome,0);}).observe(home,{childList:true,subtree:true});}
+function install(){if(installed){enhanceHome();return;}installed=true;build();enhanceHome();var home=document.getElementById('bwProjectHome');if(home&&home.dataset.bwUniversalObserver!=='1'){home.dataset.bwUniversalObserver='1';new MutationObserver(function(){setTimeout(enhanceHome,0);}).observe(home,{childList:true,subtree:true});}}
 
 window.BrotwareUniversalImporter={open:openPicker,importFile:importFile,importZip:importZip,importHtml:importHtmlFile,importJson:importJsonFile};
 setTimeout(install,0);setTimeout(install,500);setTimeout(install,1400);
