@@ -14,9 +14,6 @@ function patchImports(){
 }
 function cleanupDeleted(id){setTimeout(function(){if(!BrotwareProjectFormat.findRecord(id)){BrotwareProjectFormat.deleteProjectData(id);}},80);}
 function installDeleteCleanup(){document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-project-action="delete"]');if(!a)return;var card=a.closest('.bw-project-card');if(card)cleanupDeleted(card.dataset.projectId);},false);}
-function patchPublicOpen(){
-  if(!window.BrotwareProjects||BrotwareProjects.__bwV5Open)return;var old=BrotwareProjects.open;BrotwareProjects.open=function(id){var r=old.apply(this,arguments);if(BrotwareVFS.isExternal(id)&&window.BrotwareExternalPreview)setTimeout(function(){BrotwareExternalPreview.open(id);},100);return r;};BrotwareProjects.__bwV5Open=true;
-}
-function install(){if(installed){patchPreview();patchImports();patchPublicOpen();return;}installed=true;patchPreview();patchImports();patchPublicOpen();installDeleteCleanup();setTimeout(function(){patchPreview();patchImports();patchPublicOpen();},1000);}
+function install(){if(installed){patchPreview();patchImports();return;}installed=true;patchPreview();patchImports();installDeleteCleanup();setTimeout(function(){patchPreview();patchImports();},1000);}
 setTimeout(install,0);setTimeout(install,800);setTimeout(install,1600);
 })();
