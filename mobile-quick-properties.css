@@ -1,0 +1,20 @@
+/* Brotware mobile quick properties — Sketchware-inspired selected View tray */
+.bw-mquick{display:none}
+@media(max-width:760px){
+  body.bw-mobile-v2 .bw-mobile-selection{display:none!important}
+  .bw-mquick{position:fixed;z-index:12100;left:0;right:0;bottom:calc(66px + env(safe-area-inset-bottom));height:170px;background:#111c25;border-top:1px solid #314451;color:#e9f1f6;box-shadow:0 -10px 34px rgba(0,0,0,.32);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+  body.bw-mobile-v2.bw-mobile-view-active.bw-mobile-has-selection .bw-mquick{display:grid;grid-template-rows:42px 34px minmax(0,1fr)}
+  body.bw-mobile-properties-open .bw-mquick,body.sw-logic-open .bw-mquick,body.bw-project-home-open .bw-mquick,body.bw-mobile-sheet-open .bw-mquick{display:none!important}
+  .bw-mquick-head{display:grid;grid-template-columns:minmax(0,1fr) 38px 38px;align-items:center;gap:4px;padding:4px 7px;border-bottom:1px solid #273943;background:#101a22}
+  .bw-mquick-target{height:34px;min-width:0;border:0;border-radius:8px;background:transparent;color:#e8eff4;padding:0 7px;display:flex;align-items:center;gap:8px;text-align:left;touch-action:manipulation}
+  .bw-mquick-target .ico{color:#a5bac6;font-size:12px}.bw-mquick-target b{min-width:0;flex:1;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bw-mquick-target .chev{font-size:12px;color:#a6b7c2}
+  .bw-mquick-iconbtn{width:36px;height:34px;border:0;border-radius:8px;background:transparent;color:#b7c7d1;font-size:17px;touch-action:manipulation}.bw-mquick-iconbtn:active{background:#20323e}
+  .bw-mquick-tabs{display:flex;align-items:center;gap:7px;padding:4px 7px;background:#111c25}
+  .bw-mquick-tab{height:26px;border:0;border-radius:14px;background:#202c35;color:#aebbc5;padding:0 13px;font-size:9px;touch-action:manipulation}.bw-mquick-tab.active{background:#3a4e72;color:#fff}
+  .bw-mquick-scroll{display:flex;gap:7px;min-width:0;overflow-x:auto;overflow-y:hidden;padding:4px 7px 8px;scrollbar-width:none;overscroll-behavior-x:contain;scroll-snap-type:x proximity}.bw-mquick-scroll::-webkit-scrollbar{display:none}
+  .bw-mquick-card{position:relative;flex:0 0 76px;height:76px;border:1px solid #2f414d;border-radius:7px;background:#24313c;color:#dfe7ec;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:5px;text-align:center;scroll-snap-align:start;touch-action:manipulation}.bw-mquick-card:active{background:#314755;border-color:#5d8baa}.bw-mquick-card.primary{background:#00618c;border-color:#0877a7}.bw-mquick-card .ico{height:22px;display:grid;place-items:center;font-size:20px;color:#cad6dd}.bw-mquick-card.primary .ico{color:#fff}.bw-mquick-card b{font-size:8px;font-weight:500;line-height:1.15;max-width:100%;overflow:hidden;text-overflow:ellipsis}.bw-mquick-card small{position:absolute;right:4px;top:4px;min-width:17px;height:17px;border-radius:9px;background:#17242d;color:#91a6b4;display:grid;place-items:center;font-size:7px}
+  .bw-mquick-empty{flex:1;min-width:calc(100vw - 14px);height:76px;display:grid;place-items:center;border:1px dashed #31434e;border-radius:8px;color:#7f929e;font-size:9px}
+  .bw-mquick-event-card .ico{color:#f4c35d}
+  /* reserve canvas space only while a View is selected */
+  body.bw-mobile-v2.bw-mobile-view-active.bw-mobile-has-selection .designer-canvas{padding-bottom:170px!important}
+}
