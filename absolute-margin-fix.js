@@ -12,11 +12,14 @@ function cssValue(v,unit){var x=n(v);return round(x)+(unit||'px');}
 function isMatchParent(el,axis){
   if(!el)return false;
   var key=axis==='width'?'widthMode':'heightMode';
-  if(el.dataset[key]==='match_parent')return true;
-  if(axis==='width'&&el.dataset.bwMarginMatchWidth==='1')return true;
-  if(axis==='height'&&el.dataset.bwMarginMatchHeight==='1')return true;
+  var flag=axis==='width'?'bwMarginMatchWidth':'bwMarginMatchHeight';
+  var saved=el.dataset[key];
+  /* Explicit user choice always wins over any legacy helper flag. */
+  if(saved==='match_parent')return true;
+  if(saved==='wrap_content'||saved==='custom')return false;
+  if(el.dataset[flag]==='1')return true;
   var value=String(el.style[axis]||'').replace(/\s+/g,'').toLowerCase();
-  return value==='100%'||value==='auto'||value.indexOf('calc(100%-')===0;
+  return value==='100%';
 }
 function refresh(el){
   if(typeof commit==='function')commit();
@@ -56,17 +59,13 @@ function applyMatchParentHeight(el){
 }
 function clearWidthAnchor(el){
   if(!el)return;
-  if(el.dataset.widthMode!=='match_parent'){
-    el.style.removeProperty('right');
-    delete el.dataset.bwMarginMatchWidth;
-  }
+  el.style.removeProperty('right');
+  delete el.dataset.bwMarginMatchWidth;
 }
 function clearHeightAnchor(el){
   if(!el)return;
-  if(el.dataset.heightMode!=='match_parent'){
-    el.style.removeProperty('bottom');
-    delete el.dataset.bwMarginMatchHeight;
-  }
+  el.style.removeProperty('bottom');
+  delete el.dataset.bwMarginMatchHeight;
 }
 
 function applyVisualMargins(el,css){
@@ -80,9 +79,15 @@ function applyVisualMargins(el,css){
 
 function reapplyMatchParent(el){
   if(!el)return;
-  if(el.dataset.widthMode==='match_parent'||el.dataset.bwMarginMatchWidth==='1')applyMatchParentWidth(el);
+  var widthSaved=el.dataset.widthMode,heightSaved=el.dataset.heightMode;
+  if(widthSaved==='match_parent')applyMatchParentWidth(el);
+  else if(widthSaved==='wrap_content'||widthSaved==='custom')clearWidthAnchor(el);
+  else if(el.dataset.bwMarginMatchWidth==='1')applyMatchParentWidth(el);
   else clearWidthAnchor(el);
-  if(el.dataset.heightMode==='match_parent'||el.dataset.bwMarginMatchHeight==='1')applyMatchParentHeight(el);
+
+  if(heightSaved==='match_parent')applyMatchParentHeight(el);
+  else if(heightSaved==='wrap_content'||heightSaved==='custom')clearHeightAnchor(el);
+  else if(el.dataset.bwMarginMatchHeight==='1')applyMatchParentHeight(el);
   else clearHeightAnchor(el);
 }
 
@@ -134,7 +139,7 @@ function install(){
     e.preventDefault();e.stopImmediatePropagation();saveMargin();
   },true);
 
-  /* Width/Height dialog restores 100%; convert match_parent back to native anchors. */
+  /* Reapply only if the mode selected after Size dialog is truly match_parent. */
   document.addEventListener('click',function(e){
     var b=e.target&&e.target.closest?e.target.closest('#bwSizeSelect'):null;if(!b)return;
     var el=selected();setTimeout(function(){if(el){reapplyMatchParent(el);refresh(el);}},35);
