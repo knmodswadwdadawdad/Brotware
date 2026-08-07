@@ -35,13 +35,13 @@ body.bw-dialog-editor-active .root-layout.bw-dialog-design-root{
   user-select:none;
 }
 .bw-dialog-free-handle[data-bw-dialog-resize="e"]{
-  width:12px;height:42px;right:-8px;top:50%;transform:translateY(-50%);border-radius:8px;cursor:ew-resize;
+  width:12px;height:42px;right:2px;top:50%;transform:translateY(-50%);border-radius:8px;cursor:ew-resize;
 }
 .bw-dialog-free-handle[data-bw-dialog-resize="s"]{
-  width:42px;height:12px;left:50%;bottom:-8px;transform:translateX(-50%);border-radius:8px;cursor:ns-resize;
+  width:42px;height:12px;left:50%;bottom:2px;transform:translateX(-50%);border-radius:8px;cursor:ns-resize;
 }
 .bw-dialog-free-handle[data-bw-dialog-resize="se"]{
-  width:18px;height:18px;right:-10px;bottom:-10px;border-radius:6px;cursor:nwse-resize;
+  width:18px;height:18px;right:2px;bottom:2px;border-radius:6px;cursor:nwse-resize;
 }
 .bw-dialog-size-badge{
   position:sticky;
@@ -95,8 +95,8 @@ body.bw-dialog-editor-active .root-layout.bw-dialog-design-root{
 .bw-dialog-live-preview .bw-dialog-live-card{flex:0 0 auto;margin:auto!important}
 @media(max-width:760px){
   body.bw-dialog-editor-active .view-pane.bw-dialog-design-pane{padding:16px!important}
-  .bw-dialog-free-handle[data-bw-dialog-resize="e"]{width:16px;right:-10px;height:52px}
-  .bw-dialog-free-handle[data-bw-dialog-resize="s"]{height:16px;bottom:-10px;width:52px}
-  .bw-dialog-free-handle[data-bw-dialog-resize="se"]{width:22px;height:22px;right:-12px;bottom:-12px}
+  .bw-dialog-free-handle[data-bw-dialog-resize="e"]{width:16px;right:3px;height:52px}
+  .bw-dialog-free-handle[data-bw-dialog-resize="s"]{height:16px;bottom:3px;width:52px}
+  .bw-dialog-free-handle[data-bw-dialog-resize="se"]{width:22px;height:22px;right:3px;bottom:3px}
   .bw-dialog-size-badge{font-size:9px;min-height:26px;width:88px;margin-right:-98px}
 }
