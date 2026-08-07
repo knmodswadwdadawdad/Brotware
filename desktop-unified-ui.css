@@ -1,0 +1,84 @@
+/* Brotware Desktop Unified UI — same visual language as mobile, adapted for wide screens. */
+@media(min-width:761px){
+  body.bw-desktop-unified{overflow:hidden!important;background:#07131e;color:#eaf2f7}
+  body.bw-desktop-unified .app{display:block!important;width:100%!important;height:100vh!important;min-height:0!important;overflow:hidden!important;background:#07131e}
+  body.bw-desktop-unified .top,body.bw-desktop-unified>.app>.statusbar{display:none!important}
+  body.bw-desktop-unified .main{position:fixed!important;left:0!important;right:0!important;top:62px!important;bottom:82px!important;width:auto!important;height:auto!important;min-height:0!important;overflow:hidden!important;background:#07131e}
+
+  /* unified top bar */
+  body.bw-desktop-unified .bw-mobile-topbar{display:flex!important;align-items:center;gap:6px;position:fixed;z-index:12000;left:0;right:0;top:0;height:62px;padding:8px 14px;background:#08151f;border-bottom:1px solid #223845;color:#eaf2f7;box-shadow:0 5px 20px rgba(0,0,0,.22)}
+  body.bw-desktop-unified .bw-mobile-topbar>button{height:44px;border:0;border-radius:11px;background:transparent;color:#dceaf3;font:inherit;cursor:pointer}
+  body.bw-desktop-unified .bw-mobile-topbar>button:hover{background:#132735}
+  body.bw-desktop-unified .bw-mobile-back{width:44px;font-size:22px}
+  body.bw-desktop-unified .bw-mobile-title{flex:1;min-width:180px;max-width:420px;display:flex!important;align-items:center!important;text-align:left!important;padding:0 10px!important}
+  body.bw-desktop-unified .bw-mobile-title span{display:flex;min-width:0;flex-direction:column;gap:2px}
+  body.bw-desktop-unified .bw-mobile-title b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.bw-desktop-unified .bw-mobile-title small{font-size:9px;color:#8397a4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body.bw-desktop-unified .bw-mobile-run{width:46px;font-size:18px!important;color:#9fdcff!important;background:#123044!important}
+  body.bw-desktop-unified .bw-mobile-more{width:44px;font-size:21px!important}
+
+  .bw-desktop-top-tools{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .bw-desktop-zoom{height:40px;display:flex;align-items:center;border:1px solid #29404e;border-radius:11px;background:#0d1d28;overflow:hidden}
+  .bw-desktop-zoom button{width:37px;height:38px;border:0;background:transparent;color:#d8e7f0;font-size:16px;cursor:pointer}.bw-desktop-zoom button:hover{background:#193342}.bw-desktop-zoom span{min-width:52px;text-align:center;color:#9bb0bc;font-size:10px;font-weight:800}
+  .bw-desktop-viewport{height:40px;min-width:82px;padding:0 12px;border:1px solid #29404e;border-radius:11px;background:#0d1d28;color:#cfe2ec;font-size:10px;font-weight:800;cursor:pointer}.bw-desktop-viewport:hover{background:#193342}
+
+  /* bottom dock */
+  body.bw-desktop-unified .bw-mobile-bottomnav{display:grid!important;grid-template-columns:repeat(4,112px);position:fixed;z-index:12000;left:50%;right:auto;bottom:14px;transform:translateX(-50%);height:58px;padding:5px;border:1px solid #2b4351;border-radius:18px;background:rgba(11,23,33,.97);box-shadow:0 12px 35px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
+  body.bw-desktop-unified .bw-mobile-nav{border:0;border-radius:12px;background:transparent;color:#8fa4b2;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+  body.bw-desktop-unified .bw-mobile-nav:hover,body.bw-desktop-unified .bw-mobile-nav.active{background:#142b3a;color:#8ed5ff}.bw-mobile-nav.primary{color:#9cdbff}
+  body.bw-desktop-unified .bw-mobile-nav .ico{font-size:18px}.bw-mobile-nav .label{font-size:10px;font-weight:800}
+  body.bw-desktop-unified .bw-mobile-selection{display:none!important}
+
+  /* old desktop chrome is replaced, not deleted */
+  body.bw-desktop-unified #screen-view.active{display:block!important;position:absolute!important;inset:0!important;overflow:hidden!important}
+  body.bw-desktop-unified #screen-view.active>.palette{display:none!important}
+  body.bw-desktop-unified #screen-view.active>.designer{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:0!important;overflow:hidden!important}
+  body.bw-desktop-unified .designer-toolbar{display:none!important}
+  body.bw-desktop-unified .properties-dock{display:none!important}
+  body.bw-desktop-unified .designer-canvas{position:absolute!important;inset:0!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;overflow:auto!important;padding:18px 24px 190px!important;background:radial-gradient(circle at 50% 20%,#102738 0,#091722 48%,#07131e 100%);scrollbar-width:thin;overscroll-behavior:contain}
+  body.bw-desktop-unified .phone-shell{transform-origin:top center!important;margin:0 auto!important}
+  body.bw-desktop-unified .phone-label,body.bw-desktop-unified .phone-status,body.bw-desktop-unified .phone-toolbar{display:none!important}
+  body.bw-desktop-unified .phone{border:1px solid #334a58!important;border-radius:10px!important;box-shadow:0 22px 70px rgba(0,0,0,.4)!important;overflow:hidden!important;background:#fff}
+  body.bw-desktop-unified .view-pane{height:100%!important;min-height:100%!important}
+  body.bw-desktop-unified .delete-zone{bottom:92px!important}
+
+  /* All non-View screens occupy the workspace without the legacy tab bar. */
+  body.bw-desktop-unified #screen-event.active,body.bw-desktop-unified #screen-component.active,body.bw-desktop-unified #screen-strings.active{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important}
+
+  /* Add / More use the mobile sheet component, but become floating desktop panels. */
+  body.bw-desktop-unified .bw-mobile-sheet-backdrop{position:fixed;z-index:18000;inset:0;display:none;background:rgba(0,0,0,.22);align-items:flex-start;justify-content:flex-start;padding:74px 0 92px 16px}
+  body.bw-desktop-unified .bw-mobile-sheet-backdrop.show{display:flex!important}
+  body.bw-desktop-unified .bw-mobile-sheet{width:390px;max-height:calc(100vh - 180px);display:grid;grid-template-rows:auto minmax(0,1fr);border:1px solid #314855;border-radius:18px;background:#0e1b25;color:#ecf3f7;box-shadow:0 24px 70px rgba(0,0,0,.48);overflow:hidden;animation:bwDesktopPanelIn .14s ease-out}
+  body.bw-desktop-unified.bw-desktop-more-sheet .bw-mobile-sheet-backdrop{justify-content:flex-end;padding-left:0;padding-right:16px}
+  body.bw-desktop-unified .bw-mobile-sheet-head{min-height:60px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #263a46}.bw-mobile-sheet-head:before{display:none!important}
+  body.bw-desktop-unified .bw-mobile-sheet-head>div{min-width:0;display:flex;flex-direction:column;gap:2px}.bw-mobile-sheet-head strong{font-size:15px}.bw-mobile-sheet-head small{font-size:9px;color:#8297a4}.bw-mobile-sheet-head .spacer{flex:1}.bw-mobile-sheet-head button{width:38px;height:38px;border:0;border-radius:10px;background:#1d313d;color:#e8f0f5;cursor:pointer}
+  body.bw-desktop-unified .bw-mobile-sheet-body{overflow:auto;padding:10px 10px 16px;scrollbar-width:thin}
+  body.bw-desktop-unified .bw-mobile-section-title{margin:7px 3px 8px;color:#82cef9;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+  body.bw-desktop-unified .bw-mobile-add-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+  body.bw-desktop-unified .bw-mobile-add-item{min-height:76px;border:1px solid #2b414f;border-radius:13px;background:#14242f;color:#e7eff4;padding:8px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;cursor:pointer}.bw-mobile-add-item:hover{background:#1b3444;border-color:#69bce9}.bw-mobile-add-item .ico{font-size:20px;color:#91d8ff}.bw-mobile-add-item b{font-size:9px}
+  body.bw-desktop-unified .bw-mobile-menu-list{display:flex;flex-direction:column;gap:7px}.bw-mobile-menu-item{min-height:54px;border:1px solid #2b414f;border-radius:12px;background:#14242f;color:#e8f0f5;padding:7px 11px;display:grid;grid-template-columns:34px minmax(0,1fr) 24px;align-items:center;gap:8px;text-align:left;cursor:pointer}.bw-mobile-menu-item:hover{background:#1a303e}.bw-mobile-menu-item .ico{font-size:17px;color:#8fd7ff;text-align:center}.bw-mobile-menu-item span:nth-child(2){display:flex;flex-direction:column;gap:2px}.bw-mobile-menu-item b{font-size:11px}.bw-mobile-menu-item small{font-size:8px;color:#8297a4}.bw-mobile-menu-item .chev{color:#738a97;text-align:right}
+
+  /* Quick properties = floating bottom dock on desktop. */
+  body.bw-desktop-unified .bw-mquick{position:fixed;z-index:12100;left:50%;right:auto;bottom:84px;transform:translateX(-50%);width:min(900px,calc(100vw - 48px));height:162px;background:#111c25;border:1px solid #314451;border-radius:16px;color:#e9f1f6;box-shadow:0 16px 48px rgba(0,0,0,.42);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+  body.bw-desktop-unified.bw-desktop-view-active.bw-desktop-has-selection .bw-mquick{display:grid!important;grid-template-rows:42px 34px minmax(0,1fr)}
+  body.bw-desktop-unified.bw-mobile-properties-open .bw-mquick,body.bw-desktop-unified.sw-logic-open .bw-mquick,body.bw-desktop-unified.bw-project-home-open .bw-mquick,body.bw-desktop-unified.bw-mobile-sheet-open .bw-mquick{display:none!important}
+  body.bw-desktop-unified .bw-mquick-head{display:grid;grid-template-columns:minmax(0,1fr) 38px 38px;align-items:center;gap:4px;padding:4px 7px;border-bottom:1px solid #273943;background:#101a22}
+  body.bw-desktop-unified .bw-mquick-target{height:34px;min-width:0;border:0;border-radius:8px;background:transparent;color:#e8eff4;padding:0 7px;display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer}.bw-mquick-target b{min-width:0;flex:1;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bw-mquick-target .ico,.bw-mquick-target .chev{color:#a6bac6}
+  body.bw-desktop-unified .bw-mquick-iconbtn{width:36px;height:34px;border:0;border-radius:8px;background:transparent;color:#b7c7d1;font-size:17px;cursor:pointer}.bw-mquick-iconbtn:hover{background:#20323e}
+  body.bw-desktop-unified .bw-mquick-tabs{display:flex;align-items:center;gap:7px;padding:4px 7px}.bw-mquick-tab{height:26px;border:0;border-radius:14px;background:#202c35;color:#aebbc5;padding:0 13px;font-size:9px;cursor:pointer}.bw-mquick-tab.active{background:#3a4e72;color:#fff}
+  body.bw-desktop-unified .bw-mquick-scroll{display:flex;gap:7px;min-width:0;overflow-x:auto;overflow-y:hidden;padding:4px 7px 8px;scrollbar-width:thin}.bw-mquick-card{position:relative;flex:0 0 80px;height:76px;border:1px solid #2f414d;border-radius:8px;background:#24313c;color:#dfe7ec;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:5px;text-align:center;cursor:pointer}.bw-mquick-card:hover{background:#314755;border-color:#5d8baa}.bw-mquick-card.primary{background:#00618c;border-color:#0877a7}.bw-mquick-card .ico{font-size:20px}.bw-mquick-card b{font-size:8px;font-weight:600;line-height:1.15}
+  body.bw-desktop-unified.bw-desktop-view-active.bw-desktop-has-selection .designer-canvas{padding-bottom:260px!important}
+
+  /* Reuse the mobile Edit Properties UI as a desktop side inspector. */
+  body.bw-desktop-unified .bw-mprops-screen{position:fixed;z-index:16800;right:14px;left:auto;top:74px;bottom:88px;width:430px;height:auto;border:1px solid #344654;border-radius:18px;background:#09141d;color:#edf3f7;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.48)}
+  body.bw-desktop-unified .bw-mprops-screen.show{display:grid!important;grid-template-rows:58px minmax(0,1fr)}
+  body.bw-desktop-unified .bw-mprops-head{height:58px;padding:0 8px;display:grid;grid-template-columns:40px minmax(0,1fr) 40px;align-items:center;border-bottom:1px solid #34404f;background:#111827}.bw-mprops-head button{height:44px;border:0;background:transparent;color:#d7e0e8;font-size:20px;border-radius:10px;cursor:pointer}.bw-mprops-head button:hover{background:#1b2938}.bw-mprops-title{display:flex;min-width:0;flex-direction:column;justify-content:center;gap:1px}.bw-mprops-title strong{font-size:17px;font-weight:500}.bw-mprops-title small{font-size:10px;color:#b0bdc7}
+  body.bw-desktop-unified .bw-mprops-body{min-height:0;overflow:auto;padding:6px 0 14px;background:#09141d;scrollbar-width:thin}
+  body.bw-desktop-unified .bw-mprops-section{border-bottom:1px solid #182630}.bw-mprops-section-head{width:100%;min-height:34px;border:0;background:#252a2e;color:#f0f4f6;padding:0 10px;display:flex;align-items:center;text-align:left;font-size:10px;cursor:pointer}.bw-mprops-section-head .chev{margin-left:auto}.bw-mprops-section.collapsed .bw-mprops-section-content{display:none}.bw-mprops-row{width:100%;min-height:58px;border:0;border-bottom:1px solid rgba(255,255,255,.025);background:#09141d;color:#edf3f7;display:grid;grid-template-columns:25px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 16px 8px 6px;text-align:left;cursor:pointer}.bw-mprops-row:hover{background:#10212c}.bw-mprops-row.disabled{opacity:.45;pointer-events:none}.bw-mprops-icon{width:25px;text-align:center;font-size:18px}.bw-mprops-meta{min-width:0;display:flex;flex-direction:column;gap:2px}.bw-mprops-meta b{font-size:14px;font-weight:450}.bw-mprops-meta small{font-size:11px;color:#b2c0c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bw-mprops-preview{width:48px;height:42px;overflow:hidden;background:#fff;border:1px solid #394854}.bw-mprops-preview img{width:100%;height:100%;object-fit:cover}.bw-mprops-swatch{width:38px;height:38px;border:1px solid #53606a}
+  body.bw-desktop-unified .bw-mprops-editor-backdrop{position:fixed;inset:0;z-index:17650;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center}.bw-mprops-editor-backdrop.show{display:flex!important}.bw-mprops-editor{width:min(440px,calc(100vw - 40px));max-height:70vh;border:1px solid #364856;border-radius:18px;background:#17232d;color:#edf4f8;box-shadow:0 24px 70px rgba(0,0,0,.5);padding:18px}.bw-mprops-editor:before{display:none!important}
+  body.bw-desktop-unified .bw-size-backdrop,body.bw-desktop-unified .bw-gravity-backdrop,body.bw-desktop-unified .bw-image-backdrop{z-index:17750!important}
+
+  body.bw-desktop-unified.sw-logic-open .bw-mobile-topbar,body.bw-desktop-unified.sw-logic-open .bw-mobile-bottomnav,body.bw-desktop-unified.sw-logic-open .bw-mquick,
+  body.bw-desktop-unified.bw-project-home-open .bw-mobile-topbar,body.bw-desktop-unified.bw-project-home-open .bw-mobile-bottomnav,body.bw-desktop-unified.bw-project-home-open .bw-mquick{display:none!important}
+}
+@keyframes bwDesktopPanelIn{from{transform:translateY(8px);opacity:.55}to{transform:none;opacity:1}}
