@@ -32,7 +32,7 @@ function cycleViewport(){var v=currentViewport(),next=v==='mobile'?'tablet':v===
 function contextTitle(){if(typeof state!=='undefined'&&state.dialogEditorActive&&window.BrotwareDialogs&&BrotwareDialogs.get){var d=BrotwareDialogs.get(state.activeDialogId);if(d)return d.name||d.id;}var p=currentPageSafe();return p?p.name:'Brotware';}
 function contextSub(){if(typeof state!=='undefined'&&state.dialogEditorActive)return'Dialog Design';var t=tabName();if(t==='event')return'Logic';if(t==='component')return'Components';if(t==='strings')return'Strings';return'Design';}
 function syncContext(){
-  if(!isDesktop())return;var title=document.getElementById('bwMobileTitle'),sub=document.getElementById('bwMobileSubtitle');if(title)title.textContent=contextTitle();if(sub)sub.textContent=contextSub();document.body.classList.toggle('bw-desktop-view-active',tabName()==='view');syncZoom();syncViewport();syncSelection();
+  if(!isDesktop())return;var title=document.getElementById('bwMobileTitle'),sub=document.getElementById('bwMobileSubtitle');if(title)title.textContent=contextTitle();if(sub)sub.textContent=contextSub();document.body.classList.toggle('bw-desktop-view-active',tabName()==='view');syncZoom();syncViewport();renderDesktopQuick();
 }
 
 function quickActions(el){
@@ -77,7 +77,7 @@ function installTabRefresh(){var tabs=document.getElementById('bwMQuickTabs');if
 
 function syncMode(){
   document.body.classList.toggle('bw-desktop-unified',isDesktop());if(!isDesktop()){document.body.classList.remove('bw-desktop-has-selection','bw-desktop-view-active','bw-desktop-more-sheet');return;}
-  ensureTopTools();patchProperties();installNumericCapture();monitorSheet();patchWrappers();installTabRefresh();syncContext();renderDesktopQuick();
+  ensureTopTools();patchProperties();installNumericCapture();monitorSheet();patchWrappers();installTabRefresh();syncContext();
 }
 function install(){if(patched){syncMode();return;}patched=true;syncMode();if(mq.addEventListener)mq.addEventListener('change',syncMode);else mq.addListener(syncMode);window.addEventListener('resize',function(){clearTimeout(window.__bwDesktopUnifiedResize);window.__bwDesktopUnifiedResize=setTimeout(syncMode,100);});}
 
