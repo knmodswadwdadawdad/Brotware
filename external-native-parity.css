@@ -1,0 +1,95 @@
+/* Native-parity skin for imported HTML/hybrid projects. Keeps the DOM runtime intact while matching Brotware's native editor language. */
+body.bw-external-native-parity{overflow:hidden!important;background:#07131e;color:#eaf2f7}
+body.bw-external-native-parity .bw-external-workspace{grid-template-rows:62px 1fr;background:#07131e}
+body.bw-external-native-parity .bw-external-top{height:62px;padding:8px 14px;gap:6px;background:#08151f;border-bottom:1px solid #223845;box-shadow:0 5px 20px rgba(0,0,0,.22)}
+body.bw-external-native-parity .bw-external-top>button{height:44px;border:0;border-radius:11px;background:transparent;color:#dceaf3;padding:0 12px;font-size:10px;font-weight:700;cursor:pointer}
+body.bw-external-native-parity .bw-external-top>button:hover{background:#132735}
+body.bw-external-native-parity .bw-external-top>button.active{background:#142b3a;color:#8ed5ff}
+body.bw-external-native-parity .bw-external-top>button.primary{background:#123044;color:#9fdcff;border:0}
+body.bw-external-native-parity .bw-external-title{padding:0 8px;max-width:420px}
+body.bw-external-native-parity .bw-external-title strong{font-size:14px}
+body.bw-external-native-parity .bw-external-title small{font-size:9px;color:#8397a4}
+body.bw-external-native-parity .bw-external-device{height:40px;display:flex;align-items:center;gap:0;padding:0;border:1px solid #29404e;border-radius:11px;background:#0d1d28;overflow:hidden}
+body.bw-external-native-parity .bw-external-device button{height:38px;border:0;border-radius:0;background:transparent;color:#a9bdc9;padding:0 11px;font-size:9px;font-weight:800}
+body.bw-external-native-parity .bw-external-device button.active{background:#193342;color:#8ed5ff}
+body.bw-external-native-parity .bw-external-stage{align-items:flex-start;padding:18px 24px 270px;background:radial-gradient(circle at 50% 20%,#102738 0,#091722 48%,#07131e 100%)}
+body.bw-external-native-parity .bw-external-frame-shell{border:1px solid #334a58;border-radius:10px;box-shadow:0 22px 70px rgba(0,0,0,.4);background:#fff}
+body.bw-external-native-parity .bw-external-frame-shell.desktop{width:min(1280px,calc(100vw - 70px))}
+
+/* Selection overlay — visually aligned with native selection affordances. */
+body.bw-external-native-parity .bw-hybrid-edit-overlay{z-index:60;border:2px solid #0d99ff;box-shadow:0 0 0 1px rgba(255,255,255,.62) inset,0 0 0 1px rgba(13,153,255,.18);cursor:move}
+body.bw-external-native-parity .bw-hybrid-edit-overlay.moving{border-style:dashed}
+body.bw-external-native-parity .bw-hybrid-edit-label{top:-25px;height:23px;border-radius:6px 6px 0 0;background:#0d99ff;color:#fff;font-size:9px;font-weight:800;letter-spacing:.01em}
+body.bw-external-native-parity .bw-hybrid-handle{width:12px;height:12px;border:2px solid #0d99ff;border-radius:3px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+body.bw-external-native-parity .bw-hybrid-handle.n{left:calc(50% - 6px);top:-7px;cursor:n-resize}
+body.bw-external-native-parity .bw-hybrid-handle.s{left:calc(50% - 6px);bottom:-7px;cursor:s-resize}
+body.bw-external-native-parity .bw-hybrid-handle.w{left:-7px;top:calc(50% - 6px);cursor:w-resize}
+body.bw-external-native-parity .bw-hybrid-handle.e{right:-7px;top:calc(50% - 6px);cursor:e-resize}
+body.bw-external-native-parity .bw-hybrid-handle.nw{left:-7px;top:-7px;cursor:nw-resize}
+body.bw-external-native-parity .bw-hybrid-handle.ne{right:-7px;top:-7px;cursor:ne-resize}
+body.bw-external-native-parity .bw-hybrid-handle.sw{left:-7px;bottom:-7px;cursor:sw-resize}
+body.bw-external-native-parity .bw-hybrid-handle.se{right:-7px;bottom:-7px;cursor:se-resize}
+.bw-hybrid-native-metrics{position:absolute;right:-2px;bottom:-24px;height:20px;display:flex;align-items:center;padding:0 7px;border-radius:0 0 6px 6px;background:#0b2739;color:#aee2ff;border:1px solid rgba(13,153,255,.45);font:800 8px Inter,system-ui,sans-serif;white-space:nowrap;pointer-events:none}
+
+/* Reuse the same quick-properties component visual language used by Native. */
+body.bw-external-native-parity .bw-hybrid-quick.bw-mquick{position:fixed;z-index:19050;left:50%;right:auto;bottom:84px;transform:translateX(-50%);width:min(900px,calc(100vw - 48px));height:162px;display:none;grid-template-rows:42px 34px minmax(0,1fr);background:#111c25;border:1px solid #314451;border-radius:16px;color:#e9f1f6;box-shadow:0 16px 48px rgba(0,0,0,.42);overflow:hidden}
+body.bw-external-native-parity.bw-hybrid-has-selection .bw-hybrid-quick.bw-mquick.show{display:grid!important}
+body.bw-external-native-parity .bw-hybrid-quick .bw-hybrid-quick-head{display:grid;grid-template-columns:minmax(0,1fr) 38px 38px;align-items:center;gap:4px;padding:4px 7px;border-bottom:1px solid #273943;background:#101a22}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-target{height:34px;min-width:0;border:0;border-radius:8px;background:transparent;color:#e8eff4;padding:0 7px;display:flex;align-items:center;gap:8px;text-align:left}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-target .tag{width:24px;height:24px;display:grid;place-items:center;padding:0;border-radius:7px;background:#1d303c;color:#9fdcff;font-size:12px}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-target b{min-width:0;flex:1;font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-iconbtn{width:36px;height:34px;border:0;border-radius:8px;background:transparent;color:#b7c7d1;font-size:17px}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-iconbtn:hover{background:#20323e}
+body.bw-external-native-parity .bw-hybrid-native-tabs{display:flex!important;align-items:center;gap:7px;padding:4px 7px;background:#111c25}
+body.bw-external-native-parity .bw-hybrid-native-tabs .bw-mquick-tab{height:26px;border:0;border-radius:14px;background:#202c35;color:#aebbc5;padding:0 13px;font-size:9px;font-weight:700}
+body.bw-external-native-parity .bw-hybrid-native-tabs .bw-mquick-tab.active{background:#3a4e72;color:#fff}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-scroll{display:flex;gap:7px;min-width:0;overflow-x:auto;overflow-y:hidden;padding:4px 7px 8px;scrollbar-width:thin}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card{position:relative;flex:0 0 80px;height:76px;border:1px solid #2f414d;border-radius:8px;background:#24313c;color:#dfe7ec;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:5px;text-align:center;cursor:pointer}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card:hover{background:#314755;border-color:#5d8baa}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card.primary{background:#00618c;border-color:#0877a7}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card .ico{height:22px;display:grid;place-items:center;font-size:20px;color:#cad6dd}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card.primary .ico{color:#fff}
+body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card b{font-size:8px;font-weight:600;line-height:1.15}
+
+/* Native-like bottom navigation for imported projects. */
+.bw-hybrid-native-bottom{position:fixed;z-index:19040;left:50%;bottom:14px;transform:translateX(-50%);height:58px;display:none;grid-template-columns:repeat(4,112px);padding:5px;border:1px solid #2b4351;border-radius:18px;background:rgba(11,23,33,.97);box-shadow:0 12px 35px rgba(0,0,0,.4);backdrop-filter:blur(10px)}
+body.bw-external-native-parity .bw-hybrid-native-bottom.show{display:grid}
+.bw-hybrid-native-bottom button{border:0;border-radius:12px;background:transparent;color:#8fa4b2;display:flex;align-items:center;justify-content:center;gap:8px;font-family:Inter,system-ui,sans-serif;cursor:pointer}
+.bw-hybrid-native-bottom button:hover,.bw-hybrid-native-bottom button.active{background:#142b3a;color:#8ed5ff}
+.bw-hybrid-native-bottom button span{font-size:18px}.bw-hybrid-native-bottom button b{font-size:10px;font-weight:800}
+
+/* Inspector becomes the same floating-right-properties experience as Native desktop. */
+body.bw-external-native-parity .bw-external-inspector-host{position:fixed;z-index:19150;right:14px;left:auto;top:74px;bottom:88px;width:430px;height:auto;border:1px solid #344654;border-radius:18px;background:#09141d;color:#edf3f7;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.48);transform:translateX(calc(100% + 32px))}
+body.bw-external-native-parity .bw-external-inspector-host.open{transform:translateX(0)}
+body.bw-external-native-parity .bw-dom-inspector{grid-template-rows:58px minmax(0,1fr);background:#09141d}
+body.bw-external-native-parity .bw-dom-inspector>header{height:58px;padding:0 8px;border-bottom:1px solid #34404f;background:#111827}
+body.bw-external-native-parity .bw-dom-inspector>main{background:#09141d;padding:6px 8px 14px}
+body.bw-external-native-parity .bw-dom-inspector section{border:0;border-bottom:1px solid #182630;border-radius:0;background:#09141d;margin:0;padding:12px 8px}
+body.bw-external-native-parity .bw-dom-inspector h4{margin:0 0 9px;color:#f0f4f6;font-size:10px;letter-spacing:0;text-transform:none}
+body.bw-external-native-parity .bw-inspector-style-grid input,body.bw-external-native-parity .bw-inspector-read input,body.bw-external-native-parity .bw-inspector-read textarea{background:#101f29;border-color:#2b414f;border-radius:9px}
+
+/* Position/size sheet. */
+.bw-hybrid-native-position-backdrop{position:fixed;inset:0;z-index:57000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,9,13,.62);backdrop-filter:blur(5px);font-family:Inter,system-ui,sans-serif}
+.bw-hybrid-native-position-backdrop.show{display:flex}
+.bw-hybrid-native-position-sheet{width:min(430px,calc(100vw - 24px));border:1px solid #344c5b;border-radius:17px;background:#111f29;color:#edf5fa;box-shadow:0 26px 75px rgba(0,0,0,.52);padding:14px}
+.bw-hybrid-native-position-sheet header{display:flex;align-items:center;gap:8px;margin-bottom:12px}.bw-hybrid-native-position-sheet header>div{display:flex;flex-direction:column;gap:2px}.bw-hybrid-native-position-sheet header strong{font-size:15px}.bw-hybrid-native-position-sheet header small{font-size:8px;color:#90a4b1}.bw-hybrid-native-position-sheet header button{margin-left:auto;width:34px;height:34px;border:0;border-radius:8px;background:#213641;color:#fff}
+.bw-hybrid-position-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bw-hybrid-position-grid label{display:flex;flex-direction:column;gap:5px;color:#9aadb8;font-size:8px}.bw-hybrid-position-grid input{height:42px;width:100%;border:1px solid #334b5a;border-radius:9px;background:#0d1821;color:#eef7fc;padding:0 10px;outline:0;font-size:11px}.bw-hybrid-position-grid input:focus{border-color:#66c6fb}.bw-hybrid-native-position-sheet p{margin:12px 1px 4px;color:#8da1ae;font-size:8px;line-height:1.45}.bw-hybrid-native-position-sheet footer{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;margin-top:14px}.bw-hybrid-native-position-sheet footer button{height:38px;border:0;border-radius:9px;background:#223744;color:#dce9f0;padding:0 13px}.bw-hybrid-native-position-sheet footer button.primary{background:#63c8ff;color:#062739;font-weight:900}
+
+@media(max-width:760px){
+  body.bw-external-native-parity .bw-external-workspace{grid-template-rows:52px 1fr}
+  body.bw-external-native-parity .bw-external-top{height:52px;padding:4px 6px;gap:4px}
+  body.bw-external-native-parity .bw-external-top>button{height:40px;padding:0 9px}
+  body.bw-external-native-parity .bw-external-title{max-width:130px;padding:0 3px}
+  body.bw-external-native-parity .bw-external-stage{padding:10px 10px 255px;justify-content:flex-start}
+  body.bw-external-native-parity .bw-hybrid-edit-label{top:-22px;height:20px}
+  body.bw-external-native-parity .bw-hybrid-handle{width:18px;height:18px;border-radius:4px}
+  body.bw-external-native-parity .bw-hybrid-handle.n{left:calc(50% - 9px);top:-10px}.bw-hybrid-handle.s{left:calc(50% - 9px);bottom:-10px}.bw-hybrid-handle.w{left:-10px;top:calc(50% - 9px)}.bw-hybrid-handle.e{right:-10px;top:calc(50% - 9px)}
+  body.bw-external-native-parity .bw-hybrid-quick.bw-mquick{left:0;right:0;bottom:calc(66px + env(safe-area-inset-bottom));transform:none;width:auto;height:170px;border-radius:0;border-left:0;border-right:0;border-bottom:0;grid-template-rows:42px 34px minmax(0,1fr)}
+  body.bw-external-native-parity .bw-hybrid-quick .bw-mquick-card{flex-basis:76px;height:76px}
+  .bw-hybrid-native-bottom{left:0;right:0;bottom:0;transform:none;width:100%;height:66px;grid-template-columns:repeat(4,1fr);padding:4px 5px calc(4px + env(safe-area-inset-bottom));border-radius:0;border-left:0;border-right:0;border-bottom:0;background:#0c1821}
+  .bw-hybrid-native-bottom button{flex-direction:column;gap:2px}.bw-hybrid-native-bottom button span{font-size:17px}.bw-hybrid-native-bottom button b{font-size:8px}
+  body.bw-external-native-parity .bw-external-inspector-host{top:auto;left:0;right:0;bottom:0;width:100%;height:min(72dvh,650px);border-radius:18px 18px 0 0;border-left:0;border-right:0;border-bottom:0;transform:translateY(100%)}
+  body.bw-external-native-parity .bw-external-inspector-host.open{transform:translateY(0)}
+  .bw-hybrid-native-position-backdrop.show{align-items:flex-end;padding:0}.bw-hybrid-native-position-sheet{width:100%;max-width:none;border-radius:18px 18px 0 0;border-left:0;border-right:0;border-bottom:0;padding:15px 11px calc(15px + env(safe-area-inset-bottom))}
+  .bw-hybrid-native-metrics{bottom:-22px}
+}
