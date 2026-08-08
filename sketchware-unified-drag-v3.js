@@ -211,7 +211,24 @@ function cancelPending(){
 }
 function pendingMove(e){
   if(!pending||e.pointerId!==pending.pointerId)return;
-  if(Math.hypot(e.clientX-pending.x,e.clientY-pending.y)>MOVE_CANCEL)cancelPending();
+  var dx=e.clientX-pending.x,dy=e.clientY-pending.y,dist=Math.hypot(dx,dy);
+  if(pending.panning){
+    e.preventDefault();
+    if(pending.scroller){
+      pending.scroller.scrollTop=pending.startScrollTop-dy;
+      pending.scroller.scrollLeft=pending.startScrollLeft-dx;
+    }
+    return;
+  }
+  if(dist>MOVE_CANCEL){
+    clearTimeout(pending.timer);
+    if(pending.scroller){
+      pending.panning=true;
+      e.preventDefault();
+      pending.scroller.scrollTop=pending.startScrollTop-dy;
+      pending.scroller.scrollLeft=pending.startScrollLeft-dx;
+    }else cancelPending();
+  }
 }
 function pendingUp(e){if(pending&&e.pointerId===pending.pointerId)cancelPending();}
 function pendingCancel(e){if(pending&&e.pointerId===pending.pointerId)cancelPending();}
@@ -223,8 +240,12 @@ function pointerDown(e){
   /* Window capture runs before the old overlay/flow drag listeners. */
   e.stopPropagation();
 
+  var paletteScroller=info.el&&info.el.closest?info.el.closest('#swPaletteScroll,.sw-palette-scroll'):null;
+  var workspaceScroller=!paletteScroller&&(info.kind==='statement-existing'||info.kind==='reporter-existing')?stage():null;
+  var scroller=paletteScroller||workspaceScroller;
   pending={
     info:info,pointerId:e.pointerId,x:e.clientX,y:e.clientY,
+    scroller:scroller,startScrollTop:scroller?scroller.scrollTop:0,startScrollLeft:scroller?scroller.scrollLeft:0,panning:false,
     data:{pointerId:e.pointerId,clientX:e.clientX,clientY:e.clientY}
   };
   pending.timer=setTimeout(function(){
