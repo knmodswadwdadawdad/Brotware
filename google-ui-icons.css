@@ -31,3 +31,13 @@
 .bw-mprops-icon.bw-google-icon{font-size:21px}
 .icon-btn .bw-google-icon{font-size:20px}
 #bwDesktopZoomOut .bw-google-icon,#bwDesktopZoomIn .bw-google-icon,#bwMobileZoomOut .bw-google-icon,#bwMobileZoomIn .bw-google-icon{font-size:19px}
+
+/* Configuration */
+.bw-config-icon.bw-google-icon{font-size:21px;min-width:28px;color:#d7e8f4}
+.bw-config-card .chev.bw-google-icon{font-size:20px;color:#b8cbd8}
+#bwConfigClose .bw-google-icon,#bwConfigDetailBack .bw-google-icon{font-size:22px}
+
+/* Sketchware-style Event rail */
+#skEventRail .sk-event-cat .ico.bw-google-icon{font-size:20px;color:currentColor}
+#skEventRail .sk-event-cat.active .ico.bw-google-icon{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24}
+#skEventCards .sk-event-card .chev.bw-google-icon{font-size:20px}
