@@ -1,0 +1,197 @@
+/* Brotware Logic stability v5
+ * Final geometry/interaction overrides for the isolated Sketchware-style editor.
+ * Loaded after the older Sketchware CSS layers so only Logic is affected.
+ */
+
+/* Root event and the first stack must visually connect. */
+.sw-event-root{
+  margin:0!important;
+  box-shadow:none!important;
+}
+.sw-flow>.sw-stack{
+  margin-left:0!important;
+  margin-top:-5px!important;
+}
+.sw-flow>.sw-stack>.sw-insert:first-child{
+  height:10px!important;
+  margin-top:0!important;
+  margin-bottom:-5px!important;
+}
+
+/* Keep statement insertion targets easy to hit without creating card-like gaps. */
+.sw-insert{
+  width:min(360px,calc(100vw - 24px))!important;
+  height:10px!important;
+  margin:-2px 0!important;
+  border-radius:0!important;
+}
+.sw-insert:before{
+  left:26px!important;
+  right:auto!important;
+  width:92px!important;
+  top:4px!important;
+  height:2px!important;
+}
+.sw-logic-overlay.sw-dragging .sw-insert{
+  height:18px!important;
+  margin:-6px 0!important;
+}
+.sw-logic-overlay.sw-dragging .sw-insert:before{
+  top:8px!important;
+  background:rgba(118,210,255,.20)!important;
+}
+.sw-insert.hot:before,.sw-insert.selected:before{
+  top:7px!important;
+  height:4px!important;
+  width:112px!important;
+  background:#78d7ff!important;
+  box-shadow:0 0 0 3px rgba(120,215,255,.14),0 0 12px rgba(120,215,255,.36)!important;
+}
+
+/* C/E blocks: no duplicated THEN/SENÃO chips. Sketchware shows the C mouth
+   and only the ELSE bridge itself. */
+.sw-v2-control .sw-branch-label{display:none!important}
+.sw-v2-control .sw-branch{
+  min-height:30px!important;
+}
+.sw-v2-control .sw-branch>.sw-stack{
+  margin-left:0!important;
+  min-height:28px!important;
+}
+.sw-v2-if .sw-branch:nth-of-type(3):before{
+  margin-bottom:0!important;
+}
+.sw-v2-control .sw-control-foot{
+  margin-top:0!important;
+}
+
+/* Command blocks remain compact even if old width rules are still mounted. */
+.sw-block.sw-v2-command{
+  width:max-content!important;
+  min-width:0!important;
+  max-width:none!important;
+}
+.sw-block.sw-v2-command>.sw-block-main{
+  width:max-content!important;
+  min-width:86px!important;
+  max-width:none!important;
+}
+
+/* Larger invisible socket hit target; the visible shape stays compact. */
+.sw3-input-host{isolation:isolate}
+.sw3-input-host:before{
+  content:"";
+  position:absolute;
+  inset:-5px -4px;
+  z-index:-1;
+  background:transparent;
+}
+.sw3-input-host.hot{
+  filter:drop-shadow(0 0 6px #6edcff) drop-shadow(0 0 2px #6edcff)!important;
+  transform:scale(1.035)!important;
+}
+.sw3-input-host.bad{
+  filter:grayscale(.45) brightness(.78)!important;
+}
+
+/* One authoritative drag preview. */
+.sw5-logic-drag-ghost{
+  position:fixed;
+  left:-9999px;
+  top:-9999px;
+  z-index:2147483200;
+  pointer-events:none;
+  display:none;
+  max-width:340px;
+  opacity:.94;
+  filter:drop-shadow(0 7px 16px rgba(0,0,0,.38));
+}
+.sw5-logic-drag-ghost.show{display:block}
+.sw5-ghost-command{
+  min-height:32px;
+  width:max-content;
+  max-width:330px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:8px 10px;
+  background:#385c73;
+  color:#fff;
+  font:800 11px/1.1 Inter,system-ui,sans-serif;
+  overflow:hidden;
+}
+.sw5-logic-drag-ghost .sw-block-icon,
+.sw5-logic-drag-ghost .sw-block-grip,
+.sw5-logic-drag-ghost .sw-block-summary{display:none!important}
+.sw5-drag-source{opacity:.32!important}
+
+/* Standard/List palette additions should look like real command blocks, not cards. */
+.sw-standard-item,
+.sw-list-special{
+  width:max-content!important;
+  max-width:calc(100% - 4px)!important;
+  min-height:31px!important;
+  border-radius:0!important;
+  padding:8px 9px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  clip-path:polygon(
+    0 5px,26px 5px,31px 0,49px 0,54px 5px,100% 5px,
+    100% calc(100% - 5px),54px calc(100% - 5px),49px 100%,
+    31px 100%,26px calc(100% - 5px),0 calc(100% - 5px)
+  )!important;
+  box-shadow:none!important;
+}
+.sw-standard-item .ico,.sw-list-special .ico{display:none!important}
+.sw-standard-item small,.sw-list-special small{display:none!important}
+.sw-standard-item b,.sw-list-special b{
+  font-size:11px!important;
+  line-height:1.1!important;
+}
+
+/* Event browser: avoid cramped/overlapping cards on mobile. */
+.sk-event-current{width:min(100%,760px)!important}
+.sk-event-card{
+  width:100%!important;
+  min-width:0!important;
+  min-height:56px!important;
+  border-radius:11px!important;
+  padding:8px 11px!important;
+}
+.sk-event-card>span:nth-child(2){min-width:0}
+.sk-event-card b,.sk-event-card small{
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.sk-event-add{z-index:90!important}
+
+@media(max-width:760px){
+  .sw-workspace{
+    padding-left:8px!important;
+    padding-top:12px!important;
+  }
+  .sw-flow{min-width:300px!important}
+  .sw-event-root{
+    max-width:calc(100vw - 18px)!important;
+    font-size:12px!important;
+  }
+  .sw-block.sw-v2-command>.sw-block-main{
+    min-width:78px!important;
+  }
+  .sw-v2-control{
+    max-width:none!important;
+  }
+  .sw-insert{
+    width:min(330px,calc(100vw - 22px))!important;
+  }
+  .sw-palette{
+    min-height:300px!important;
+  }
+  .sk-event-main{padding-bottom:94px!important}
+  .sk-event-add{
+    position:fixed!important;
+    right:14px!important;
+    bottom:calc(78px + env(safe-area-inset-bottom))!important;
+  }
+}
