@@ -94,6 +94,17 @@
   filter:grayscale(.45) brightness(.78)!important;
 }
 
+/* The unified V3 gesture engine owns these touch surfaces. Quick movement is
+   converted into manual scroll/pan; holding starts a block drag. */
+.sw-palette-item,
+.sw-standard-item,
+.sw-list-special,
+.sw3-reporter-palette,
+.sw-block,
+.sw3-reporter{
+  touch-action:none!important;
+}
+
 /* One authoritative drag preview. */
 .sw5-logic-drag-ghost{
   position:fixed;
