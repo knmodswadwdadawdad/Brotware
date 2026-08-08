@@ -1,0 +1,179 @@
+/* Sketchware typed connectable sockets for Brotware Logic */
+
+.sw3-input-host{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:23px;
+  min-width:42px;
+  margin:0 2px;
+  vertical-align:middle;
+  box-sizing:border-box;
+  overflow:visible;
+  transition:filter .12s ease,transform .12s ease,outline-color .12s ease;
+}
+.sw3-input-host.string{min-width:48px}
+.sw3-input-host.number{min-width:42px;border-radius:999px}
+.sw3-input-host.boolean{min-width:64px}
+
+.sw3-empty-socket{
+  min-height:23px;
+  min-width:42px;
+  max-width:190px;
+  padding:2px 7px;
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  color:#24272d;
+  font:700 10px/1 Inter,system-ui,sans-serif;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+}
+.sw3-empty-socket.string{border-radius:1px;min-width:48px}
+.sw3-empty-socket.number{
+  border-radius:999px;
+  min-width:42px;
+  padding-left:11px;
+  padding-right:11px;
+}
+.sw3-empty-socket.boolean{
+  min-width:64px;
+  padding-left:15px;
+  padding-right:15px;
+  background:rgba(60,48,0,.34);
+  color:#fff;
+  box-shadow:none;
+  clip-path:polygon(13px 0,calc(100% - 13px) 0,100% 50%,calc(100% - 13px) 100%,13px 100%,0 50%);
+}
+
+.sw3-input-host.hot{
+  filter:drop-shadow(0 0 5px #69dcff) drop-shadow(0 0 2px #69dcff);
+  transform:scale(1.05);
+  z-index:20;
+}
+.sw3-input-host.hot:after{
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border:2px solid #75dfff;
+  border-radius:6px;
+  pointer-events:none;
+}
+.sw3-input-host.bad{filter:grayscale(.35) brightness(.8)}
+
+/* Nested reporter/value blocks. */
+.sw3-reporter{
+  --sw3-reporter-color:#00b85a;
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  min-height:23px;
+  min-width:42px;
+  max-width:240px;
+  padding:3px 9px;
+  box-sizing:border-box;
+  background:var(--sw3-reporter-color);
+  color:#fff;
+  font:800 10px/1 Inter,system-ui,sans-serif;
+  vertical-align:middle;
+  white-space:nowrap;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.28));
+}
+.sw3-reporter:active{cursor:grabbing}
+.sw3-reporter.string{border-radius:2px}
+.sw3-reporter.number{
+  border-radius:999px;
+  padding-left:12px;
+  padding-right:12px;
+}
+.sw3-reporter.boolean{
+  min-width:64px;
+  padding-left:16px;
+  padding-right:16px;
+  clip-path:polygon(13px 0,calc(100% - 13px) 0,100% 50%,calc(100% - 13px) 100%,13px 100%,0 50%);
+}
+.sw3-reporter.any{
+  border-radius:2px;
+  padding-right:16px;
+}
+.sw3-reporter.type-compareValue{
+  gap:3px;
+  min-width:108px;
+  padding:3px 12px;
+}
+.sw3-reporter.type-compareValue .sw3-input-host{
+  margin:0;
+  min-width:30px;
+}
+.sw3-reporter.type-compareValue .sw3-empty-socket{
+  min-width:30px;
+  min-height:18px;
+  height:18px;
+  padding:1px 4px;
+  font-size:9px;
+}
+.sw3-compare-op{font-weight:900;color:#fff;min-width:14px;text-align:center}
+.sw3-mini-arrow{font-size:8px;margin-left:3px;color:rgba(0,0,0,.78)}
+
+/* The host itself becomes transparent when a reporter is plugged in. */
+.sw3-input-host:has(>.sw3-reporter){background:transparent;box-shadow:none}
+
+/* Reporter palette entries: actual blocks instead of cards. */
+.sw3-reporter-palette-list{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+  margin:8px 0 4px;
+}
+.sw3-reporter-palette{
+  appearance:none;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  display:block;
+  cursor:grab;
+  touch-action:none;
+  text-align:left;
+}
+.sw3-reporter-palette:active{cursor:grabbing}
+.sw3-reporter-palette>.sw3-reporter{pointer-events:none}
+
+/* Fixed drag preview so mobile users can see exactly what is being connected. */
+.sw3-socket-drag-ghost{
+  position:fixed;
+  z-index:2147483646;
+  left:-9999px;
+  top:-9999px;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(1.05);
+  transform-origin:left top;
+  transition:opacity .08s ease;
+  filter:drop-shadow(0 5px 12px rgba(0,0,0,.35));
+}
+.sw3-socket-drag-ghost.show{opacity:.92}
+body.sw3-socket-dragging .sw3-input-host{outline:1px dashed rgba(112,219,255,.28);outline-offset:2px}
+
+/* Keep command text tight around real sockets. */
+.sw-block-name .sw3-input-host{flex:0 0 auto}
+.sw-block-name>.sw2-word{flex:0 0 auto}
+.sw-v2-control>.sw-control-wrap>.sw-block-main .sw-block-name{overflow:visible!important}
+
+@media(max-width:760px){
+  .sw3-reporter,.sw3-empty-socket{font-size:9.5px}
+  .sw3-input-host{min-height:22px}
+  .sw3-empty-socket{min-height:22px;height:22px}
+  .sw3-reporter{min-height:22px}
+}
