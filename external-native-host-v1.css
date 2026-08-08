@@ -1,0 +1,18 @@
+/* External projects are mounted inside the real Native designer instead of using a separate fullscreen editor. */
+body.bw-external-native-host{overflow:hidden!important}
+body.bw-external-native-host #bwExternalWorkspace{display:none!important;pointer-events:none!important}
+body.bw-external-native-host #bwImportNativeTopToolsV2,
+body.bw-external-native-host #bwImportNativeMenuV2{display:none!important}
+body.bw-external-native-host #rootLayout{display:none!important}
+body.bw-external-native-host #viewPane.bw-external-native-pane{position:relative!important;overflow:hidden!important;background:#fff!important;padding:0!important}
+body.bw-external-native-host #bwExternalShell.bw-native-hosted{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;margin:0!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;transform:none!important;transition:none!important;overflow:hidden!important;z-index:3}
+body.bw-external-native-host #bwExternalShell.bw-native-hosted #bwExternalFrame{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;border:0!important;background:#fff!important}
+body.bw-external-native-host #bwExternalShell.bw-native-hosted #bwHybridEditOverlay{z-index:80!important}
+body.bw-external-native-host .designer-canvas{overflow:auto!important}
+body.bw-external-native-host #phone{overflow:hidden!important}
+body.bw-external-native-host #bwHybridQuick.bw-mquick{z-index:21050!important}
+body.bw-external-native-host #bwHybridNativeBottom{z-index:21040!important}
+body.bw-external-native-host #bwExternalErrors{display:none!important}
+body.bw-external-native-host #bwExternalInspectorHost{z-index:22050!important}
+body.bw-external-native-host.bw-import-external-selected #bwMobileSelection{display:flex}
+@media(min-width:761px){body.bw-external-native-host .bw-external-frame-shell.bw-native-hosted{width:100%!important;height:100%!important}}
