@@ -1,0 +1,185 @@
+/* Brotware Logic — Sketchware geometry v3
+   Overrides only the visual geometry of the isolated Sketchware-style logic editor.
+   No project/runtime/editor-native behavior is changed here. */
+
+.sw-logic-overlay{
+  --sw3-notch-left:26px;
+  --sw3-notch-width:28px;
+  --sw3-notch-depth:5px;
+}
+
+/* Keep the workspace dense, like Sketchware. */
+.sw-flow{padding-top:2px!important}
+.sw-stack{width:max-content!important;min-width:0!important}
+.sw-block{max-width:none!important;overflow:visible!important}
+.sw-block-main{max-width:none!important;min-height:31px!important;padding:5px 9px!important}
+.sw-block-name{font-size:12px!important;line-height:21px!important}
+.sw2-word{font-size:12px!important;line-height:21px!important}
+
+/* Smaller command connector. */
+.sw-v2-command>.sw-block-main,
+.sw-v2-command>.sw-control-wrap>.sw-block-main{
+  clip-path:polygon(
+    0 var(--sw3-notch-depth),
+    var(--sw3-notch-left) var(--sw3-notch-depth),
+    calc(var(--sw3-notch-left) + 5px) 0,
+    calc(var(--sw3-notch-left) + var(--sw3-notch-width) - 5px) 0,
+    calc(var(--sw3-notch-left) + var(--sw3-notch-width)) var(--sw3-notch-depth),
+    100% var(--sw3-notch-depth),
+    100% calc(100% - var(--sw3-notch-depth)),
+    calc(var(--sw3-notch-left) + var(--sw3-notch-width)) calc(100% - var(--sw3-notch-depth)),
+    calc(var(--sw3-notch-left) + var(--sw3-notch-width) - 5px) 100%,
+    calc(var(--sw3-notch-left) + 5px) 100%,
+    var(--sw3-notch-left) calc(100% - var(--sw3-notch-depth)),
+    0 calc(100% - var(--sw3-notch-depth))
+  )!important;
+  padding-top:8px!important;
+  padding-bottom:8px!important;
+}
+
+/* Event/start block: only the event label belongs inside the hat. */
+.sw-event-root{
+  width:max-content!important;
+  max-width:calc(100vw - 22px)!important;
+  min-width:0!important;
+  min-height:35px!important;
+  padding:7px 12px 10px 9px!important;
+  border-radius:8px 8px 0 0!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+  clip-path:polygon(
+    0 0,100% 0,100% calc(100% - 5px),
+    55px calc(100% - 5px),50px 100%,32px 100%,27px calc(100% - 5px),
+    0 calc(100% - 5px)
+  )!important;
+}
+.sw-event-root small{display:none!important}
+
+/* Input sockets are closer to the original proportions. */
+.sw2-socket{
+  height:23px!important;
+  min-width:30px!important;
+  padding:2px 6px!important;
+  font-size:10px!important;
+  box-sizing:border-box!important;
+}
+.sw2-socket.string{min-width:44px!important;max-width:170px!important;border-radius:1px!important}
+.sw2-socket.number{min-width:40px!important;max-width:105px!important;border-radius:999px!important;padding-left:10px!important;padding-right:10px!important}
+.sw2-socket.boolean{
+  min-width:62px!important;
+  max-width:190px!important;
+  padding-left:15px!important;
+  padding-right:15px!important;
+  background:rgba(62,48,0,.34)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  clip-path:polygon(13px 0,calc(100% - 13px) 0,100% 50%,calc(100% - 13px) 100%,13px 100%,0 50%)!important;
+}
+.sw2-socket.menu{
+  min-width:68px!important;
+  max-width:165px!important;
+  background:rgba(74,35,19,.34)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+.sw2-socket.view{background:rgba(19,62,91,.42)!important}
+
+/*
+ * Critical Sketchware behavior:
+ * C/E blocks stay compact. A child can extend to the right; it must NOT force
+ * the yellow C-shell to become as wide as the child.
+ * JS writes --sw3-control-w from the natural header width.
+ */
+.sw-v2-control{
+  width:var(--sw3-control-w,210px)!important;
+  min-width:0!important;
+  max-width:none!important;
+  overflow:visible!important;
+}
+.sw-v2-control>.sw-control-wrap{
+  width:var(--sw3-control-w,210px)!important;
+  min-width:0!important;
+  max-width:none!important;
+  overflow:visible!important;
+}
+.sw-v2-control>.sw-control-wrap>.sw-block-main{
+  width:max-content!important;
+  min-width:0!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+  clip-path:polygon(0 5px,26px 5px,31px 0,49px 0,54px 5px,100% 5px,100% 100%,0 100%)!important;
+  padding:9px 9px 6px 7px!important;
+}
+.sw-v2-control .sw-branch{
+  box-sizing:border-box!important;
+  width:var(--sw3-control-w,210px)!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0 0 4px 26px!important;
+  border-left:13px solid var(--block-color)!important;
+  background:transparent!important;
+  overflow:visible!important;
+}
+.sw-v2-control .sw-branch>.sw-stack{
+  width:max-content!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  padding:1px 0 0 0!important;
+  overflow:visible!important;
+}
+
+/* The ELSE bridge has the same compact width as the header, not the child. */
+.sw-v2-if .sw-branch:nth-of-type(3):before{
+  content:'else'!important;
+  box-sizing:border-box!important;
+  width:calc(var(--sw3-control-w,210px) - 13px)!important;
+  height:30px!important;
+  margin-left:-13px!important;
+  padding:4px 7px 6px!important;
+  display:flex!important;
+  align-items:center!important;
+  color:#fff!important;
+  background:var(--block-color)!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),54px calc(100% - 5px),49px 100%,31px 100%,26px calc(100% - 5px),0 calc(100% - 5px))!important;
+}
+.sw-v2-control .sw-control-foot{
+  box-sizing:border-box!important;
+  width:var(--sw3-control-w,210px)!important;
+  height:26px!important;
+  margin:0!important;
+  background:var(--block-color)!important;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),54px calc(100% - 5px),49px 100%,31px 100%,26px calc(100% - 5px),0 calc(100% - 5px))!important;
+}
+
+/* Child commands sit immediately inside the C mouth. */
+.sw-v2-control .sw-branch .sw-block{margin-left:0!important}
+.sw-v2-control .sw-branch .sw-v2-command>.sw-block-main{margin-left:0!important}
+
+/* Palette blocks use the same compact proportions. */
+.sw-palette-item{font-size:12px!important}
+.sw-v2-palette-command{min-height:31px!important;padding:8px 8px!important}
+.sw-v2-palette-control{
+  width:190px!important;
+  min-width:190px!important;
+  max-width:190px!important;
+  min-height:66px!important;
+  padding:8px 7px!important;
+  clip-path:polygon(
+    0 5px,26px 5px,31px 0,49px 0,54px 5px,100% 5px,
+    100% 30px,35px 30px,35px 49px,100% 49px,
+    100% calc(100% - 5px),54px calc(100% - 5px),49px 100%,31px 100%,26px calc(100% - 5px),0 calc(100% - 5px)
+  )!important;
+}
+
+/* Mobile reference: palette rail roughly matches the screenshot. */
+@media (orientation:portrait), (max-width:760px){
+  .sw-palette{height:min(45dvh,440px)!important;min-height:292px!important}
+  .sw-palette-content{grid-template-columns:minmax(0,1fr) 126px!important}
+  .sw-palette-cats{width:126px!important}
+  .sw-cat{min-height:36px!important;font-size:11px!important}
+  .sw-v2-control{max-width:none!important}
+}
