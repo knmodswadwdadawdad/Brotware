@@ -1,0 +1,70 @@
+/* Imported project shell: make Hybrid visually occupy the same editor language as Native. */
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell{grid-template-rows:58px 1fr;background:#07131e}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-top{height:58px;padding:6px 10px;background:#08151f;border-bottom:1px solid #223845;box-shadow:0 5px 20px rgba(0,0,0,.22);gap:7px}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell #bwExternalInspect,
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell #bwExternalLayers,
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell #bwExternalReload,
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell #bwExternalExport,
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-device{display:none!important}
+.bw-import-native-back{width:40px!important;height:40px!important;padding:0!important;border:0!important;background:transparent!important;color:#e7f0f5!important;font-size:18px!important}
+.bw-import-native-title{min-width:150px!important;max-width:360px!important;padding:0 5px!important}
+.bw-import-native-title strong{font-size:13px!important;font-weight:800!important}.bw-import-native-title small{font-size:8px!important;color:#8397a4!important}
+.bw-import-native-tools{margin-left:auto;display:flex;align-items:center;gap:6px;height:44px}
+.bw-import-native-zoom{height:40px;display:flex;align-items:center;border:1px solid #29404e;border-radius:11px;background:#0d1d28;overflow:hidden}
+.bw-import-native-zoom button{width:36px;height:38px;border:0;background:transparent;color:#d8e7f0;font-size:16px;cursor:pointer}.bw-import-native-zoom button:hover{background:#193342}
+.bw-import-native-zoom span{min-width:50px;text-align:center;color:#9bb0bc;font-size:9px;font-weight:800}
+.bw-import-native-device,.bw-import-native-run,.bw-import-native-issues,.bw-import-native-more{height:40px;border:1px solid #29404e;border-radius:11px;background:#0d1d28;color:#cfe2ec;font-size:9px;font-weight:800;cursor:pointer}
+.bw-import-native-device{min-width:78px;padding:0 12px}.bw-import-native-run,.bw-import-native-issues,.bw-import-native-more{width:42px;padding:0;font-size:16px}
+.bw-import-native-run{background:#123044;color:#9fdcff;border-color:#24495d}.bw-import-native-run.active{background:#174966;color:#dff5ff;border-color:#5abcf3}
+.bw-import-native-issues{position:relative}.bw-import-native-issues.has-issues{color:#ffd783;border-color:#7b6435}.bw-import-native-issues i{position:absolute;right:3px;top:2px;min-width:14px;height:14px;border-radius:8px;background:#65d8aa;color:#06251b;font-style:normal;font-size:7px;display:grid;place-items:center}
+.bw-import-native-more{font-size:20px}
+
+/* Native-like central designer canvas. */
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-main{display:block;min-height:0}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-stage{position:absolute;inset:58px 0 0;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:16px 24px 270px;background-color:#07131e;background-image:linear-gradient(rgba(92,119,136,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(92,119,136,.09) 1px,transparent 1px);background-size:8px 8px}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-frame-shell{--bw-native-import-zoom:1;transform:scale(var(--bw-native-import-zoom));transform-origin:top center;flex:0 0 auto;margin:0 auto;border:1px solid #334a58;border-radius:9px;background:#fff;box-shadow:0 18px 55px rgba(0,0,0,.38);overflow:hidden;transition:width .16s ease,height .16s ease,transform .12s ease}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-frame-shell.mobile{width:360px!important;height:690px!important;min-height:690px!important;max-height:none!important}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-frame-shell.tablet{width:768px!important;height:780px!important;min-height:780px!important;max-height:none!important}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-frame-shell.desktop{width:min(1180px,calc(100vw - 90px))!important;height:780px!important;min-height:780px!important;max-height:none!important}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-frame{width:100%;height:100%;display:block;background:#fff}
+
+/* Keep errors tucked away like native status; user can open from ! button. */
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-errors{display:none;left:50%;bottom:88px;transform:translateX(-50%);max-width:min(760px,calc(100vw - 32px));z-index:19500}
+body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-errors.force-show{display:flex}
+
+/* Same native bottom dock semantics. */
+body.bw-external-native-parity .bw-hybrid-native-bottom.bw-import-native-bottom{grid-template-columns:repeat(4,112px);bottom:14px;height:58px;z-index:19400}
+body.bw-external-native-parity .bw-hybrid-native-bottom.bw-import-native-bottom button{display:flex;flex-direction:row;gap:8px}
+body.bw-external-native-parity .bw-hybrid-native-bottom.bw-import-native-bottom button:first-child{color:#9cdbff}
+
+/* Quick properties sits exactly where Native's selected-view tray sits. */
+body.bw-external-native-parity .bw-hybrid-quick.bw-mquick{bottom:84px!important;width:min(900px,calc(100vw - 48px))!important;height:162px!important;border-radius:16px!important}
+body.bw-external-native-parity.bw-hybrid-has-selection .bw-external-workspace.bw-import-native-shell .bw-external-stage{padding-bottom:280px}
+
+/* Native-like More menu. */
+.bw-import-native-menu{position:fixed;z-index:59000;display:none;width:260px;padding:6px;border:1px solid #304653;border-radius:13px;background:#101f29;color:#edf5fa;box-shadow:0 20px 55px rgba(0,0,0,.45);font-family:Inter,system-ui,sans-serif}
+.bw-import-native-menu.show{display:flex;flex-direction:column}
+.bw-import-native-menu button{min-height:52px;display:grid;grid-template-columns:32px minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;align-items:center;border:0;border-radius:9px;background:transparent;color:#edf5fa;text-align:left;padding:7px 9px;cursor:pointer}
+.bw-import-native-menu button:hover{background:#19303d}.bw-import-native-menu button>span{grid-row:1/3;width:30px;text-align:center;color:#8ed5ff;font-size:16px}.bw-import-native-menu button>b{font-size:10px}.bw-import-native-menu button>small{font-size:7px;color:#8da1ae}
+
+/* Make hybrid add sheet look like Native Add panel. */
+body.bw-external-native-parity .bw-hybrid-add-backdrop.show{align-items:flex-start;justify-content:flex-start;padding:72px 0 88px 16px;background:rgba(0,0,0,.22)}
+body.bw-external-native-parity .bw-hybrid-add-backdrop .bw-hybrid-sheet{width:390px;max-height:calc(100vh - 176px);border-radius:18px;background:#0e1b25;border-color:#314855}
+body.bw-external-native-parity .bw-hybrid-add-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+body.bw-external-native-parity .bw-hybrid-add-item{min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px 5px;background:#14242f;border-color:#2b414f}
+body.bw-external-native-parity .bw-hybrid-add-item .ico{font-size:20px;color:#91d8ff}.bw-hybrid-add-item b{font-size:9px}.bw-hybrid-add-item small{font-size:7px}
+
+@media(max-width:760px){
+  body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell{grid-template-rows:52px 1fr}
+  body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-top{height:52px;padding:4px 5px}
+  .bw-import-native-title{min-width:0!important;max-width:120px!important}.bw-import-native-title strong{font-size:10px!important}.bw-import-native-title small{font-size:7px!important}
+  .bw-import-native-zoom{display:none}.bw-import-native-device{min-width:62px;height:38px;padding:0 8px}.bw-import-native-run,.bw-import-native-issues,.bw-import-native-more{width:38px;height:38px}
+  body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-stage{inset:52px 0 0;padding:10px 10px 250px;justify-content:center}
+  body.bw-external-native-parity .bw-external-workspace.bw-import-native-shell .bw-external-frame-shell.mobile{width:min(360px,calc(100vw - 20px))!important;height:calc(100dvh - 318px)!important;min-height:520px!important}
+  body.bw-external-native-parity .bw-hybrid-native-bottom.bw-import-native-bottom{left:50%;right:auto;bottom:8px;transform:translateX(-50%);width:calc(100vw - 16px);grid-template-columns:repeat(4,1fr);height:58px}
+  body.bw-external-native-parity .bw-hybrid-native-bottom.bw-import-native-bottom button{flex-direction:column;gap:2px}.bw-hybrid-native-bottom button span{font-size:15px}.bw-hybrid-native-bottom button b{font-size:7px}
+  body.bw-external-native-parity .bw-hybrid-quick.bw-mquick{left:8px!important;right:8px!important;bottom:72px!important;transform:none!important;width:auto!important;height:164px!important;border-radius:14px!important}
+  body.bw-external-native-parity .bw-hybrid-add-backdrop.show{align-items:flex-end;padding:0;background:rgba(0,0,0,.55)}
+  body.bw-external-native-parity .bw-hybrid-add-backdrop .bw-hybrid-sheet{width:100%;max-width:none;max-height:76dvh;border-radius:18px 18px 0 0}
+  .bw-import-native-menu{width:min(260px,calc(100vw - 16px))}
+}
