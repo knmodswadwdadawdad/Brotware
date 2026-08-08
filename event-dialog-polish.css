@@ -1,0 +1,33 @@
+/* Compact Add Event dialog, closer to Sketchware mobile proportions. */
+.sk-add-events-modal{align-items:center!important;justify-content:center!important;padding:14px!important;background:rgba(0,0,0,.72)!important}
+.sk-add-events-dialog{width:min(560px,92vw)!important;height:min(620px,78dvh)!important;max-height:78dvh!important;border-radius:20px!important;grid-template-rows:56px minmax(0,1fr) 58px!important;box-shadow:0 24px 70px rgba(0,0,0,.58)!important}
+.sk-add-events-top{padding:6px 8px 0!important;gap:3px!important}
+.sk-add-events-tab{min-width:72px!important;padding:6px 5px!important;border-radius:12px 12px 0 0!important}
+.sk-add-events-tab .ico{height:20px;display:flex!important;align-items:center;justify-content:center;margin-bottom:3px!important}
+.sk-add-events-tab .bw-google-icon{font-size:19px!important}
+.sk-add-events-body{padding:8px 12px!important;overscroll-behavior:contain}
+.sk-add-event-row{min-height:56px!important;grid-template-columns:30px minmax(0,1fr) 34px!important;gap:8px!important;padding:6px 1px!important}
+.sk-add-event-row>.ico{display:flex;align-items:center;justify-content:center;color:#c9d6e2!important}
+.sk-add-event-row>.ico .bw-google-icon{font-size:20px!important}
+.sk-add-event-row b{font-size:11px!important;line-height:1.25}.sk-add-event-row small{font-size:8.5px!important;line-height:1.3}
+.sk-event-check-wrap{width:34px;height:34px;display:grid;place-items:center;position:relative;cursor:pointer}
+.sk-event-check-wrap .sk-check{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;opacity:0!important;cursor:pointer;z-index:2}
+.sk-event-check-icon{font-size:23px!important;color:#b7c6d2;transition:.15s ease}
+.sk-event-check-wrap.checked .sk-event-check-icon{color:#82cdfa}
+.sk-add-events-foot{height:58px!important;padding:9px 14px!important;gap:10px!important;background:#0b1822;position:relative;z-index:4}
+.sk-add-events-foot button{min-height:40px!important;border-radius:999px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;font-size:11px!important;font-weight:700!important}
+.sk-add-events-foot .bw-google-icon{font-size:18px!important}
+.sk-cancel{background:#314967!important}.sk-confirm{background:#82caf7!important}
+#skEventRail .sk-event-cat .ico{display:flex;align-items:center;justify-content:center;height:22px}
+#skEventRail .sk-event-cat .ico .bw-google-icon{font-size:21px!important}
+.sk-event-card .ev-icon{display:flex;align-items:center;justify-content:center}.sk-event-card .ev-icon .bw-google-icon{font-size:21px!important}
+
+@media(max-width:760px){
+ .sk-add-events-modal{align-items:center!important;padding:12px!important}
+ .sk-add-events-dialog{width:min(390px,calc(100vw - 24px))!important;height:76dvh!important;max-height:620px!important;border-radius:18px!important}
+ .sk-add-events-top{overflow-x:auto!important;scrollbar-width:none}.sk-add-events-top::-webkit-scrollbar{display:none}
+ .sk-add-events-tab{min-width:64px!important;font-size:9px!important}
+ .sk-add-events-body{padding:6px 10px!important}
+ .sk-add-event-row{min-height:55px!important}
+}
+@media(max-height:650px){.sk-add-events-dialog{height:84dvh!important;max-height:84dvh!important}}
