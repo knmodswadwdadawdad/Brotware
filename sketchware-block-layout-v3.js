@@ -1,20 +1,23 @@
 (function(){
 'use strict';
 
+function eventLabel(root){
+  if(!root)return'';
+  var parts=[];
+  Array.prototype.forEach.call(root.childNodes,function(n){
+    if(n.nodeType===1&&n.tagName&&n.tagName.toLowerCase()==='small')return;
+    if(n.nodeType===3)parts.push(n.nodeValue||'');
+    else if(n.nodeType===1)parts.push(n.textContent||'');
+  });
+  var label=parts.join(' ').replace(/\s+/g,' ').replace(/^‹›\s*/,'').trim();
+  if(!label)label=String(root.dataset.sw3EventLabel||'Evento');
+  if(/^(?:@?page\s*→\s*load|oncreate|on\s+activity\s+create)$/i.test(label))label='On activity create';
+  return label;
+}
 function compactEvent(root){
   if(!root)return;
-  var text=String(root.textContent||'').replace(/\s+/g,' ').trim();
-  var label='';
-  if(/oncreate/i.test(text))label='On activity create';
-  else{
-    var small=root.querySelector('small');
-    if(small)small.style.display='none';
-    text=text.replace(/^‹›\s*/,'').trim();
-    if(text){
-      var parts=text.split(' ');
-      label=parts[0]||text;
-    }
-  }
+  var small=root.querySelector('small');if(small)small.style.display='none';
+  var label=eventLabel(root);
   if(label&&root.dataset.sw3EventLabel!==label){
     root.dataset.sw3EventLabel=label;
     root.textContent=label;
@@ -26,7 +29,6 @@ function measureControl(el){
   var main=el.querySelector(':scope > .sw-control-wrap > .sw-block-main');
   if(!main)return;
 
-  /* Temporarily let the header find its natural content width. */
   var oldW=main.style.width;
   main.style.width='max-content';
   var r=main.getBoundingClientRect();
@@ -35,12 +37,10 @@ function measureControl(el){
   var width=Math.ceil(r.width||0);
   if(!width)return;
 
-  /* Sketchware keeps C blocks compact. Keep a small useful floor only. */
-  width=Math.max(150,Math.min(width,360));
+  /* The C shell follows only its own header; children may extend right. */
+  width=Math.max(136,Math.min(width,420));
   var px=width+'px';
-  if(el.style.getPropertyValue('--sw3-control-w')!==px){
-    el.style.setProperty('--sw3-control-w',px);
-  }
+  if(el.style.getPropertyValue('--sw3-control-w')!==px)el.style.setProperty('--sw3-control-w',px);
 }
 
 function decorate(){
