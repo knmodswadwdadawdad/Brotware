@@ -3,11 +3,9 @@
 
 /*
  * Sketchware typed sockets for Brotware native logic.
- *
- * This module deliberately layers on top of the existing block model instead
- * of replacing it. Reporter/value blocks live inside parentBlock.inputs and
- * their compiled primitive value is mirrored back into parentBlock.props so
- * the existing interpreter/export runtime keeps working unchanged.
+ * Reporter/value blocks live inside parentBlock.inputs and their compiled
+ * primitive value is mirrored into parentBlock.props so the existing runtime
+ * and exporter remain compatible.
  */
 
 var overlay=null,flow=null,paletteScroll=null;
@@ -222,17 +220,19 @@ function decorateStatements(){
   });
 }
 function activeCategory(){var a=overlay&&overlay.querySelector('.sw-cat.active');return a?a.dataset.swCat:'';}
-function paletteReporter(kind,text){var d=REPORTERS[kind];return '<button type="button" class="sw3-reporter-palette" data-sw3-template="'+kind+'" style="--sw3-reporter-color:'+d.color+'">'+renderReporter(createReporter(kind)).replace(/data-value-block-id="[^"]+"/,'')+'</button>';}
+function paletteReporter(kind){var d=REPORTERS[kind];return '<button type="button" class="sw3-reporter-palette" data-sw3-template="'+kind+'" style="--sw3-reporter-color:'+d.color+'">'+renderReporter(createReporter(kind)).replace(/data-value-block-id="[^"]+"/,'')+'</button>';}
 function decoratePalette(){
   if(!paletteScroll)return;var cat=activeCategory();if(!cat)return;
-  paletteScroll.querySelectorAll('.sw3-reporter-palette').forEach(function(x){x.remove();});
-  var wrap=document.createElement('div');wrap.className='sw3-reporter-palette-list';
+  var existing=paletteScroll.querySelector('.sw3-reporter-palette-list');
+  if(existing&&existing.dataset.sw3Cat===cat)return;
+  if(existing)existing.remove();
   var html='';
   if(cat==='operator')html+=paletteReporter('boolean')+paletteReporter('compare');
   if(cat==='math')html+=paletteReporter('number');
   if(cat==='strings')html+=paletteReporter('string');
   if(cat==='var')html+=paletteReporter('variable');
-  if(!html)return;wrap.innerHTML=html;paletteScroll.appendChild(wrap);
+  if(!html)return;
+  var wrap=document.createElement('div');wrap.className='sw3-reporter-palette-list';wrap.dataset.sw3Cat=cat;wrap.innerHTML=html;paletteScroll.appendChild(wrap);
 }
 function decorate(){decorateStatements();decoratePalette();}
 function queueDecorate(){if(queued)return;queued=true;requestAnimationFrame(function(){queued=false;decorate();});}
