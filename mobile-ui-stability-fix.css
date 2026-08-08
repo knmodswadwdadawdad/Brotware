@@ -2,8 +2,6 @@
  * Keep exactly one mobile chrome. Legacy designer/desktop controls may remain
  * mounted in the DOM, but they must never participate in mobile layout.
  */
-.bw-desktop-top-tools{display:none}
-
 @media(max-width:760px){
   html,body{max-width:100vw!important;overflow:hidden!important}
 
@@ -109,8 +107,6 @@
   body.bw-mobile-v2 .phone-status,
   body.bw-mobile-v2 .phone-toolbar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important}
 
-  /* Keep the contextual property tray above nav without covering the canvas
-     header. Existing quick-properties implementation still owns its content. */
   body.bw-mobile-v2 .bw-mobile-bottomnav{
     left:0!important;right:0!important;bottom:0!important;
     height:calc(66px + env(safe-area-inset-bottom))!important;
