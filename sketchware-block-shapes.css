@@ -1,0 +1,86 @@
+/* Sketchware block silhouettes based on the PNG references supplied for Brotware. */
+.sw-logic-overlay{--sw-notch-x:22px;--sw-notch-w:28px;--sw-notch-d:5px}
+
+/* Compact blocks like Sketchware instead of large cards. */
+.sw-block{width:auto;max-width:min(620px,calc(100vw - 22px));display:block;filter:drop-shadow(0 2px 2px rgba(0,0,0,.24))}
+.sw-block-main{min-height:34px;width:max-content;max-width:100%;padding:6px 10px 6px 11px;gap:5px;border-radius:0;background:var(--block-color);overflow:visible}
+.sw-block-main:before,.sw-block-main:after{display:none!important}
+.sw-block-icon,.sw-block-grip{display:none!important}
+.sw-block-info{display:flex;align-items:center;gap:5px;min-width:0;flex:0 1 auto}
+.sw-block-name{font-size:12px;line-height:1;font-weight:850;overflow:visible;text-overflow:clip}
+.sw-block-summary{font-size:10px;line-height:1;opacity:1;display:flex;align-items:center;gap:4px;overflow:visible;text-overflow:clip;white-space:nowrap}
+
+/* Regular command: top female socket + bottom male tab. */
+.sw-block[data-sw-shape="command"]>.sw-block-main,
+.sw-block[data-sw-shape="command"]>.sw-control-wrap>.sw-block-main{
+  clip-path:polygon(
+    0 var(--sw-notch-d),
+    var(--sw-notch-x) var(--sw-notch-d),
+    calc(var(--sw-notch-x) + 5px) 0,
+    calc(var(--sw-notch-x) + var(--sw-notch-w) - 5px) 0,
+    calc(var(--sw-notch-x) + var(--sw-notch-w)) var(--sw-notch-d),
+    100% var(--sw-notch-d),
+    100% calc(100% - var(--sw-notch-d)),
+    calc(var(--sw-notch-x) + var(--sw-notch-w)) calc(100% - var(--sw-notch-d)),
+    calc(var(--sw-notch-x) + var(--sw-notch-w) - 5px) 100%,
+    calc(var(--sw-notch-x) + 5px) 100%,
+    var(--sw-notch-x) calc(100% - var(--sw-notch-d)),
+    0 calc(100% - var(--sw-notch-d))
+  );
+  padding-top:9px;padding-bottom:9px
+}
+/* Final command: accepts a block above but has no connector below. */
+.sw-block[data-sw-shape="final"]>.sw-block-main{
+  clip-path:polygon(0 var(--sw-notch-d),var(--sw-notch-x) var(--sw-notch-d),calc(var(--sw-notch-x) + 5px) 0,calc(var(--sw-notch-x) + var(--sw-notch-w) - 5px) 0,calc(var(--sw-notch-x) + var(--sw-notch-w)) var(--sw-notch-d),100% var(--sw-notch-d),100% 100%,0 100%);
+  padding-top:9px;padding-bottom:8px
+}
+
+/* Event hat: no socket on top, connector only underneath. */
+.sw-event-root{border-radius:5px 5px 2px 2px;padding:8px 12px 10px;font-size:12px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),50px calc(100% - 5px),45px 100%,27px 100%,22px calc(100% - 5px),0 calc(100% - 5px))}
+.sw-event-root:after{display:none!important}
+
+/* C / E control blocks. */
+.sw-block[data-sw-shape="c"],.sw-block[data-sw-shape="e"]{width:min(560px,calc(100vw - 22px))}
+.sw-block[data-sw-shape="c"] .sw-control-wrap,.sw-block[data-sw-shape="e"] .sw-control-wrap{background:transparent;border-radius:0;padding:0;filter:none}
+.sw-block[data-sw-shape="c"] .sw-control-wrap>.sw-block-main,.sw-block[data-sw-shape="e"] .sw-control-wrap>.sw-block-main{width:max-content;min-width:190px;max-width:100%;background:var(--block-color);clip-path:polygon(0 5px,22px 5px,27px 0,45px 0,50px 5px,100% 5px,100% 100%,0 100%);padding-top:10px}
+.sw-block[data-sw-shape="c"] .sw-branch,.sw-block[data-sw-shape="e"] .sw-branch{margin:0 0 0 0;padding:5px 0 5px 19px;border-left:13px solid var(--block-color);background:transparent;min-height:43px}
+.sw-block[data-sw-shape="c"] .sw-branch-label,.sw-block[data-sw-shape="e"] .sw-branch-label{margin-left:-12px;border-radius:0 5px 5px 0;padding:3px 7px;font-size:8px;background:var(--block-color)}
+.sw-block[data-sw-shape="c"] .sw-branch>.sw-stack,.sw-block[data-sw-shape="e"] .sw-branch>.sw-stack{margin-left:0}
+.sw-block[data-sw-shape="c"] .sw-control-foot,.sw-block[data-sw-shape="e"] .sw-control-foot{height:22px;margin:0;width:210px;border-radius:0;background:var(--block-color);clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),50px calc(100% - 5px),45px 100%,27px 100%,22px calc(100% - 5px),0 calc(100% - 5px))}
+.sw-block[data-sw-shape="c"] .sw-control-foot:after,.sw-block[data-sw-shape="e"] .sw-control-foot:after{display:none}
+
+/* Inline argument sockets. */
+.sw-inline-args{display:inline-flex;align-items:center;gap:4px;min-width:0}
+.sw-arg{height:22px;min-width:28px;max-width:145px;padding:3px 7px;display:inline-flex;align-items:center;justify-content:center;background:#f7f7f7;color:#29323a;font:700 9px/1 Inter,system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+.sw-arg.string{border-radius:1px}
+.sw-arg.number{border-radius:999px;padding-left:10px;padding-right:10px}
+.sw-arg.boolean{min-width:42px;padding-left:12px;padding-right:12px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%)}
+.sw-arg.variable,.sw-arg.view{background:rgba(20,26,30,.30);color:#fff;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);padding-right:16px;position:relative}
+.sw-arg.variable:after,.sw-arg.view:after{content:'▼';position:absolute;right:4px;font-size:7px;opacity:.8}
+.sw-op{font-size:10px;font-weight:900;color:#fff;opacity:.96}
+
+/* Small exact PNG silhouettes supplied by the user. */
+.sw-shape-mark{--sw-mask:none;width:26px;height:24px;flex:0 0 26px;display:inline-block;background:currentColor;opacity:.95;-webkit-mask-image:var(--sw-mask);mask-image:var(--sw-mask);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.sw-palette-shape{--sw-mask:none;width:42px;height:28px;flex:0 0 42px;display:inline-block;background:#fff;-webkit-mask-image:var(--sw-mask);mask-image:var(--sw-mask);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+
+/* Palette closer to Sketchware screenshot. */
+.sw-palette-item{width:auto;max-width:100%;min-height:32px;height:auto;margin:0 0 6px;border-radius:0;padding:4px 8px 4px 5px;gap:4px;display:inline-flex;clip-path:none;box-shadow:none}
+.sw-palette-item .ico{display:none}
+.sw-palette-item b{font-size:11px;line-height:1.1}.sw-palette-item small{display:none}
+.sw-palette-scroll{padding:8px 9px 20px}
+.sw-palette-title{font-size:11px}
+
+.sw-logic-overlay.sw-dragging .sw-insert{height:14px}
+.sw-insert{height:5px;width:min(560px,calc(100vw - 22px))}
+.sw-insert:before{top:1px;left:24px;right:40px}
+.sw-insert.hot:before,.sw-insert.selected:before{top:2px}
+
+@media (orientation:portrait), (max-width:760px){
+  .sw-palette{height:min(43dvh,430px);min-height:285px}
+  .sw-palette-content{grid-template-columns:minmax(0,1fr) 132px!important}
+  .sw-palette-cats{width:132px}
+  .sw-cat{min-height:38px;font-size:11px;grid-template-columns:5px 1fr;padding-right:5px}
+  .sw-cat:before{width:5px;height:100%;border-radius:0}
+  .sw-block-main{max-width:calc(100vw - 28px)}
+  .sw-block[data-sw-shape="c"],.sw-block[data-sw-shape="e"]{width:calc(100vw - 22px)}
+}
