@@ -2,50 +2,56 @@
 'use strict';
 
 /*
- * Fix the Sketchware logic back button navigation.
- * The original button closes the overlay and then tries to call the private
- * showEventHome() function, which is not available outside event-sketchware.js.
- * Intercept the click in capture phase and return through switchTab('event'),
- * whose wrapper owns the real Event-home restoration.
+ * One back-navigation rule for the Sketchware logic editor.
+ * On mobile the visible arrow is #bwMobileBack (global editor chrome), while
+ * desktop/isolated logic can use #swLogicBack. Both must close the logic
+ * overlay first and return to the Event browser. They must never switch the
+ * underlying editor to View while the logic overlay is still open.
  */
 var locked=false;
 
-function logicOpen(){
-  var ov=document.getElementById('swLogicOverlay');
-  return !!(ov&&ov.classList.contains('show'));
+function overlay(){return document.getElementById('swLogicOverlay');}
+function logicOpen(){var ov=overlay();return !!(ov&&ov.classList.contains('show'));}
+
+function forceEventHome(){
+  var screen=document.getElementById('screen-event');
+  if(screen)screen.classList.add('sk-event-home');
+
+  /* Keep the global mobile chrome in sync with the screen we actually show. */
+  try{
+    if(window.BrotwareMobileWorkspace&&typeof BrotwareMobileWorkspace.refresh==='function')BrotwareMobileWorkspace.refresh();
+  }catch(_){}
 }
 
 function returnToEvents(){
   if(locked)return;
   locked=true;
+
   try{
     var api=window.BrotwareSketchLogic;
     if(api&&typeof api.close==='function')api.close();
     else{
-      var ov=document.getElementById('swLogicOverlay');
+      var ov=overlay();
       if(ov)ov.classList.remove('show','palette-open');
     }
   }catch(e){console.warn('Brotware: failed to close logic overlay',e);}
 
+  /* Restore Event immediately so the legacy/View screen never flashes. */
+  try{
+    if(typeof window.switchTab==='function')window.switchTab('event');
+  }catch(e){console.warn('Brotware: failed to switch back to Event',e);}
+  forceEventHome();
+
   requestAnimationFrame(function(){
-    try{
-      if(typeof window.switchTab==='function')window.switchTab('event');
-      else{
-        var screen=document.getElementById('screen-event');
-        if(screen)screen.classList.add('sk-event-home');
-      }
-    }catch(e){
-      var screen=document.getElementById('screen-event');
-      if(screen)screen.classList.add('sk-event-home');
-      console.warn('Brotware: failed to restore Events screen',e);
-    }
-    setTimeout(function(){locked=false;},120);
+    forceEventHome();
+    setTimeout(function(){forceEventHome();locked=false;},80);
   });
 }
 
 function onClick(e){
-  var btn=e.target&&e.target.closest?e.target.closest('#swLogicBack'):null;
-  if(!btn||!logicOpen())return;
+  if(!logicOpen())return;
+  var btn=e.target&&e.target.closest?e.target.closest('#swLogicBack,#bwMobileBack'):null;
+  if(!btn)return;
   e.preventDefault();
   e.stopImmediatePropagation();
   returnToEvents();
@@ -56,12 +62,12 @@ document.addEventListener('click',onClick,true);
 /* Desktop Escape follows the same navigation rule when the palette is closed. */
 document.addEventListener('keydown',function(e){
   if(e.key!=='Escape'||!logicOpen())return;
-  var ov=document.getElementById('swLogicOverlay');
+  var ov=overlay();
   if(ov&&ov.classList.contains('palette-open'))return;
   e.preventDefault();
   e.stopImmediatePropagation();
   returnToEvents();
 },true);
 
-window.BrotwareLogicBackNavigation={back:returnToEvents};
+window.BrotwareLogicBackNavigation={back:returnToEvents,isOpen:logicOpen};
 })();
