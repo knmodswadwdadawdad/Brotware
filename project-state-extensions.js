@@ -6,7 +6,8 @@ function extraSnapshot(){
   return {
     functionalComponents:Array.isArray(state.functionalComponents)?state.functionalComponents:[],
     libraryManager:state.libraryManager&&typeof state.libraryManager==='object'?state.libraryManager:{},
-    firebaseConfig:state.firebaseConfig&&typeof state.firebaseConfig==='object'?state.firebaseConfig:{}
+    firebaseConfig:state.firebaseConfig&&typeof state.firebaseConfig==='object'?state.firebaseConfig:{},
+    projectSettings:state.projectSettings&&typeof state.projectSettings==='object'?state.projectSettings:{}
   };
 }
 function applyExtras(d){
@@ -14,6 +15,8 @@ function applyExtras(d){
   state.functionalComponents=Array.isArray(d.functionalComponents)?d.functionalComponents:[];
   state.libraryManager=d.libraryManager&&typeof d.libraryManager==='object'?d.libraryManager:{};
   state.firebaseConfig=d.firebaseConfig&&typeof d.firebaseConfig==='object'?d.firebaseConfig:{};
+  state.projectSettings=d.projectSettings&&typeof d.projectSettings==='object'?d.projectSettings:{};
+  if(window.BrotwareProjectSettings&&BrotwareProjectSettings.apply)BrotwareProjectSettings.apply(state.projectSettings);
 }
 
 var baseAutoSave=window.autoSave;
@@ -21,7 +24,7 @@ window.autoSave=function(){
   if(baseAutoSave)baseAutoSave();
   try{
     var raw=localStorage.getItem(state.storageKey),d=raw?JSON.parse(raw):{};
-    var x=extraSnapshot();d.functionalComponents=x.functionalComponents;d.libraryManager=x.libraryManager;d.firebaseConfig=x.firebaseConfig;
+    var x=extraSnapshot();d.functionalComponents=x.functionalComponents;d.libraryManager=x.libraryManager;d.firebaseConfig=x.firebaseConfig;d.projectSettings=x.projectSettings;
     localStorage.setItem(state.storageKey,JSON.stringify(d));
   }catch(_){}
 };
@@ -44,9 +47,9 @@ window.downloadProject=function(){
   try{if(typeof saveCurrentPage==='function')saveCurrentPage();}catch(_){}
   var x=extraSnapshot();
   var data={
-    format:'Brotware Studio',version:4,projectName:state.projectName,pages:state.pages,currentPageId:state.currentPageId,
+    format:'Brotware Studio',version:5,projectName:state.projectName,pages:state.pages,currentPageId:state.currentPageId,
     strings:state.strings,variables:state.variables,functions:state.functions,components:state.components,counter:state.counter,
-    functionalComponents:x.functionalComponents,libraryManager:x.libraryManager,firebaseConfig:x.firebaseConfig
+    functionalComponents:x.functionalComponents,libraryManager:x.libraryManager,firebaseConfig:x.firebaseConfig,projectSettings:x.projectSettings
   };
   downloadText((state.projectName||'brotware').replace(/[^a-z0-9_-]+/gi,'-')+'.brotware.json',JSON.stringify(data,null,2),'application/json;charset=utf-8');
 };
@@ -56,9 +59,10 @@ window.resetProject=function(){
   var beforePages=state.pages;
   if(baseResetProject)baseResetProject();
   if(state.pages===beforePages)return;
-  state.functionalComponents=[];state.libraryManager={};state.firebaseConfig={};
+  state.functionalComponents=[];state.libraryManager={};state.firebaseConfig={};state.projectSettings={};
   window.autoSave();
   if(window.BrotwareFunctionalComponents&&BrotwareFunctionalComponents.refresh)BrotwareFunctionalComponents.refresh();
+  if(window.BrotwareProjectSettings&&BrotwareProjectSettings.apply)BrotwareProjectSettings.apply({});
 };
 
 window.BrotwareProjectStateExtensions={snapshot:extraSnapshot,apply:applyExtras};
