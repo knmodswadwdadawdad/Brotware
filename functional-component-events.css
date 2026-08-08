@@ -1,0 +1,9 @@
+/* Functional component callbacks inside the Sketchware-style Event browser. */
+.bw-fc-event-home{display:flex;flex-direction:column;gap:16px;width:min(100%,760px)}
+.bw-fc-event-group{display:flex;flex-direction:column;gap:8px}
+.bw-fc-event-group-title{min-height:42px;display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;align-items:center;padding:4px 3px;color:#dfe9f0}
+.bw-fc-event-group-title>.bw-google-icon{width:32px;height:32px;border-radius:9px;background:#172a36;display:grid;place-items:center;font-size:20px;color:#94d6fa}
+.bw-fc-event-group-title b{display:block;font-size:11px}.bw-fc-event-group-title small{display:block;margin-top:2px;font-size:8px;color:#7f95a4}
+.bw-fc-event-card .ev-icon,.bw-system-event-card .ev-icon{display:grid;place-items:center}.bw-fc-event-card .ev-icon .bw-google-icon,.bw-system-event-card .ev-icon .bw-google-icon{font-size:20px}
+.bw-system-event-group{margin-top:4px;padding-top:10px;border-top:1px solid #203541}
+@media(max-width:760px){.bw-fc-event-home{gap:13px}.bw-fc-event-group{gap:7px}.bw-fc-event-group-title{min-height:38px}.bw-fc-event-group-title>.bw-google-icon{width:30px;height:30px;font-size:18px}.bw-fc-event-card,.bw-system-event-card{min-height:58px!important}}
