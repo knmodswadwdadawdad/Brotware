@@ -1,0 +1,183 @@
+/* Brotware Logic — Sketchware block layout v2
+   Compact connected blocks, typed sockets and C/E control silhouettes. */
+
+.sw-logic-overlay{
+  --sw2-notch-left:28px;
+  --sw2-notch-width:30px;
+  --sw2-notch-depth:6px;
+}
+
+/* In Sketchware blocks touch each other. Insert zones only expand while dragging. */
+.sw-stack{margin-left:0!important}
+.sw-insert{height:0!important;min-height:0!important;margin:0!important;overflow:visible!important}
+.sw-insert:before{display:none!important}
+.sw-logic-overlay.sw-dragging .sw-insert{height:18px!important}
+.sw-logic-overlay.sw-dragging .sw-insert:before{display:block!important;top:7px!important;height:3px!important}
+
+.sw-block{
+  margin:0!important;
+  padding:0!important;
+  width:max-content!important;
+  max-width:min(680px,calc(100vw - 20px))!important;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.28))!important;
+}
+.sw-block + .sw-insert + .sw-block{margin-top:-1px!important}
+
+.sw-block-main{
+  min-height:34px!important;
+  width:max-content!important;
+  max-width:min(680px,calc(100vw - 20px))!important;
+  padding:7px 10px 7px 9px!important;
+  gap:5px!important;
+  border-radius:0!important;
+  overflow:visible!important;
+  white-space:nowrap!important;
+}
+.sw-block-icon,.sw-block-grip,.sw-shape-mark{display:none!important}
+.sw-block-info{display:flex!important;align-items:center!important;gap:4px!important;flex:0 1 auto!important;overflow:visible!important}
+.sw-block-name{display:flex!important;align-items:center!important;gap:4px!important;font-size:12px!important;font-weight:800!important;line-height:22px!important;white-space:nowrap!important;overflow:visible!important;color:#fff!important}
+.sw-block-summary{display:none!important}
+
+/* command blocks: female socket on top, male tab at bottom */
+.sw-v2-command>.sw-block-main,
+.sw-v2-command>.sw-control-wrap>.sw-block-main{
+  clip-path:polygon(
+    0 var(--sw2-notch-depth),
+    var(--sw2-notch-left) var(--sw2-notch-depth),
+    calc(var(--sw2-notch-left) + 5px) 0,
+    calc(var(--sw2-notch-left) + var(--sw2-notch-width) - 5px) 0,
+    calc(var(--sw2-notch-left) + var(--sw2-notch-width)) var(--sw2-notch-depth),
+    100% var(--sw2-notch-depth),
+    100% calc(100% - var(--sw2-notch-depth)),
+    calc(var(--sw2-notch-left) + var(--sw2-notch-width)) calc(100% - var(--sw2-notch-depth)),
+    calc(var(--sw2-notch-left) + var(--sw2-notch-width) - 5px) 100%,
+    calc(var(--sw2-notch-left) + 5px) 100%,
+    var(--sw2-notch-left) calc(100% - var(--sw2-notch-depth)),
+    0 calc(100% - var(--sw2-notch-depth))
+  );
+  padding-top:10px!important;
+  padding-bottom:10px!important;
+}
+
+/* event hat: only an output connector */
+.sw-event-root{
+  width:max-content!important;
+  min-height:34px!important;
+  margin:0!important;
+  padding:7px 12px 10px 9px!important;
+  border-radius:6px 6px 0 0!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),58px calc(100% - 6px),53px 100%,34px 100%,29px calc(100% - 6px),0 calc(100% - 6px))!important;
+}
+.sw-event-root:after{display:none!important}
+
+/* Typed inline sockets, matching Sketchware %b / %d / %s / %m semantics. */
+.sw2-socket{
+  min-width:38px;
+  height:24px;
+  padding:2px 7px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  vertical-align:middle;
+  background:#fff;
+  color:#30343a;
+  font:700 10px/1 Inter,system-ui,sans-serif;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.16);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sw2-socket.string{border-radius:1px;min-width:48px;max-width:150px}
+.sw2-socket.number{border-radius:999px;min-width:43px;max-width:110px;padding-left:11px;padding-right:11px}
+.sw2-socket.boolean{
+  min-width:60px;max-width:190px;padding-left:15px;padding-right:15px;
+  clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);
+}
+.sw2-socket.menu{
+  min-width:72px;max-width:160px;padding-right:20px;
+  background:rgba(80,45,25,.34);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);position:relative
+}
+.sw2-socket.menu:after{content:'▼';position:absolute;right:6px;font-size:8px;color:rgba(0,0,0,.8)}
+.sw2-socket.view{background:rgba(25,54,78,.42)}
+.sw2-word{display:inline-flex;align-items:center;color:#fff;font-weight:800;line-height:24px}
+
+/* IF / IF-ELSE / repeat use the real C/E visual language instead of a card. */
+.sw-v2-control{width:min(560px,calc(100vw - 20px))!important}
+.sw-v2-control>.sw-control-wrap{width:100%!important;background:transparent!important;border-radius:0!important;padding:0!important;filter:none!important}
+.sw-v2-control>.sw-control-wrap>.sw-block-main{
+  min-width:180px!important;
+  background:var(--block-color)!important;
+  clip-path:polygon(0 6px,28px 6px,33px 0,52px 0,57px 6px,100% 6px,100% 100%,0 100%)!important;
+  padding:11px 10px 7px 7px!important;
+}
+.sw-v2-control .sw-branch{
+  margin:0!important;
+  padding:0 0 5px 28px!important;
+  border-left:14px solid var(--block-color)!important;
+  background:transparent!important;
+  min-height:42px!important;
+  position:relative!important;
+}
+.sw-v2-control .sw-branch>.sw-stack{margin:0!important;min-height:31px!important;padding-top:2px!important}
+.sw-v2-control .sw-branch-label{display:none!important}
+.sw-v2-if .sw-branch:nth-of-type(3):before{
+  content:'else';
+  display:flex;
+  align-items:center;
+  height:31px;
+  width:164px;
+  margin-left:-14px;
+  padding-left:7px;
+  color:#fff;
+  background:var(--block-color);
+  font-size:12px;
+  font-weight:800;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),57px calc(100% - 6px),52px 100%,33px 100%,28px calc(100% - 6px),0 calc(100% - 6px));
+}
+.sw-v2-control .sw-control-foot{
+  width:180px!important;
+  height:28px!important;
+  margin:0!important;
+  background:var(--block-color)!important;
+  border-radius:0!important;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),57px calc(100% - 6px),52px 100%,33px 100%,28px calc(100% - 6px),0 calc(100% - 6px))!important;
+}
+.sw-v2-control .sw-control-foot:after{display:none!important}
+
+/* Palette: mini blocks, not cards. */
+.sw-palette-item{
+  width:max-content!important;
+  max-width:calc(100% - 4px)!important;
+  min-height:34px!important;
+  margin:0 0 5px!important;
+  padding:7px 9px!important;
+  border:0!important;
+  border-radius:0!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  overflow:visible!important;
+  box-shadow:none!important;
+}
+.sw-palette-item .ico,.sw-palette-shape{display:none!important}
+.sw-palette-item>span:last-child{display:flex!important;align-items:center!important;gap:4px!important}
+.sw-palette-item b{display:flex!important;align-items:center!important;gap:4px!important;font-size:12px!important;line-height:22px!important;white-space:nowrap!important}
+.sw-palette-item small{display:none!important}
+.sw-v2-palette-command{
+  clip-path:polygon(0 6px,28px 6px,33px 0,52px 0,57px 6px,100% 6px,100% calc(100% - 6px),57px calc(100% - 6px),52px 100%,33px 100%,28px calc(100% - 6px),0 calc(100% - 6px))!important;
+  padding-top:10px!important;padding-bottom:10px!important
+}
+.sw-v2-palette-control{min-width:180px!important;min-height:74px!important;align-items:flex-start!important;clip-path:polygon(0 6px,28px 6px,33px 0,52px 0,57px 6px,100% 6px,100% 34px,36px 34px,36px 55px,100% 55px,100% calc(100% - 6px),57px calc(100% - 6px),52px 100%,33px 100%,28px calc(100% - 6px),0 calc(100% - 6px))!important}
+
+/* Category rail follows the screenshot proportions. */
+@media (orientation:portrait), (max-width:760px){
+  .sw-palette{height:min(46dvh,455px)!important;min-height:300px!important}
+  .sw-palette-content{grid-template-columns:minmax(0,1fr) 142px!important}
+  .sw-palette-cats{width:142px!important}
+  .sw-cat{min-height:39px!important;font-size:12px!important;grid-template-columns:6px 1fr!important;padding:0 6px 0 0!important}
+  .sw-cat:before{width:6px!important;height:100%!important;border-radius:0!important}
+  .sw-palette-header input{font-size:12px!important}
+  .sw-v2-control{width:calc(100vw - 20px)!important}
+}
