@@ -1,0 +1,38 @@
+/* Restore reliable scrolling inside the Sketchware mobile block palette.
+   The drag engine owns touch gestures on block items, so palette scrolling is
+   implemented explicitly instead of depending on browser pan handling. */
+@media(max-width:760px){
+  #swLogicOverlay .sw-palette-main{
+    min-height:0!important;
+    height:100%!important;
+    overflow:hidden!important;
+  }
+  #swLogicOverlay #swPaletteScroll,
+  #swLogicOverlay .sw-palette-scroll{
+    min-height:0!important;
+    height:100%!important;
+    max-height:100%!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    scroll-behavior:auto!important;
+    touch-action:none!important;
+  }
+  #swLogicOverlay .sw-palette-cats{
+    min-height:0!important;
+    max-height:100%!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+  }
+  /* Block items keep long-press drag ownership. Fast movement is converted to
+     palette scroll by sketchware-palette-scroll-fix.js. */
+  #swLogicOverlay #swPaletteScroll .sw-palette-item,
+  #swLogicOverlay #swPaletteScroll .sw-standard-item,
+  #swLogicOverlay #swPaletteScroll .sw-list-special,
+  #swLogicOverlay #swPaletteScroll .sw3-reporter-palette{
+    touch-action:none!important;
+  }
+}
