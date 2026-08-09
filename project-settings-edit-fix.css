@@ -1,0 +1,40 @@
+/* Project settings mobile input/focus hardening */
+#bwProjectSettingsBackdrop,
+#bwProjectSettingsBackdrop *{
+  -webkit-tap-highlight-color:transparent;
+}
+#bwProjectSettingsBackdrop .bw-project-settings-sheet{
+  touch-action:pan-y;
+}
+#bwProjectSettingsBackdrop .bw-project-settings-field{
+  cursor:text;
+}
+#bwProjectSettingsBackdrop .bw-project-settings-field input:not([type="color"]){
+  pointer-events:auto!important;
+  user-select:text!important;
+  -webkit-user-select:text!important;
+  touch-action:manipulation!important;
+  cursor:text!important;
+  caret-color:#8fd3ff;
+  opacity:1!important;
+  position:relative;
+  z-index:2;
+}
+#bwProjectSettingsBackdrop .bw-project-settings-field input:not([type="color"]):focus{
+  outline:none!important;
+}
+#bwProjectSettingsBackdrop .bw-project-settings-field:focus-within{
+  border-color:#76c8f7;
+  box-shadow:0 0 0 2px rgba(118,200,247,.12);
+}
+#bwProjectSettingsBackdrop .bw-project-settings-color input[type="color"]{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  z-index:4;
+}
+#bwProjectSettingsBackdrop .bw-project-settings-icon,
+#bwProjectSettingsBackdrop .bw-project-settings-foot button,
+#bwProjectSettingsBackdrop .bw-project-settings-head button{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
