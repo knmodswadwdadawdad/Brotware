@@ -1,0 +1,37 @@
+/* Sketchware-style mobile navigation + compact edit toolbar */
+.bw-mobile-edit-tools{display:none}
+@media(max-width:760px){
+  body.bw-mobile-v2 .bw-mobile-topbar{display:flex!important;grid-template-columns:none!important;align-items:flex-end!important;gap:2px!important;padding-left:4px!important;padding-right:4px!important;overflow:visible!important}
+  body.bw-mobile-v2 .bw-mobile-back{flex:0 0 38px;width:38px!important;min-width:38px!important}
+  body.bw-mobile-v2 .bw-mobile-title{flex:1 1 auto!important;min-width:0!important;width:auto!important}
+  body.bw-mobile-v2 .bw-mobile-run,body.bw-mobile-v2 .bw-mobile-more{flex:0 0 36px;width:36px!important;min-width:36px!important;padding:0!important}
+
+  /* Old inline zoom is replaced by the eye popover. */
+  body.bw-mobile-v2 #bwMobileZoom{display:none!important}
+
+  body.bw-mobile-v2 .bw-mobile-edit-tools{position:relative;display:flex;align-items:center;gap:1px;flex:0 0 auto;height:42px}
+  .bw-mobile-edit-tool{width:32px!important;min-width:32px!important;height:38px!important;padding:0!important;border:0!important;border-radius:9px!important;background:transparent!important;color:#c7d7e2!important;display:grid!important;place-items:center!important}
+  .bw-mobile-edit-tool .bw-google-icon{font-size:19px!important;line-height:1!important}
+  .bw-mobile-edit-tool:active,.bw-mobile-edit-tool.active{background:#163044!important;color:#91d7ff!important}
+  .bw-mobile-edit-tool[disabled]{opacity:.35}
+
+  .bw-mobile-eye-zoom{position:absolute;z-index:12550;top:42px;right:0;display:none;align-items:center;height:40px;padding:3px;border:1px solid #2e4858;border-radius:12px;background:#0d202b;box-shadow:0 10px 30px rgba(0,0,0,.42);white-space:nowrap}
+  .bw-mobile-edit-tools.zoom-open .bw-mobile-eye-zoom{display:flex}
+  .bw-mobile-eye-zoom button{width:34px!important;min-width:34px!important;height:34px!important;padding:0!important;border:0!important;border-radius:8px!important;background:transparent!important;color:#c5d7e2!important;display:grid!important;place-items:center!important}
+  .bw-mobile-eye-zoom button:active{background:#1a3748!important;color:#fff!important}
+  .bw-mobile-eye-zoom .bw-google-icon{font-size:18px!important}
+  .bw-mobile-eye-label{min-width:48px;text-align:center;color:#9bd7fa;font-size:10px;font-weight:800;padding:0 4px}
+
+  body.bw-mobile-v2:not(.bw-mobile-view-active) .bw-mobile-edit-tools{display:none!important}
+
+  /* Component replaces Settings in the bottom navigation. */
+  .bw-mobile-nav[data-bw-mobile-nav="components"] .ico{color:inherit}
+  .bw-mobile-nav[data-bw-mobile-nav="components"].active{background:#142b3a;color:#8ed5ff}
+}
+@media(max-width:370px){
+  body.bw-mobile-v2 .bw-mobile-back{flex-basis:34px;width:34px!important;min-width:34px!important}
+  body.bw-mobile-v2 .bw-mobile-run,body.bw-mobile-v2 .bw-mobile-more{flex-basis:32px;width:32px!important;min-width:32px!important}
+  .bw-mobile-edit-tool{width:29px!important;min-width:29px!important}
+  .bw-mobile-title{padding-left:5px!important;padding-right:3px!important}
+  .bw-mobile-title b{font-size:12px!important}
+}
