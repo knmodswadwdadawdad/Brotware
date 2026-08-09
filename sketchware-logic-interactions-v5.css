@@ -4,40 +4,52 @@
 #swLogicOverlay .sw4-block-toolbar,
 #swDragDelete{display:none!important}
 
+/* Sketchware puts Delete / Duplicate / Collection immediately above the block
+   palette. Keep the action strip there so it is always in the user's drag path. */
 .sw5-drag-actions{
   position:fixed;
-  z-index:13050;
-  top:62px;
-  left:8px;
-  right:8px;
-  height:52px;
-  display:none;
+  z-index:2147483000;
+  top:auto!important;
+  bottom:232px;
+  left:4px;
+  right:4px;
+  height:48px;
+  display:none!important;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:7px;
-  padding:5px;
-  border:1px solid #334654;
-  border-radius:11px;
-  background:rgba(13,25,34,.97);
-  box-shadow:0 10px 30px rgba(0,0,0,.38);
+  gap:5px;
+  padding:4px;
+  border-top:1px solid #334654;
+  border-bottom:1px solid #334654;
+  border-left:0;
+  border-right:0;
+  border-radius:0;
+  background:#071117;
+  box-shadow:0 -4px 14px rgba(0,0,0,.28);
   pointer-events:none;
+  visibility:hidden;
+  opacity:0;
 }
-.sw5-drag-actions.show{display:grid}
+.sw5-drag-actions.show{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
 .sw5-drag-action{
   min-width:0;
-  border:1px solid #354753;
-  border-radius:8px;
-  background:#202d36;
-  color:#edf3f6;
+  border:1px solid #39464e;
+  border-radius:5px;
+  background:#253038;
+  color:#f0f3f5;
   display:flex;
   align-items:center;
   justify-content:center;
   gap:7px;
-  font-size:10px;
-  font-weight:700;
+  font-size:11px;
+  font-weight:500;
   pointer-events:auto;
   transition:.12s ease;
 }
-.sw5-drag-action .bw-google-icon{font-size:18px}
+.sw5-drag-action .bw-google-icon{font-size:17px}
 .sw5-drag-action.hot{background:#31536a;border-color:#80cff9;box-shadow:0 0 0 2px rgba(128,207,249,.18)}
 .sw5-drag-action[data-sw5-drag-action="delete"].hot{background:#6d3138;border-color:#ff9aa1}
 
@@ -58,7 +70,7 @@ body.sw5-logic-dragging #swPaletteScroll{scroll-behavior:auto!important}
 #swLogicOverlay .sw-block.sw4-selected>.sw-control-wrap>.sw-block-main{filter:none!important;outline:0!important}
 
 @media(max-width:760px){
-  .sw5-drag-actions{top:58px;height:50px;left:4px;right:4px;gap:4px;padding:4px;border-radius:8px}
-  .sw5-drag-action{font-size:9px;gap:4px}
+  .sw5-drag-actions{left:0;right:0;height:44px;gap:4px;padding:4px;bottom:232px}
+  .sw5-drag-action{font-size:10px;gap:4px}
   .sw5-drag-action .bw-google-icon{font-size:16px}
 }
