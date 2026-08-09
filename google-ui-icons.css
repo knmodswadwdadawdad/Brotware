@@ -28,6 +28,9 @@
 .bw-mobile-menu-item .ico.bw-google-icon{font-size:21px;color:#8fd7ff}
 .bw-mobile-add-item .ico.bw-google-icon{font-size:23px;color:#91d8ff}
 .bw-mquick-card .ico.bw-google-icon{font-size:22px}
+.bw-mquick-target .ico.bw-google-icon{font-size:18px}
+.bw-mquick-target .chev.bw-google-icon{font-size:18px}
+.bw-mquick-iconbtn .bw-google-icon{font-size:20px}
 .bw-mprops-icon.bw-google-icon{font-size:21px}
 .icon-btn .bw-google-icon{font-size:20px}
 #bwDesktopZoomOut .bw-google-icon,#bwDesktopZoomIn .bw-google-icon,#bwMobileZoomOut .bw-google-icon,#bwMobileZoomIn .bw-google-icon{font-size:19px}
@@ -41,3 +44,20 @@
 #skEventRail .sk-event-cat .ico.bw-google-icon{font-size:20px;color:currentColor}
 #skEventRail .sk-event-cat.active .ico.bw-google-icon{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24}
 #skEventCards .sk-event-card .chev.bw-google-icon{font-size:20px}
+
+/* Layers */
+.bw-layers-head button .bw-google-icon{font-size:21px}
+.bw-layers-search>span.bw-google-icon{font-size:18px;color:#9cb5c5}
+.bw-layer-icon.bw-google-icon{font-size:19px;color:#c5e6f8}
+.bw-layer-row.active .bw-layer-icon.bw-google-icon{color:#8ed7ff}
+.bw-layer-toggle .bw-google-icon{font-size:18px}
+.bw-layer-grip.bw-google-icon{font-size:19px;color:#8ca2af;cursor:grab}
+#bwLayersBtn{display:inline-flex;align-items:center;gap:6px}
+#bwLayersBtn>.bw-google-icon{font-size:18px}
+
+/* View manager / page manager */
+#bwViewMgrClose .bw-google-icon,#bwViewMgrRefresh .bw-google-icon{font-size:21px}
+.bw-viewmgr-card-edit .bw-google-icon{font-size:19px}
+.bw-viewmgr-create-choice .ico.bw-google-icon{font-size:22px}
+.bw-viewmgr-create{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.bw-viewmgr-create>.bw-google-icon{font-size:19px}
