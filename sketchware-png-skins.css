@@ -1,0 +1,92 @@
+/* Sketchware PNG/NinePatch block skins.
+   Loaded after the geometry layers so the user's original PNG alpha shapes
+   become the visible block/socket silhouettes while the DOM remains interactive. */
+
+@supports ((-webkit-mask-image:url("")) or (mask-image:url(""))){
+  .sw-logic-overlay .sw-png-skin{
+    -webkit-mask-image:var(--sw-png-mask)!important;
+    mask-image:var(--sw-png-mask)!important;
+    -webkit-mask-size:100% 100%!important;
+    mask-size:100% 100%!important;
+    -webkit-mask-repeat:no-repeat!important;
+    mask-repeat:no-repeat!important;
+    -webkit-mask-position:center!important;
+    mask-position:center!important;
+    clip-path:none!important;
+    border-radius:0!important;
+  }
+
+  .sw-logic-overlay .sw-block-main.sw-png-skin{
+    background:var(--block-color)!important;
+    box-shadow:none!important;
+    filter:none!important;
+  }
+  .sw-logic-overlay .sw-block-main.sw-png-skin:before,
+  .sw-logic-overlay .sw-block-main.sw-png-skin:after{display:none!important}
+
+  .sw-logic-overlay .sw3-reporter.sw-png-skin{
+    background:var(--sw3-reporter-color)!important;
+    box-shadow:none!important;
+  }
+  .sw-logic-overlay .sw3-empty-socket.string.sw-png-skin,
+  .sw-logic-overlay .sw2-socket.string.sw-png-skin{
+    background:#fff!important;color:#24272d!important;box-shadow:none!important;
+  }
+  .sw-logic-overlay .sw3-empty-socket.number.sw-png-skin,
+  .sw-logic-overlay .sw2-socket.number.sw-png-skin{
+    background:#fff!important;color:#24272d!important;box-shadow:none!important;
+  }
+  .sw-logic-overlay .sw3-empty-socket.boolean.sw-png-skin,
+  .sw-logic-overlay .sw2-socket.boolean.sw-png-skin{
+    background:rgba(59,46,0,.42)!important;color:#fff!important;box-shadow:none!important;
+  }
+
+  .sw-logic-overlay .sw-v2-control>.sw-control-wrap>.sw-block-main.sw-png-skin{
+    padding-top:8px!important;
+    padding-bottom:7px!important;
+  }
+  .sw-logic-overlay .sw-v2-if.sw-png-control .sw-branch:nth-of-type(3):before{
+    -webkit-mask-image:var(--sw-png-bridge-mask)!important;
+    mask-image:var(--sw-png-bridge-mask)!important;
+    -webkit-mask-size:100% 100%!important;
+    mask-size:100% 100%!important;
+    -webkit-mask-repeat:no-repeat!important;
+    mask-repeat:no-repeat!important;
+    clip-path:none!important;
+    border-radius:0!important;
+  }
+
+  .sw-logic-overlay .sw-v2-palette-command.sw-png-skin{
+    background:var(--item-color,var(--block-color,#607785))!important;
+    border-radius:0!important;
+    clip-path:none!important;
+  }
+}
+
+.sw-logic-overlay .sw-png-skin{
+  image-rendering:auto;
+  transform:translateZ(0);
+}
+.sw-logic-overlay .sw3-reporter.sw-png-skin,
+.sw-logic-overlay .sw3-empty-socket.sw-png-skin,
+.sw-logic-overlay .sw2-socket.sw-png-skin{
+  min-height:22px;
+}
+.sw-logic-overlay .sw3-reporter.boolean.sw-png-skin,
+.sw-logic-overlay .sw3-empty-socket.boolean.sw-png-skin,
+.sw-logic-overlay .sw2-socket.boolean.sw-png-skin{
+  padding-left:15px!important;padding-right:15px!important;
+}
+.sw-logic-overlay .sw3-reporter.number.sw-png-skin,
+.sw-logic-overlay .sw3-empty-socket.number.sw-png-skin,
+.sw-logic-overlay .sw2-socket.number.sw-png-skin{
+  padding-left:11px!important;padding-right:11px!important;
+}
+
+.sw-logic-overlay .sw-block.sw4-selected>.sw-block-main.sw-png-skin{
+  filter:drop-shadow(0 0 2px #80d9ff) drop-shadow(0 0 5px rgba(80,190,255,.65))!important;
+}
+.sw-logic-overlay .sw3-input-host.hot>.sw-png-skin,
+.sw-logic-overlay .sw3-input-host.hot .sw-png-skin{
+  filter:drop-shadow(0 0 4px #69dcff)!important;
+}
