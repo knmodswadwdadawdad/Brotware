@@ -1,0 +1,51 @@
+/* Unified Logic Drag v6 visibility contract */
+body.sw6-existing-drag #sw5DragActions{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:none!important;
+}
+#sw5DragActions{
+  position:fixed!important;
+  z-index:2147483646!important;
+  top:auto!important;
+  bottom:var(--sw6-action-bottom,232px)!important;
+  left:0!important;
+  right:0!important;
+  height:44px!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:4px!important;
+  padding:4px!important;
+  margin:0!important;
+  border:0!important;
+  border-top:1px solid #334654!important;
+  border-bottom:1px solid #334654!important;
+  border-radius:0!important;
+  background:#071117!important;
+  box-shadow:0 -4px 14px rgba(0,0,0,.28)!important;
+}
+#sw5DragActions .sw5-drag-action{
+  pointer-events:auto!important;
+  min-width:0!important;
+  border:1px solid #39464e!important;
+  border-radius:5px!important;
+  background:#253038!important;
+  color:#f0f3f5!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  font-size:10px!important;
+  font-weight:500!important;
+}
+#sw5DragActions .sw5-drag-action .bw-google-icon{font-size:16px!important}
+#sw5DragActions .sw5-drag-action.hot{background:#31536a!important;border-color:#80cff9!important}
+#sw5DragActions .sw5-drag-action[data-sw5-drag-action="delete"].hot{background:#6d3138!important;border-color:#ff9aa1!important}
+
+body.sw6-existing-drag,
+body.sw6-existing-drag #swLogicOverlay,
+body.sw6-existing-drag #swStage,
+body.sw6-existing-drag .sw-workspace{
+  touch-action:none!important;
+  overscroll-behavior:none!important;
+}
