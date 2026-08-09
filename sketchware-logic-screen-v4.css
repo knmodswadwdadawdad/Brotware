@@ -1,0 +1,72 @@
+/* Sketchware Logic Screen v4 — mobile shell, pinned palette and variable dialogs */
+.sw4-block-toolbar,.sw4-var-dialog-backdrop{display:none}
+
+@media(max-width:760px){
+  body.sw-logic-open{background:#061015!important}
+  .sw-logic-overlay{grid-template-rows:52px minmax(0,1fr)!important;background:#061015!important}
+  .sw-logic-top{height:52px!important;min-height:52px!important;padding:0 7px!important;gap:3px!important;background:#071117!important;border-bottom:1px solid #1c2a32!important}
+  .sw-back,.sw-top-btn{width:38px!important;height:38px!important;border-radius:8px!important;color:#bac6cf!important;font-size:0!important}
+  .sw-back .bw-google-icon,.sw-top-btn .bw-google-icon{font-size:22px!important}
+  .sw-title-wrap{gap:0!important;max-width:150px}
+  .sw-title-wrap strong{font-size:15px!important;font-weight:500!important;color:#d6dde3!important}
+  .sw-title-wrap small{font-size:10px!important;color:#9aa6af!important;margin-top:1px}
+  .sw-top-spacer{min-width:0}
+  .sw-editor-area{display:grid!important;grid-template-rows:minmax(0,1fr) 232px!important;background:#061015!important}
+  .sw-stage{position:relative!important;inset:auto!important;grid-row:1;min-height:0;background:#061015!important}
+  .sw-workspace{width:860px!important;min-height:900px!important;padding:10px 18px 180px 4px!important;background-color:#061015!important;background-image:none!important}
+  .sw-flow{width:500px!important;min-width:300px!important}
+  .sw-event-root{min-height:24px!important;padding:4px 8px!important;border-radius:5px 5px 5px 2px!important;font-size:8px!important;box-shadow:none!important;background:#bd8214!important}
+  .sw-event-root small{font-size:7px!important}
+
+  /* Sketchware keeps the palette pinned below the canvas. */
+  .sw-palette{position:relative!important;inset:auto!important;grid-row:2!important;width:100%!important;height:232px!important;transform:none!important;pointer-events:auto!important;border:0!important;border-top:1px solid #182830!important;background:#081117!important;box-shadow:0 -7px 20px rgba(0,0,0,.18)!important;transition:height .16s ease,opacity .16s ease!important}
+  .sw-logic-overlay.sw4-palette-collapsed .sw-palette{height:0!important;opacity:0!important;pointer-events:none!important}
+  .sw-palette-content{position:relative!important;grid-template-columns:minmax(0,1fr) 108px!important;background:#081117!important}
+  .sw-palette-main{order:1!important;grid-template-rows:minmax(0,1fr)!important;background:#081117!important;overflow:hidden}
+  .sw-palette-header{position:absolute!important;z-index:5;right:0;top:0;width:108px;height:29px;padding:3px 4px!important;border:0!important;border-bottom:1px solid #26343b!important;border-left:1px solid #26343b!important;background:#0b1419!important}
+  .sw-palette-header input{height:23px!important;border:0!important;border-radius:0!important;background:transparent!important;color:#d8dde1!important;padding:0 5px!important;font-size:10px!important}
+  .sw-palette-close{display:none!important}
+  .sw-palette-scroll{padding:7px 5px 12px!important;background:#081117!important}
+  .sw-palette-title{font-size:9px!important;margin:3px 2px 6px!important;color:#9eabb4!important}
+  .sw-palette-note{padding:10px 7px!important;font-size:8px!important;border-color:#2b3a42!important}
+  .sw-palette-actions{display:none!important}
+  .sw-palette-item{width:max-content!important;max-width:100%!important;min-width:84px!important;min-height:27px!important;margin:0 0 5px!important;padding:4px 7px!important;border-radius:4px!important;gap:5px!important;box-shadow:none!important}
+  .sw-palette-item .ico{width:18px!important;height:18px!important;border-radius:3px!important;font-size:9px!important}
+  .sw-palette-item b{font-size:8px!important}.sw-palette-item small{display:none!important}
+  .sw-palette-cats{order:2!important;padding:29px 0 0!important;border-left:1px solid #26343b!important;background:#0b1419!important;overflow:auto!important}
+  .sw-cat{min-height:24px!important;height:24px!important;grid-template-columns:3px 1fr!important;gap:5px!important;padding:0 4px 0 0!important;font-size:11px!important;color:#aeb8bf!important}
+  .sw-cat:before{width:3px!important;height:20px!important;border-radius:0!important}
+  .sw-cat.active{background:var(--cat-color)!important;color:#061015!important;font-weight:500!important}
+  .sw-cat.active:before{background:var(--cat-color)!important}
+
+  .sw-palette-toggle{right:16px!important;bottom:244px!important;width:54px!important;height:54px!important;border-radius:15px!important;background:#006b98!important;font-size:0!important;display:grid!important;place-items:center!important;z-index:48!important}
+  .sw-palette-toggle .bw-google-icon{font-size:26px!important}
+  .sw-logic-overlay.sw4-palette-collapsed .sw-palette-toggle{bottom:16px!important}
+
+  /* Variable / View helper panel on the left side of the palette. */
+  .sw4-var-tools{display:grid;gap:5px;margin:0 0 8px}
+  .sw4-var-tools>button{height:29px;border:1px solid #303c43;border-radius:5px;background:#202a31;color:#eef2f4;font-size:8px;text-align:center}
+  .sw4-palette-group{margin:8px 0 5px}
+  .sw4-palette-group-title{height:20px;display:flex;align-items:center;width:106px;padding:0 7px;border:1px solid #26343b;border-radius:7px;background:#151e24;color:#c6cdd2;font-size:8px}
+  .sw4-chip-list{display:flex;flex-direction:column;align-items:flex-start;gap:3px;margin-top:5px}
+  .sw4-chip{max-width:100%;height:19px;border:0;border-radius:2px;background:#df6d44;color:#fff;padding:0 5px;font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sw4-chip.view{background:#168dcc}.sw4-chip.map{background:#b9502d}.sw4-chip.number{background:#16a7a0}.sw4-chip.boolean{background:#00a969}.sw4-chip.string{background:#df6d44}
+
+  /* Selected block actions, like Sketchware. */
+  .sw4-block-toolbar{position:absolute;z-index:55;left:0;right:0;bottom:232px;height:42px;padding:4px;display:none;grid-template-columns:repeat(3,1fr);gap:5px;background:#071117;border-top:1px solid #1f2d35;border-bottom:1px solid #1f2d35}
+  .sw4-block-toolbar.show{display:grid}
+  .sw4-block-toolbar button{height:34px;border:1px solid #39464e;border-radius:5px;background:#253038;color:#f0f3f5;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px}
+  .sw4-block-toolbar .bw-google-icon{font-size:17px}
+  .sw-logic-overlay.sw4-palette-collapsed .sw4-block-toolbar{bottom:0}
+  .sw-block.sw4-selected{filter:drop-shadow(0 0 0 rgba(0,0,0,0)) drop-shadow(0 0 5px rgba(128,201,245,.8))!important}
+
+  /* Variable dialogs */
+  .sw4-var-dialog-backdrop{position:fixed;z-index:13050;inset:0;background:rgba(0,0,0,.52);display:none;align-items:center;justify-content:center;padding:26px}
+  .sw4-var-dialog-backdrop.show{display:flex}
+  .sw4-var-dialog{width:min(365px,100%);max-height:80dvh;overflow:auto;border:1px solid #37434b;border-radius:12px;background:#242e35;color:#eff3f5;box-shadow:0 22px 60px rgba(0,0,0,.52);padding:23px 20px 17px}
+  .sw4-var-dialog h2{font-size:23px;font-weight:400;margin:0 0 18px;text-align:center}
+  .sw4-var-types{display:grid;gap:12px;margin-bottom:18px}.sw4-radio{display:flex;align-items:center;gap:8px;font-size:13px}.sw4-radio input{width:19px;height:19px;accent-color:#67c7ff}
+  .sw4-var-field{position:relative;margin:10px 0}.sw4-var-field input{width:100%;height:54px;border:1px solid #151c28;border-radius:9px;background:#181c29;color:#eff2f5;padding:0 14px;outline:0;font-size:14px}.sw4-var-field input:focus{border-color:#65bff5}.sw4-var-field label{display:block;margin:0 0 5px;color:#bac4cc;font-size:10px}.sw4-var-help{font-size:10px;color:#b0bac1;line-height:1.3;margin:5px 0 11px}
+  .sw4-var-remove-list{display:grid;gap:12px;margin:8px 0 16px}.sw4-var-remove-group>b{display:block;font-size:12px;font-weight:400;color:#c9d0d5;margin-bottom:7px}.sw4-var-remove-row{display:flex;align-items:center;gap:7px;font-size:12px;margin:5px 0}.sw4-var-remove-row input{width:18px;height:18px;accent-color:#67c7ff}
+  .sw4-var-dialog-foot{display:flex;justify-content:flex-end;gap:18px;margin-top:18px}.sw4-var-dialog-foot button{height:36px;border:0;background:transparent;color:#83d1ff;font-size:12px;padding:0 3px}
+}
