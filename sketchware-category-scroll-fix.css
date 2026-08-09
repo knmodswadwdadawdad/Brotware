@@ -1,0 +1,26 @@
+/* Mobile logic category rail scrolling fix */
+@media(max-width:760px){
+  #swLogicOverlay .sw-palette-content{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  #swLogicOverlay .sw-palette-cats{
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:none!important;
+    padding-bottom:30px!important;
+    scrollbar-width:thin;
+  }
+  #swLogicOverlay .sw-palette-cats .sw-cat{
+    flex:0 0 24px!important;
+    touch-action:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+  }
+}
