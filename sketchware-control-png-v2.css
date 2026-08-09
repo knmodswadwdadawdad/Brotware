@@ -1,0 +1,106 @@
+/* Dynamic Sketchware C/E PNG shells.
+   The shell is painted by a PNG-derived mask on ::before. Child blocks remain
+   normal interactive DOM and are never clipped by the parent mask. */
+
+@supports ((-webkit-mask-image:url("")) or (mask-image:url(""))){
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2{
+    overflow:visible!important;
+    filter:none!important;
+  }
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 > .sw-control-wrap{
+    position:relative!important;
+    isolation:isolate;
+    background:transparent!important;
+    border-radius:0!important;
+    overflow:visible!important;
+  }
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 > .sw-control-wrap:before{
+    content:""!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    pointer-events:none!important;
+    background:var(--block-color)!important;
+    -webkit-mask-image:var(--sw-ce-png-mask)!important;
+    mask-image:var(--sw-ce-png-mask)!important;
+    -webkit-mask-size:100% 100%!important;
+    mask-size:100% 100%!important;
+    -webkit-mask-repeat:no-repeat!important;
+    mask-repeat:no-repeat!important;
+    -webkit-mask-position:0 0!important;
+    mask-position:0 0!important;
+    filter:drop-shadow(0 3px 3px rgba(0,0,0,.17));
+  }
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 > .sw-control-wrap > *{
+    position:relative!important;
+    z-index:1!important;
+  }
+
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 > .sw-control-wrap > .sw-block-main{
+    background:transparent!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+    clip-path:none!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    filter:none!important;
+  }
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 .sw-branch{
+    background:transparent!important;
+    border-left:0!important;
+    padding-left:31px!important;
+  }
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 .sw-control-foot{
+    background:transparent!important;
+    clip-path:none!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+    border-radius:0!important;
+  }
+
+  .sw-logic-overlay .sw-v2-if.sw-ce-png-v2 .sw-branch:nth-of-type(3):before{
+    background:transparent!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+    clip-path:none!important;
+    width:calc(var(--sw3-control-w,210px) - 14px)!important;
+    margin-left:-18px!important;
+    padding-left:9px!important;
+    box-shadow:none!important;
+  }
+
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 .sw-branch > .sw-stack{
+    margin-left:0!important;
+    padding-left:0!important;
+    overflow:visible!important;
+  }
+
+  .sw-logic-overlay .sw-v2-palette-control.sw-ce-png-palette{
+    -webkit-mask-image:var(--sw-ce-static-mask)!important;
+    mask-image:var(--sw-ce-static-mask)!important;
+    -webkit-mask-size:100% 100%!important;
+    mask-size:100% 100%!important;
+    -webkit-mask-repeat:no-repeat!important;
+    mask-repeat:no-repeat!important;
+    clip-path:none!important;
+    border-radius:0!important;
+    background:var(--item-color,var(--block-color,#e1a92a))!important;
+  }
+}
+
+.sw-logic-overlay .sw-v2-control.sw-ce-png-v2.sw4-selected > .sw-control-wrap:before{
+  filter:drop-shadow(0 0 2px #79d9ff) drop-shadow(0 0 5px rgba(73,187,255,.58))!important;
+}
+
+.sw-logic-overlay .sw-v2-control.sw-ce-png-v2{
+  --sw-ce-mouth-left:31px;
+}
+.sw-logic-overlay .sw-v2-control.sw-ce-png-v2 .sw-branch .sw-block{
+  margin-left:0!important;
+}
+
+@media(max-width:760px){
+  .sw-logic-overlay .sw-v2-control.sw-ce-png-v2 .sw-branch{
+    padding-left:30px!important;
+  }
+}
