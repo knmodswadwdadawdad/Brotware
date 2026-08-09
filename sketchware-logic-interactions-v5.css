@@ -1,0 +1,64 @@
+/* Logic interaction cleanup v5 */
+
+/* Old click-selection toolbar and old single delete target are replaced by drag zones. */
+#swLogicOverlay .sw4-block-toolbar,
+#swDragDelete{display:none!important}
+
+.sw5-drag-actions{
+  position:fixed;
+  z-index:13050;
+  top:62px;
+  left:8px;
+  right:8px;
+  height:52px;
+  display:none;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:7px;
+  padding:5px;
+  border:1px solid #334654;
+  border-radius:11px;
+  background:rgba(13,25,34,.97);
+  box-shadow:0 10px 30px rgba(0,0,0,.38);
+  pointer-events:none;
+}
+.sw5-drag-actions.show{display:grid}
+.sw5-drag-action{
+  min-width:0;
+  border:1px solid #354753;
+  border-radius:8px;
+  background:#202d36;
+  color:#edf3f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font-size:10px;
+  font-weight:700;
+  pointer-events:auto;
+  transition:.12s ease;
+}
+.sw5-drag-action .bw-google-icon{font-size:18px}
+.sw5-drag-action.hot{background:#31536a;border-color:#80cff9;box-shadow:0 0 0 2px rgba(128,207,249,.18)}
+.sw5-drag-action[data-sw5-drag-action="delete"].hot{background:#6d3138;border-color:#ff9aa1}
+
+/* While a touch drag is active, no browser panning/scrolling may steal the pointer. */
+body.sw5-logic-dragging,
+body.sw5-logic-dragging #swLogicOverlay,
+body.sw5-logic-dragging #swStage,
+body.sw5-logic-dragging #swPaletteScroll,
+body.sw5-logic-dragging .sw-workspace{
+  touch-action:none!important;
+  overscroll-behavior:none!important;
+}
+body.sw5-logic-dragging #swStage,
+body.sw5-logic-dragging #swPaletteScroll{scroll-behavior:auto!important}
+
+/* No click-selection glow: selection actions only exist during long-press drag. */
+#swLogicOverlay .sw-block.sw4-selected>.sw-block-main,
+#swLogicOverlay .sw-block.sw4-selected>.sw-control-wrap>.sw-block-main{filter:none!important;outline:0!important}
+
+@media(max-width:760px){
+  .sw5-drag-actions{top:58px;height:50px;left:4px;right:4px;gap:4px;padding:4px;border-radius:8px}
+  .sw5-drag-action{font-size:9px;gap:4px}
+  .sw5-drag-action .bw-google-icon{font-size:16px}
+}
