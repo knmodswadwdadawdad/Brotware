@@ -77,7 +77,8 @@ function layers(){
     if(id==='@root')type='html';
     else{try{var n=root&&root.querySelector('[data-vf-id="'+String(id).replace(/(["\\])/g,'\\$1')+'"]');type=n&&n.dataset?n.dataset.type:'';}catch(_){}}
     if(slot)replaceSlot(slot,id==='@root'?'html':typeIcon(type));
-    var toggle=row.querySelector('.bw-layer-toggle:not(.empty)');if(toggle)replaceOnlyIcon(toggle,String(toggle.textContent||'').indexOf('›')>=0?'chevron_right':'expand_more');
+    var toggle=row.querySelector('.bw-layer-toggle:not(.empty)');
+    if(toggle){var opened=!!(row.nextElementSibling&&row.nextElementSibling.classList&&row.nextElementSibling.classList.contains('bw-layer-children'));replaceOnlyIcon(toggle,opened?'expand_more':'chevron_right');}
     var grip=row.querySelector('.bw-layer-grip');if(grip)replaceSlot(grip,'drag_indicator');
   });
   var layersBtn=document.getElementById('bwLayersBtn');if(layersBtn&&String(layersBtn.textContent||'').toLowerCase().indexOf('layers')>=0)prependIcon(layersBtn,'layers','Layers');
