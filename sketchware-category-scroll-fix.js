@@ -23,15 +23,15 @@ function constrainRail(c){
      track expand to the content height, which makes scrollTop a no-op. */
   var h=host.clientHeight;
   if(h>0){
-    c.style.height=h+'px';
-    c.style.maxHeight=h+'px';
+    c.style.setProperty('height',h+'px','important');
+    c.style.setProperty('max-height',h+'px','important');
   }
 
-  c.style.minHeight='0';
-  c.style.overflowY='scroll';
-  c.style.overflowX='hidden';
-  c.style.boxSizing='border-box';
-  c.style.touchAction='none';
+  c.style.setProperty('min-height','0','important');
+  c.style.setProperty('overflow-y','scroll','important');
+  c.style.setProperty('overflow-x','hidden','important');
+  c.style.setProperty('box-sizing','border-box','important');
+  c.style.setProperty('touch-action','none','important');
 }
 
 function refresh(){
