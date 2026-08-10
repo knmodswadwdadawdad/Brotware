@@ -4,32 +4,40 @@
     height:100%!important;
     min-height:0!important;
     overflow:hidden!important;
+    grid-template-rows:minmax(0,1fr)!important;
   }
 
   /* Right-side category rail (Variáveis, Listas, Controle, etc.).
-     Keep it inside the palette and allow native vertical swipe/scroll. */
+     The rail must be a constrained grid item; otherwise it grows with its
+     children and scrollTop has nothing to scroll. */
   #swLogicOverlay .sw-palette-cats{
     position:relative!important;
-    height:100%!important;
+    align-self:stretch!important;
+    height:auto!important;
     min-height:0!important;
-    max-height:100%!important;
-    overflow-y:auto!important;
+    max-height:none!important;
+    box-sizing:border-box!important;
+    overflow-y:scroll!important;
     overflow-x:hidden!important;
-    overscroll-behavior-y:contain!important;
+    overscroll-behavior:contain!important;
     -webkit-overflow-scrolling:touch!important;
-    touch-action:pan-y!important;
+
+    /* Scrolling is driven by the pointer router in
+       sketchware-category-scroll-fix.js so parent gesture handlers cannot
+       steal the swipe from this narrow rail. */
+    touch-action:none!important;
+
+    padding-top:29px!important;
     padding-bottom:30px!important;
     scrollbar-width:thin;
     scrollbar-gutter:stable;
   }
 
-  /* The items must also permit the vertical gesture. Using touch-action:none
-     here blocks the browser from starting a scroll when the finger begins on
-     a category item, which is where users normally swipe. */
   #swLogicOverlay .sw-palette-cats .sw-cat{
     flex:0 0 24px!important;
     min-height:24px!important;
-    touch-action:pan-y!important;
+    height:24px!important;
+    touch-action:none!important;
     user-select:none!important;
     -webkit-user-select:none!important;
   }
