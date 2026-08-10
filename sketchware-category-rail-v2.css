@@ -1,0 +1,107 @@
+/*
+ * Sketchware category rail v2 (mobile)
+ *
+ * Sketchware keeps the palette selector in its own narrow, vertically
+ * scrollable viewport. Do the same here instead of letting the category rail
+ * participate in the palette's content height.
+ */
+@media (max-width:760px){
+  #swLogicOverlay .sw-palette{
+    overflow:hidden!important;
+  }
+
+  #swLogicOverlay .sw-palette-content{
+    position:relative!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 108px!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    width:100%!important;
+    height:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+
+  #swLogicOverlay .sw-palette-main{
+    grid-column:1!important;
+    grid-row:1!important;
+    width:auto!important;
+    height:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+
+  /* Search header stays fixed above the category selector, like Sketchware. */
+  #swLogicOverlay .sw-palette-header{
+    position:absolute!important;
+    top:0!important;
+    right:0!important;
+    left:auto!important;
+    width:108px!important;
+    height:29px!important;
+    min-height:29px!important;
+    box-sizing:border-box!important;
+    z-index:22!important;
+    pointer-events:auto!important;
+  }
+
+  /*
+   * Important part: this is a real viewport with explicit top + bottom.
+   * Its height is therefore always smaller than its content when categories
+   * do not fit, so scrollTop can actually move.
+   */
+  #swLogicOverlay #swPaletteCats,
+  #swLogicOverlay .sw-palette-cats{
+    position:absolute!important;
+    top:29px!important;
+    right:0!important;
+    bottom:0!important;
+    left:auto!important;
+    width:108px!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    box-sizing:border-box!important;
+    display:block!important;
+    margin:0!important;
+    padding:0 0 18px 0!important;
+    overflow-y:scroll!important;
+    overflow-x:hidden!important;
+    overscroll-behavior-y:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:none!important;
+    pointer-events:auto!important;
+    z-index:21!important;
+    scrollbar-width:thin!important;
+    scrollbar-gutter:stable!important;
+    background:#0b1419!important;
+    border-left:1px solid #26343b!important;
+  }
+
+  #swLogicOverlay #swPaletteCats .sw-cat,
+  #swLogicOverlay .sw-palette-cats .sw-cat{
+    position:relative!important;
+    display:grid!important;
+    grid-template-columns:3px minmax(0,1fr)!important;
+    align-items:center!important;
+    width:100%!important;
+    height:24px!important;
+    min-height:24px!important;
+    max-height:24px!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:0 4px 0 0!important;
+    flex:none!important;
+    touch-action:none!important;
+    pointer-events:auto!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+  }
+
+  /* Make the bottom overflow obvious and leave room to reach the last item. */
+  #swLogicOverlay #swPaletteCats .sw-cat:last-child,
+  #swLogicOverlay .sw-palette-cats .sw-cat:last-child{
+    margin-bottom:12px!important;
+  }
+}
