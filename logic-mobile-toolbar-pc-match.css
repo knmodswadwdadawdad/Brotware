@@ -1,0 +1,100 @@
+/* Mobile Logic toolbar: use the same toolbar as the desktop Logic editor.
+   This intentionally affects ONLY #swLogicOverlay. */
+@media(max-width:760px){
+  /* The global mobile chrome is z-index 12000. Logic must own the screen. */
+  #swLogicOverlay.sw-logic-overlay.show{
+    z-index:20050!important;
+    top:0!important;
+    right:0!important;
+    bottom:0!important;
+    left:0!important;
+  }
+
+  body.sw-logic-open #bwMobileTopbar,
+  body.sw-logic-open #bwMobileBottomNav,
+  body.sw-logic-open .bw-mobile-topbar,
+  body.sw-logic-open .bw-mobile-bottomnav,
+  body.sw-logic-open .bw-mobile-selection{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  /* Same structure/order as desktop: back | title/subtitle | code undo redo bookmark */
+  #swLogicOverlay .sw-logic-top{
+    position:relative!important;
+    z-index:20060!important;
+    display:grid!important;
+    grid-template-columns:42px minmax(0,1fr) 40px 40px 40px 40px!important;
+    align-items:center!important;
+    gap:2px!important;
+    width:100%!important;
+    height:52px!important;
+    min-height:52px!important;
+    padding:0 5px!important;
+    box-sizing:border-box!important;
+    background:#071117!important;
+    border-bottom:1px solid #26343b!important;
+  }
+
+  #swLogicOverlay .sw-back,
+  #swLogicOverlay .sw-top-btn{
+    display:grid!important;
+    place-items:center!important;
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    padding:0!important;
+    margin:0!important;
+    border:0!important;
+    border-radius:7px!important;
+    background:transparent!important;
+    color:#c7d0d7!important;
+    opacity:1!important;
+    visibility:visible!important;
+  }
+  #swLogicOverlay .sw-back:active,
+  #swLogicOverlay .sw-top-btn:active{background:#15222a!important}
+  #swLogicOverlay .sw-back .bw-google-icon,
+  #swLogicOverlay .sw-top-btn .bw-google-icon{font-size:21px!important;line-height:1!important}
+  #swLogicOverlay .sw-top-btn:disabled{opacity:.28!important}
+
+  #swLogicOverlay .sw-title-wrap{
+    min-width:0!important;
+    max-width:none!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    align-items:flex-start!important;
+    gap:1px!important;
+    padding-left:2px!important;
+    overflow:hidden!important;
+  }
+  #swLogicOverlay .sw-title-wrap strong{
+    width:100%!important;
+    color:#e5e9ed!important;
+    font-size:14px!important;
+    line-height:16px!important;
+    font-weight:600!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  #swLogicOverlay .sw-title-wrap small{
+    width:100%!important;
+    color:#9ca8b0!important;
+    font-size:9px!important;
+    line-height:11px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  #swLogicOverlay .sw-top-spacer{display:none!important}
+
+  /* Never show the global mobile Run/status/more chrome over Logic. */
+  body.sw-logic-open #bwMobileRun,
+  body.sw-logic-open #bwMobileMore,
+  body.sw-logic-open #bwMobileStatus,
+  body.sw-logic-open .bw-mobile-run,
+  body.sw-logic-open .bw-mobile-more{display:none!important}
+}
